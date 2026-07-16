@@ -25,14 +25,14 @@ jobs:
         run: node -e 'const tag=process.env.RELEASE_TAG||"";if(/[\r\n]/.test(tag)||!/^v[0-9]+\.[0-9]+\.[0-9]+$/.test(tag))process.exit(1)'
 
       - name: Check out tagged source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ env.RELEASE_TAG }}
           fetch-depth: 0
           persist-credentials: false
 
       - name: Use Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 
