@@ -1,0 +1,38 @@
+name: Validate release foundation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run dependency-free tests
+        run: node --test tools/release.test.mjs
+
+      - name: Verify curated source
+        run: node tools/release.mjs verify-source
+
+      - name: Build release artifacts
+        run: node tools/release.mjs build
+
+      - name: Verify release artifacts
+        run: node tools/release.mjs verify-artifacts
+

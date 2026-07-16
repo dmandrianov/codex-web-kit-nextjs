@@ -1,0 +1,33 @@
+* text=auto
+
+*.md text eol=lf
+*.json text eol=lf
+*.mjs text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.txt text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.gz binary
+
+# GitHub source archives are not supported update packages. Users install from
+# the curated assets attached to a GitHub Release.
+/.github export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/docs export-ignore
+/release export-ignore
+/tools export-ignore
+/README.md export-ignore
+/CHANGELOG.md export-ignore
+/MIGRATIONS.md export-ignore
+/PROMPT_KIT_VERSION.md export-ignore
+

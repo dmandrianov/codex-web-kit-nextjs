@@ -1,0 +1,108 @@
+﻿# Prompt Kit для Next.js-проекта
+
+Эта папка копируется в рабочий проект вместе с корневым `AGENTS.md`. После этого Codex может сам определять текущую стадию сайта и выбирать подходящий промпт.
+
+## Как работает kit
+
+1. Пользователь пишет задачу обычным языком.
+2. Codex читает `prompts/ROUTER.md`, `prompts/INDEX.md` и `docs/project-state.md`, если он уже есть.
+3. Codex определяет стадию проекта.
+4. Codex предлагает 1 основной промпт и максимум 1 вспомогательный.
+5. Codex открывает выбранный `.md` промпт полностью и работает по его секциям.
+6. Для крупных переходов Codex ждёт подтверждение.
+7. После работы Codex обновляет `docs/project-state.md`.
+8. В ответе Codex сначала объясняет обычными словами, что сделал, зачем это нужно и требуется ли действие пользователя.
+9. В конце ответа Codex называет следующий шаг человеческим языком, даёт короткую команду для продолжения и только затем показывает служебный путь к prompt.
+
+## Что устанавливать в проект
+
+Используй подготовленный package из закрытого official GitHub Release, доступного подписчику с ролью `Read`, а не clone репозитория внутрь сайта. Установленный набор содержит:
+
+- `AGENTS.md` с управляемым router-блоком;
+- распространяемую папку `prompts/`;
+- `.prompt-kit/manifest.json` с установленной версией и baseline hashes;
+- `.prompt-kit/VERSION.md`, `CHANGELOG.md` и `MIGRATIONS.md`;
+- `.prompt-kit/TERMS.md` с закрытыми условиями использования;
+- schema manifest и `.prompt-kit/update.mjs` для безопасного update preflight/apply.
+
+Корневые `README.md`, `CHANGELOG.md` и `MIGRATIONS.md` принадлежат самому сайту пользователя. Source-версии этих файлов из репозитория kit не копируются поверх проекта.
+
+Папка `prompts/_templates/` уже содержит шаблоны, поэтому отдельная корневая `templates/` не распространяется.
+
+## Главные правила
+
+- Всегда начинай с диагностики стадии.
+- Любое сообщение пользователю оформляй по `prompts/_knowledge/codex-user-response-quality.md`. Внутренний анализ может быть техническим, но человек сначала должен понять результат, пользу и своё следующее действие.
+- После выбора промпта открывай сам `.md` файл и следуй его полной структуре, а не только краткому описанию из `INDEX.md`.
+- Не делай несколько стадий за один заход.
+- Для большой задачи показывай маршрут из нескольких промптов, но выполняй только текущий prompt-step.
+- Не верстай страницу без page scope, page spec, content/SEO plan, block breakdown и page planning review.
+- Новую композицию делай по `prompts/_guidelines/creator-critic-design-workflow.md`: короткий positive brief → live render → critic → один self-fix → полный quality позже.
+- До первого render действует Design context diet: Visual North Star, approved screenshots/live concept, реальные assets, нужная часть design system и только 4–6 релевантных правил. Полные UI/copy/anti-slop/contemporary/page-rhythm базы используются после render как critic/reference.
+- Creator brief описывает outcome, positive direction и creative freedom. Абсолютные `ALWAYS`/`NEVER` оставляй только для truth, permissions, safety, secrets и accessibility.
+- Дизайн-систему начинай со style hypothesis queue. Creator может дёшево исследовать несколько low-fi ходов, но пользователю по умолчанию показывает один собранный active concept; после approval выбери iconography и затем design tokens.
+- После approval создай `docs/design-system/visual-north-star.md`: 3–5 positive continuity anchors, approved screenshots/live preview, creative freedom и максимум три настоящие hard boundaries. Он направляет, но не диктует layout каждого блока.
+- Stable vocabulary — brand identity, core type/color/action semantics, accessibility и product patterns — сохраняется. Marketing composition, media treatment, texture, section transition и motion могут быть provisional proposals до critic; после первых 2–3 живых marketing-блоков page-level screenshots решают `promote / refine / remove`.
+- Для marketing rhythm можно оценивать visual chapter из 2–4 соседних блоков. Product data, forms, checkout, pricing rules и другая бизнес-логика остаются block-scoped.
+- `docs/design-system/layout-rules.md` хранит Desktop Canvas Contract и First-render Responsive Delivery Contract. Creator получает применимую часть; concept/fast sanity задаёт viewport до fresh reload, смотрит первый и settled кадр на mobile + `1440` + wide `>=2560 CSS px`, а полная design-system/quality/handoff проверка — `1440 / 1920 / 2560 CSS px` и применимый `3840 CSS px`.
+- Core responsive geometry выбирает CSS до первого кадра. Не используй mount effects, `window.innerWidth`, `matchMedia` или resize listeners для послезагрузочного переключения основной композиции; JS остаётся для поведения, а измеряемые surfaces заранее резервируют внешнюю геометрию.
+- После render critic сначала смотрит screenshots, затем использует полные релевантные базы, называет максимум три главных visual findings и делает один связный self-fix. Полные `UI quality check` и `Site copy check` относятся к quality stage.
+- Для чистой copy-задачи без UI render сразу используй `prompts/_knowledge/site-copy-quality.md`; `landing-copy-formulas.md` подключай как diagnostic fallback, если прямой fact-backed hero/CTA не работает. Truth и неподтверждённые claims остаются жёсткими требованиями.
+- Для базового technical SEO применяй `prompts/_knowledge/technical-seo-baseline.md`: до deploy пройди `13-technical-seo/01`, после общего production smoke — `13-technical-seo/02`. Это отдельный gate для metadata, heading hierarchy, canonical, robots/noindex, sitemap, JSON-LD, crawlability, status codes и redirects без keyword research.
+- Design concept prototypes храни в `design-lab/design-concepts/`, не в production `src/`.
+- Design concept prototypes открывай как live HTML/CSS preview в браузере. Скриншоты можно использовать как QA evidence, но не как основной формат согласования.
+- Если пользователь отверг concept целиком, пробуй следующую hypothesis, а не косметическую iteration того же направления.
+- Перед реализацией смыслового блока покажи `07-page-planning/07-block-content-preview.md`: смысл, факты, claims, voice, CTA intent, рабочий текст и короткий visual intent. Формула и варианты нужны только при реальной диагностической пользе.
+- Content approval не замораживает line breaks, точную геометрию или ещё не собранную композицию; отдельный live preview блока до кода не обязателен.
+- Перед approval публичного текста делай pain-first human check: фраза должна отвечать на реальную ситуацию пользователя и звучать в правильном голосе проекта.
+- Реализацию обычного блока начинай с fast lane `08-block-build/00-build-block-fast-lane.md` только после approved preview или явного пропуска согласования текста.
+- Deep mode `08-block-build/01...06` используй только для сложных, критичных или проблемных блоков.
+- Quality pass по умолчанию делай через `09-quality/00-block-smoke-check.md`; полный QA `09-quality/01...06` запускай только по риску.
+- Не копируй скриншоты, Behance или чужие сайты 1:1: используй их как reference input и адаптируй под дизайн-систему проекта.
+- Для интернет-магазинов проходи e-commerce слой до `docs/ecommerce/ecommerce-review.md`, а затем возвращай конкретную страницу в `07-page-planning`.
+- Для сервера, SSH, домена, SSL и production deploy используй `12-deployment`; не смешивай деплой с версткой и quality fixes.
+- Production deploy не объявляй ready без pre-deploy technical SEO check, а deployment handoff — без production SEO verification, кроме явного user-approved skip.
+- Если пользователь дал root-пароль, не сохраняй его в docs и напомни: `Обязательно смените root-пароль после этих действий`.
+- После значимого шага обновляй `docs/project-state.md`.
+- После значимого шага всегда показывай `Следующий шаг`: сначала понятное действие и его смысл, затем естественную команду продолжения и служебный путь к prompt. Если действий от пользователя нет, скажи это прямо.
+
+## Обновление kit
+
+В рабочем проекте достаточно написать: `обнови базу`.
+
+До первого remote update подписчик принимает private repository invitation и один раз выполняет `gh auth login --hostname github.com --web`. Payment email служит для учёта подписки, а подтверждённый GitHub username определяет фактическую границу доступа. Токен, пароль или ключ нельзя передавать Codex либо сохранять в проекте.
+
+Codex читает `.prompt-kit/manifest.json`, проверяет последний stable private Release через browser-authenticated GitHub CLI, требует `immutable: true`, валидирует signed release/asset attestation, сверяет canonical repository с embedded numeric ID и затем выполняет транзакцию:
+
+1. `prompts/_maintenance/01-update-prompt-kit.md` — preflight, backup и безопасное применение только kit-owned файлов;
+2. `prompts/_maintenance/02-check-kit-integrity.md` — проверка manifest, links, managed-блока и состава;
+3. `prompts/_maintenance/04-align-project-after-kit-update.md` — сопоставление нового workflow с уже выполненной работой без отката стадий.
+
+Новый `.prompt-kit/manifest.json` записывается последним. При конфликте или failed integrity check updater не объявляет новую версию установленной и сохраняет rollback.
+
+Локальный путь к package остаётся fallback для offline-теста. По умолчанию путь указывать не нужно.
+
+Updater не взаимодействует с Git пользователя: не делает `git pull`, commit или push, не меняет remote и не создаёт вложенный репозиторий. Обновление остаётся обычным локальным diff.
+
+Rename/transfer того же repository поддерживается через GitHub redirect и проверку неизменного numeric ID. Новый repository ID требует trusted migration. После отмены подписки remote access и future updates прекращаются, но законно скачанные версии остаются пригодными для собственных и клиентских проектов по `.prompt-kit/TERMS.md`; передавать standalone kit, archives или credentials нельзя.
+
+## Служебные файлы
+
+- `INDEX.md` - карта стадий и промптов.
+- `ROUTER.md` - правила выбора следующего промпта.
+- `STATE.md` - шаблон и правила `docs/project-state.md`.
+- `OWNERSHIP.md` - правила, какие файлы принадлежат kit, проекту или hybrid-слою.
+- `_guidelines/creator-critic-design-workflow.md` - компактный Sol-friendly workflow, Design context diet и граница между creator, critic и full quality.
+- `_knowledge/codex-user-response-quality.md` - стандарт понятных сообщений Codex пользователю; не смешивать с текстом сайта.
+- `_knowledge/ui-design-quality.md` - стандарт визуального качества UI и страниц для design system, page planning, block build, visual review, quality и before/after калибровки.
+- `_knowledge/site-copy-quality.md` - стандарт качества пользовательского текста для content planning, block content preview, rewrite, microcopy, CTA, form states, product/e-commerce copy и SEO snippets.
+- `_knowledge/contemporary-visual-direction.md` - стандарт современного visual direction: до render выбирается primary expressive lever, optional secondary lever и честный asset scope; фактические media/icon/motion решения фиксируются после render.
+- `_knowledge/technical-seo-baseline.md` - стандарт базового technical SEO для pre-deploy implementation и live production verification.
+- `_templates/visual-north-star-template.md` - короткий общий visual course для будущих блоков без запретительного overfitting.
+- `_templates/` - шаблоны документов.
+- `_maintenance/` - промпты для безопасного обновления и проверки kit.
+- `_maintenance/01-update-prompt-kit.md` - обновить установленную базу из GitHub Release или явного локального package.
+- `_maintenance/02-check-kit-integrity.md` - проверить результат транзакции до фиксации новой установленной версии.
+- `_maintenance/04-align-project-after-kit-update.md` - post-update alignment: сопоставить новый workflow с уже выполненным проектом.
+- `_maintenance/05-release-prompt-kit.md` - maintainer-only выпуск новой версии из source-репозитория.
+- `_local/` - локальные промпты проекта, которые нельзя удалять при обновлении.

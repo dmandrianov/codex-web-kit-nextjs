@@ -1,0 +1,49 @@
+# Local Prompt Kit work that must never enter the source repository.
+/archive.zip
+/dist/
+/tmp/
+/templates/
+/docs/audits/
+/docs/prompt-kit-backups/
+/docs/project-state.md
+/docs/prompt-kit-update-summary.md
+/docs/prompt-kit-integrity.md
+/docs/prompt-kit-workflow-alignment.md
+/docs/agents-md-migration.md
+/docs/prompt-kit-release-summary.md
+/docs/prompt-kit-release-preflight.md
+
+# Local user extensions. Keep only the seed README in the source kit.
+/prompts/_local/*
+!/prompts/_local/README.md
+
+# The source repository is not an installed consumer project.
+/.prompt-kit/
+
+# Secrets and credentials.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.kdbx
+
+# Private subscription operations belong outside the source repository.
+/.private/
+/subscribers/
+/billing-exports/
+/subscriber-access.*
+
+# Editor, operating-system and runtime noise.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+*.tmp
+*.swp
+*~

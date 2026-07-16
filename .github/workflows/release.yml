@@ -1,0 +1,71 @@
+name: Publish GitHub Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to publish, for example v0.6.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - name: Validate release tag input
+        run: node -e 'const tag=process.env.RELEASE_TAG||"";if(/[\r\n]/.test(tag)||!/^v[0-9]+\.[0-9]+\.[0-9]+$/.test(tag))process.exit(1)'
+
+      - name: Check out tagged source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run dependency-free tests
+        run: node --test tools/release.test.mjs
+
+      - name: Mint least-privilege release token
+        id: release-app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.WEB_KIT_RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.WEB_KIT_RELEASE_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-administration: read
+          permission-contents: write
+
+      - name: Verify tag and publication source
+        env:
+          GH_TOKEN: ${{ steps.release-app-token.outputs.token }}
+        run: node tools/release.mjs verify-source --tag "$RELEASE_TAG" --publish
+
+      - name: Build publication artifacts
+        env:
+          GH_TOKEN: ${{ steps.release-app-token.outputs.token }}
+        run: node tools/release.mjs build --tag "$RELEASE_TAG" --publish
+
+      - name: Verify publication artifacts
+        env:
+          GH_TOKEN: ${{ steps.release-app-token.outputs.token }}
+        run: node tools/release.mjs verify-artifacts --tag "$RELEASE_TAG" --publish
+
+      - name: Publish immutable release assets
+        env:
+          GH_TOKEN: ${{ steps.release-app-token.outputs.token }}
+        run: node tools/release.mjs publish --tag "$RELEASE_TAG"

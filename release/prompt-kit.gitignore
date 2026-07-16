@@ -1,0 +1,7 @@
+# Local updater data. This file lives inside .prompt-kit/ in an installed kit.
+backups/
+downloads/
+conflicts/
+staging/
+*.tmp
+

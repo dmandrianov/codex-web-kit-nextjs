@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dmandrianov:web-kit:release-manifest:v1",
+  "title": "Web Kit release manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kit",
+    "source",
+    "release",
+    "compatibility",
+    "managedBlocks",
+    "files",
+    "removed",
+    "protectedPaths"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "version", "channel", "releasedAt"],
+      "properties": {
+        "id": { "const": "dmandrianov/web-kit" },
+        "name": { "const": "Web Kit" },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "channel": { "const": "stable" },
+        "releasedAt": { "type": "string", "format": "date" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repositoryId", "repositoryFullName", "transport", "tag", "revision"],
+      "properties": {
+        "repositoryId": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "repositoryFullName": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "transport": { "const": "private-github-organization-gh" },
+        "tag": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "revision": { "type": "string", "minLength": 5, "maxLength": 64 }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "repositoryId": { "type": "null" },
+            "repositoryFullName": { "type": "null" }
+          }
+        },
+        {
+          "properties": {
+            "repositoryId": { "type": "integer", "minimum": 1 },
+            "repositoryFullName": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" }
+          }
+        }
+      ]
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archiveRoot", "zipAsset", "tarAsset", "checksumAsset"],
+      "properties": {
+        "archiveRoot": { "type": "string", "pattern": "^web-kit-v[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "zipAsset": { "type": "string", "pattern": "^web-kit-v[0-9]+\\.[0-9]+\\.[0-9]+\\.zip$" },
+        "tarAsset": { "type": "string", "pattern": "^web-kit-v[0-9]+\\.[0-9]+\\.[0-9]+\\.tar\\.gz$" },
+        "checksumAsset": { "const": "SHA256SUMS" }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compatibleFrom", "breaking", "requiresExplicitConfirmation", "minimumUpdaterSchemaVersion"],
+      "properties": {
+        "compatibleFrom": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "breaking": { "type": "boolean" },
+        "requiresExplicitConfirmation": { "type": "boolean" },
+        "minimumUpdaterSchemaVersion": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "managedBlocks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agents"],
+      "properties": {
+        "agents": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["beginPrefix", "endMarker"],
+          "properties": {
+            "beginPrefix": { "const": "<!-- PROMPT_KIT:BEGIN managed version=" },
+            "endMarker": { "const": "<!-- PROMPT_KIT:END -->" }
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "ownership", "policy", "required", "sha256", "bytes", "mode"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "ownership": { "enum": ["kit", "hybrid", "seed"] },
+          "policy": { "enum": ["replace-if-unmodified", "managed-block", "create-if-missing"] },
+          "required": { "type": "boolean" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "managedBlockSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "bytes": { "type": "integer", "minimum": 0 },
+          "mode": { "const": "0644" }
+        }
+      }
+    },
+    "removed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "since", "policy", "reason"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "since": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "policy": { "const": "delete-if-unmodified" },
+          "replacement": { "type": ["string", "null"] },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "protectedPaths": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  }
+}
