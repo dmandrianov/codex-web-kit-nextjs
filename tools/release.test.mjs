@@ -16,12 +16,21 @@ import {
   verifyArtifacts,
   verifySource,
 } from "./release.mjs";
-import { extractUpdaterTrustRoot, verifyIncomingUpdaterTrustRoot } from "./update-kit.mjs";
+import {
+  extractUpdaterTrustRoot,
+  OFFICIAL_REPOSITORY_FULL_NAME,
+  OFFICIAL_REPOSITORY_ID,
+  verifyIncomingUpdaterTrustRoot,
+} from "./update-kit.mjs";
 
 const execFileAsync = promisify(execFile);
 const toolsDirectory = path.dirname(fileURLToPath(import.meta.url));
 const updaterSource = path.join(toolsDirectory, "update-kit.mjs");
 const releaseSource = path.join(toolsDirectory, "release.mjs");
+const productionRepository = {
+  id: OFFICIAL_REPOSITORY_ID,
+  fullName: OFFICIAL_REPOSITORY_FULL_NAME,
+};
 
 async function writeText(root, relative, text, mode = 0o644) {
   const target = path.join(root, ...relative.split("/"));
@@ -32,7 +41,7 @@ async function writeText(root, relative, text, mode = 0o644) {
 }
 
 function fixturePayload(options = {}) {
-  const repository = options.repository ?? { id: null, fullName: null };
+  const repository = options.repository ?? productionRepository;
   return {
     schemaVersion: 1,
     kit: {
@@ -89,6 +98,20 @@ function fixturePayload(options = {}) {
   };
 }
 
+function configureUpdaterRepository(text, repository) {
+  const id = repository.id === null ? "null" : String(repository.id);
+  const fullName = repository.fullName === null ? "null" : JSON.stringify(repository.fullName);
+  const block = [
+    "// PROMPT_KIT_TRUST_ROOT:BEGIN",
+    `export const OFFICIAL_REPOSITORY_ID = ${id};`,
+    `export const OFFICIAL_REPOSITORY_FULL_NAME = ${fullName};`,
+    "// PROMPT_KIT_TRUST_ROOT:END",
+  ].join("\n");
+  const trustRootPattern = /\/\/ PROMPT_KIT_TRUST_ROOT:BEGIN\nexport const OFFICIAL_REPOSITORY_ID = (?:null|[1-9]\d*);\nexport const OFFICIAL_REPOSITORY_FULL_NAME = (?:null|"[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+");\n\/\/ PROMPT_KIT_TRUST_ROOT:END/;
+  assert.match(text, trustRootPattern, "fixture updater trust root is missing");
+  return text.replace(trustRootPattern, block);
+}
+
 async function createSourceFixture(options = {}) {
   const root = await mkdtemp(path.join(tmpdir(), "web-kit-release-source-"));
   const version = options.version ?? "1.2.3";
@@ -108,14 +131,11 @@ async function createSourceFixture(options = {}) {
   await copyFile(releaseSource, path.join(root, "tools", "release.mjs"));
   await chmod(path.join(root, "tools", "update-kit.mjs"), 0o644);
   await chmod(path.join(root, "tools", "release.mjs"), 0o644);
-  if (options.repository?.id) {
-    const updaterPath = path.join(root, "tools", "update-kit.mjs");
-    const updater = await readFile(updaterPath, "utf8");
-    const configured = updater
-      .replace("export const OFFICIAL_REPOSITORY_ID = null;", `export const OFFICIAL_REPOSITORY_ID = ${options.repository.id};`)
-      .replace("export const OFFICIAL_REPOSITORY_FULL_NAME = null;", `export const OFFICIAL_REPOSITORY_FULL_NAME = ${JSON.stringify(options.repository.fullName)};`);
-    await writeFile(updaterPath, configured, { mode: 0o644 });
-  }
+  const updaterPath = path.join(root, "tools", "update-kit.mjs");
+  const updater = await readFile(updaterPath, "utf8");
+  const repository = options.repository ?? productionRepository;
+  const configured = configureUpdaterRepository(updater, repository);
+  await writeFile(updaterPath, configured, { mode: 0o644 });
   if (options.terms !== false) await writeText(root, "TERMS.md", "Private fixture terms\n");
   return root;
 }
@@ -243,7 +263,7 @@ test("release source requires private TERMS", async () => {
 });
 
 test("publication is blocked until repository ID and final full_name are embedded", async () => {
-  const root = await createSourceFixture();
+  const root = await createSourceFixture({ repository: { id: null, fullName: null } });
   try {
     await assert.rejects(
       () => verifySource(root, { publish: true, tag: "v1.2.3" }),
@@ -301,13 +321,22 @@ test("incoming updater trust root rejects a self-consistent manifest paired with
     const incomingPath = path.join(payloadRoot, ".prompt-kit", "update.mjs");
     await mkdir(path.dirname(incomingPath), { recursive: true });
     const validUpdater = await readFile(updaterSource, "utf8");
-    assert.deepEqual(extractUpdaterTrustRoot(validUpdater), { repositoryId: null, repositoryFullName: null });
-    const foreignUpdater = validUpdater.replace(
-      "export const OFFICIAL_REPOSITORY_ID = null;",
-      "export const OFFICIAL_REPOSITORY_ID = 999999;",
-    );
+    assert.deepEqual(extractUpdaterTrustRoot(validUpdater), {
+      repositoryId: productionRepository.id,
+      repositoryFullName: productionRepository.fullName,
+    });
+    const foreignRepository = {
+      id: productionRepository.id === 999999 ? 999998 : 999999,
+      fullName: "foreign-owner/web-kit",
+    };
+    const foreignUpdater = configureUpdaterRepository(validUpdater, foreignRepository);
     await writeFile(incomingPath, foreignUpdater, { mode: 0o644 });
-    const manifest = { source: { repositoryId: null, repositoryFullName: null } };
+    const manifest = {
+      source: {
+        repositoryId: foreignRepository.id,
+        repositoryFullName: foreignRepository.fullName,
+      },
+    };
     await assert.rejects(
       () => verifyIncomingUpdaterTrustRoot(payloadRoot, manifest),
       /does not match the currently trusted updater/,
