@@ -266,8 +266,11 @@ test("publication is blocked until repository ID and final full_name are embedde
   const root = await createSourceFixture({ repository: { id: null, fullName: null } });
   try {
     await assert.rejects(
-      () => verifySource(root, { publish: true, tag: "v1.2.3" }),
-      /positive GitHub repository ID and final repository full_name/,
+      () => run(process.execPath, ["tools/release.mjs", "verify-source", "--tag", "v1.2.3", "--publish"], { cwd: root }),
+      (error) => {
+        assert.match(error.stderr, /positive GitHub repository ID and final repository full_name/);
+        return true;
+      },
     );
   } finally {
     await rm(root, { recursive: true, force: true });

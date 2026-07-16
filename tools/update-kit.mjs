@@ -26,8 +26,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const execFileAsync = promisify(execFile);
 const OFFICIAL_KIT_ID = "dmandrianov/web-kit";
 // PROMPT_KIT_TRUST_ROOT:BEGIN
-export const OFFICIAL_REPOSITORY_ID = null;
-export const OFFICIAL_REPOSITORY_FULL_NAME = null;
+export const OFFICIAL_REPOSITORY_ID = 1302994489;
+export const OFFICIAL_REPOSITORY_FULL_NAME = "dmandrianov-web-kit/web-kit";
 // PROMPT_KIT_TRUST_ROOT:END
 const MANIFEST_PATH = ".prompt-kit/manifest.json";
 const MANAGED_BEGIN_PREFIX = "<!-- PROMPT_KIT:BEGIN managed version=";

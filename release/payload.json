@@ -3,8 +3,8 @@
   "kit": {
     "id": "dmandrianov/web-kit",
     "name": "Web Kit",
-    "repositoryId": null,
-    "repositoryFullName": null,
+    "repositoryId": 1302994489,
+    "repositoryFullName": "dmandrianov-web-kit/web-kit",
     "transport": "private-github-organization-gh",
     "channel": "stable"
   },
