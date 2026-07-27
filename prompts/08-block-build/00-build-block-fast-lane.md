@@ -4,6 +4,8 @@
 
 Для `simple` и `medium` блока после готового spec и, если есть новый public copy, утверждённого content preview. Сложный или business-critical блок отправь в `prompts/08-block-build/01-block-build-preflight.md`.
 
+Если spec содержит `Creator engine: gpt-taste`, не выполняй этот native prompt: используй `prompts/08-block-build/00-gpt-taste-creative-build.md`.
+
 ## Роль Codex
 
 Сначала ты creator: собираешь сильный рабочий вариант. После live render ты critic: называешь максимум три главные проблемы, делаешь один связный self-fix и перепроверяешь.
@@ -33,6 +35,7 @@
 - Не ломай accessibility, semantic token roles, настоящий action hierarchy и обязательные brand invariants.
 - Сохраняй approved meaning, claims, voice и CTA intent. Exact wording и line breaks можно довести под композицию.
 - Не копируй reference 1:1 и не вводи новый icon pack.
+- Не подменяй явно выбранный `gpt-taste` native creator pass.
 - Core responsive geometry должна быть правильной на первом кадре: не выбирай mobile/desktop/wide layout после mount через viewport read, effect или JS scale.
 
 ### Scope

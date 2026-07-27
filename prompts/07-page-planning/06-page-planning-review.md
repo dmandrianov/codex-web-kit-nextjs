@@ -27,6 +27,7 @@
 - `docs/design-system/layout-rules.md`.
 - `prompts/_guidelines/page-composition-rhythm.md`.
 - `prompts/_guidelines/creator-critic-design-workflow.md`; UI quality base используй для точечной проверки readiness, не копируй её целиком в specs.
+- `prompts/_guidelines/gpt-taste-integration.md` и `docs/design-system/gpt-taste-profile.md`, если хотя бы один spec выбирает этот engine.
 - `docs/nextjs/next-ready-review.md`.
 - `docs/project-state.md`, если есть.
 
@@ -43,6 +44,7 @@
 - Не ставь `Ready for block build`, если specs либо слишком жёстко заморозили layout, либо не перенесли Visual North Star, composition freedom и post-build screenshot eyes-check.
 - Не ставь `Ready for block build`, если specs игнорируют Desktop Canvas Contract или оставляют wide/full-bleed blocks без canvas role, expansion zone и wide-screen check.
 - Не ставь `Ready for block build`, если specs игнорируют First-render Responsive Delivery Contract, допускают post-mount canvas correction или не резервируют media/measured geometry.
+- Не ставь `Ready for block build`, если creator engine/mode не задан, `gpt-taste` назначен product/business UI автоматически или выбранный skill/profile preflight заблокирован.
 
 ## Процесс
 
@@ -58,10 +60,11 @@
 10. Проверь Visual North Star, composition freedom и creator → render → critic loop: mobile, 1440 и wide guard, максимум 3 findings, один self-fix.
 11. Проверь first-render carryover: CSS-first geometry, hydration invariant, justified measured exceptions, reserved media geometry и responsive source/loading roles.
 12. Проверь truth/accessibility/semantic token/iconography hard boundaries и provisional expressive opportunities.
-13. Проверь, что design system и Next.js foundation готовы.
-14. Раздели замечания на `must fix before block build`, `can fix during block build`, `watch later`.
-15. Создай или обнови `docs/pages/[page-slug]/page-planning-review.md`.
-16. Если готово, обнови `docs/project-state.md`: stage `block-build`, отметь `Page planning reviewed`, `Page composition/rhythm reviewed`, следующий промпт `prompts/07-page-planning/07-block-content-preview.md` для первого смыслового блока или `prompts/08-block-build/00-build-block-fast-lane.md` для технического блока без публичного текста.
+13. Проверь creator routing: native/gpt-taste выбран явно; mode соответствует deliverable; gpt-taste profile locks/open choices перенесены; visual correction route возвращается skill.
+14. Проверь, что design system и Next.js foundation готовы.
+15. Раздели замечания на `must fix before block build`, `can fix during block build`, `watch later`.
+16. Создай или обнови `docs/pages/[page-slug]/page-planning-review.md`.
+17. Если готово, обнови `docs/project-state.md`: stage `block-build`, отметь `Page planning reviewed`, `Page composition/rhythm reviewed`, creator route и следующий промпт. Для смыслового блока сначала `07-block-content-preview`; для технического блока без public copy — native fast lane или gpt-taste creative build согласно spec.
 
 ## Output
 
@@ -103,6 +106,8 @@
 
 ## Creator readiness and post-render critic plan
 
+## Creator engine routing
+
 ## Project state update
 ```
 
@@ -124,6 +129,7 @@
 - Desktop Canvas Contract перенесён в page/block specs; uncontrolled stretch на wide desktop не может получить `Ready for block build`.
 - First-render Responsive Delivery Contract перенесён в specs; post-mount canvas correction и unreserved critical media не могут получить `Ready for block build`.
 - Creator readiness проверена коротко; полный UI quality standard зарезервирован для post-render critic.
+- Creator engine/mode соответствуют scope; выбранный gpt-taste preflight/profile не заблокирован.
 - Marketing chapter corrections и strict product/business scopes понятны до build.
 - Reference screenshots и content risks обработаны.
 - Если статус `Ready for block build`, `docs/project-state.md` переведен в `block-build`.
@@ -132,7 +138,7 @@
 
 Если `Ready for block build` и первый блок смысловой, следующий промпт: `prompts/07-page-planning/07-block-content-preview.md`.
 
-Если первый блок технический и не содержит публичного copy, следующий промпт: `prompts/08-block-build/00-build-block-fast-lane.md`.
+Если первый блок технический и не содержит публичного copy, следующий промпт берётся из spec: `00-build-block-fast-lane.md` для native или `00-gpt-taste-creative-build.md` для явно выбранного gpt-taste.
 
 Если `needs fixes`, вернись к одному из промптов:
 

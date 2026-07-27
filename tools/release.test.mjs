@@ -680,3 +680,73 @@ test("shipped prompts preserve the Sol-friendly creator-critic contract", async 
     assert.ok(!content.includes("## UI quality check"), `${relative} restored the full UI matrix before render`);
   }
 });
+
+test("shipped prompts route the full external gpt-taste skill in three scoped modes", async () => {
+  const sourceRoot = path.resolve(toolsDirectory, "..");
+  const read = (relative) => readFile(path.join(sourceRoot, ...relative.split("/")), "utf8");
+  const expectedHash = "2e64c269953f2656c21bf5a0fa6b4568e82fe0c72b36e8f84758e090349966a5";
+  const expectedCommit = "e988add20dab0fa97d7a76781c48961c8184288e";
+
+  const [
+    agents,
+    router,
+    integration,
+    profile,
+    concept,
+    breakdown,
+    nativeBuild,
+    tasteBuild,
+    payloadText,
+  ] = await Promise.all([
+    read("AGENTS.md"),
+    read("prompts/ROUTER.md"),
+    read("prompts/_guidelines/gpt-taste-integration.md"),
+    read("prompts/_templates/gpt-taste-profile-template.md"),
+    read("prompts/05-design-system/03-design-concept-prototypes.md"),
+    read("prompts/07-page-planning/05-block-breakdown.md"),
+    read("prompts/08-block-build/00-build-block-fast-lane.md"),
+    read("prompts/08-block-build/00-gpt-taste-creative-build.md"),
+    read("release/payload.json"),
+  ]);
+  const payload = JSON.parse(payloadText);
+
+  for (const content of [integration, profile]) {
+    assert.ok(content.includes(expectedHash), "gpt-taste pinned SHA-256 drifted");
+    assert.ok(content.includes(expectedCommit), "gpt-taste pinned commit drifted");
+  }
+  for (const mode of ["page", "block", "component"]) {
+    assert.ok(integration.includes(`\`${mode}\``), `integration is missing ${mode} mode`);
+    assert.ok(router.includes(`\`${mode}\``), `router is missing ${mode} mode`);
+  }
+
+  assert.ok(concept.includes("design-lab/gpt-taste/page/"));
+  assert.ok(concept.includes("явно вызови `$gpt-taste`"));
+  assert.ok(breakdown.includes("Creator engine: gpt-taste"));
+  assert.ok(breakdown.includes("mode `block`"));
+  assert.ok(breakdown.includes("mode `component`"));
+  assert.ok(tasteBuild.includes("design-lab/gpt-taste/blocks/[slug]/"));
+  assert.ok(tasteBuild.includes("design-lab/gpt-taste/components/[slug]/"));
+  assert.ok(tasteBuild.includes("Передай findings и evidence обратно `$gpt-taste`"));
+  assert.ok(nativeBuild.includes("не выполняй этот native prompt"));
+  assert.ok(router.includes("00-gpt-taste-component-spec.md"));
+  assert.ok(router.includes("07-approve-gpt-taste-profile.md"));
+
+  for (const nonTrigger of ["Dashboard", "checkout", "forms", "quality", "SEO", "deployment", "maintenance"]) {
+    assert.ok(agents.toLowerCase().includes(nonTrigger.toLowerCase()), `AGENTS non-trigger is missing: ${nonTrigger}`);
+    assert.ok(router.toLowerCase().includes(nonTrigger.toLowerCase()), `router non-trigger is missing: ${nonTrigger}`);
+  }
+  assert.ok(integration.toLowerCase().includes("не полагайся на неявное совпадение description"));
+  assert.ok(integration.includes("не подменяй выбранный `gpt-taste` обычным creator pass молча"));
+  assert.ok(integration.includes("не reroll locked choices"));
+
+  const requiredPromptFiles = [
+    "prompts/08-block-build/00-gpt-taste-creative-build.md",
+    "prompts/08-block-build/07-approve-gpt-taste-profile.md",
+    "prompts/07-page-planning/00-gpt-taste-component-spec.md",
+    "prompts/_guidelines/gpt-taste-integration.md",
+    "prompts/_templates/gpt-taste-component-spec-template.md",
+    "prompts/_templates/gpt-taste-profile-template.md",
+  ];
+  for (const relative of requiredPromptFiles) assert.ok(payload.promptFiles.includes(relative), `payload is missing ${relative}`);
+  assert.ok(!payload.promptFiles.some((relative) => /gpt-tasteskill\/SKILL\.md$/i.test(relative)), "upstream gpt-taste SKILL.md must remain external");
+});

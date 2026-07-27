@@ -20,6 +20,7 @@
 - `docs/design-system/reference-principles.md`, если есть.
 - Реальные брендовые материалы, фото, видео, документы, screenshots и предметные артефакты.
 - `prompts/_guidelines/creator-critic-design-workflow.md`.
+- `prompts/_guidelines/gpt-taste-integration.md` — чтобы осознанно выбрать `native` или `gpt-taste`, а не вызвать skill по случайному совпадению.
 - `prompts/_knowledge/contemporary-visual-direction.md`.
 
 Не загружай заранее полный anti-slop checklist и `_design-style-library.md`. Подключай один релевантный anti-slop раздел или style library только если project-derived поиск упёрся в конкретный пробел.
@@ -48,13 +49,17 @@
    - primary expressive lever;
    - optional secondary lever;
    - подходящие реальные или честно обозначенные assets;
+   - `Creator engine: native / gpt-taste`;
+   - для `gpt-taste` — `Mode: page`, причина выбора и результат skill preflight;
    - главный риск и простой reject signal.
+   `gpt-taste` предлагай только для выразительного marketing, campaign, editorial, portfolio или showcase direction. Product/business UI, dashboard, checkout, forms и data-heavy interfaces остаются `native`, если пользователь явно не попросил иного.
 5. При необходимости сделай до трёх дешёвых low-fi composition sketches. Это могут быть внутренние schematic thumbnails, rough DOM/CSS frames или один disposable sketch sheet. Они проверяют только силу композиции; не требуют полного copy, tokens, motion plan, responsive polish или пользовательского согласования.
 6. Не показывай low-fi sketches как три готовых концепта. Выбери один strongest sketch/hypothesis для `Prototype next`; публичным high-fidelity concept на следующем шаге остаётся один вариант.
 7. Выбери два тестовых блока: `Hero / Entry` и один самый сложный non-hero block, где направление может сломаться.
 8. Для active hypothesis напиши короткий creative brief: желаемое впечатление, primary lever, optional secondary lever, available assets, creative freedom и максимум три hard invariants.
-9. Создай или обнови `docs/design-system/concepts/style-shortlist.md`.
-10. Обнови `docs/project-state.md`: `Design hypothesis queue created` и следующий промпт.
+9. Для `Creator engine: gpt-taste` выполни read-only preflight: skill доступен, прочитан полностью, SHA-256 совпадает с pinned identity. Не запускай UI generation на этом шаге.
+10. Создай или обнови `docs/design-system/concepts/style-shortlist.md`.
+11. Обнови `docs/project-state.md`: `Design hypothesis queue created`, selected creator engine/mode и следующий промпт.
 
 ## Output
 
@@ -73,6 +78,10 @@
 - Primary expressive lever:
 - Optional secondary lever:
 - Asset truth:
+- Creator engine: native / gpt-taste
+- gpt-taste mode: page / not applicable
+- Engine reason:
+- Skill preflight: available and checksum matched / not applicable / blocked
 - Creative freedom:
 - Hard invariants: 0–3
 - Learning goal:
@@ -93,6 +102,9 @@
 
 ## Active creative brief
 
+- Creator engine:
+- gpt-taste mode:
+
 ## Open questions
 ```
 
@@ -105,6 +117,8 @@
 - Есть три различимые hypotheses и ровно одна `Prototype next`.
 - Допускается до трёх low-fi sketches, но следующий публичный high-fidelity concept один.
 - Active brief короткий, положительный и содержит не больше трёх hard invariants.
+- Для каждой hypothesis выбран creator engine; `gpt-taste` не назначен product/business UI автоматически.
+- Для выбранного `gpt-taste` page mode skill preflight пройден до следующего шага.
 - Ни одна hypothesis не опирается на fake proof или копирование 1:1.
 - `docs/project-state.md` обновлён.
 

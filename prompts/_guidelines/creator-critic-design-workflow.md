@@ -36,6 +36,17 @@ Creator и critic — разные проходы. До первого render н
 
 Локальная техническая правка без изменения композиции не требует отдельного creator pass. Сохрани существующий визуальный язык, исправь дефект и проверь затронутый участок.
 
+### Creator engine
+
+До creator pass запиши один engine:
+
+- `native` — стандартный creator этого workflow;
+- `gpt-taste` — оригинальный внешний skill для выразительной page/block/component задачи.
+
+Если выбран `gpt-taste`, полностью прочитай `prompts/_guidelines/gpt-taste-integration.md`, затем установленный `gpt-taste/SKILL.md` и явно вызови `$gpt-taste`. Этот документ продолжает задавать hard gates и critic sequence, но не заменяет visual instructions скилла. Visual findings и self-fix возвращаются `$gpt-taste`; base creator не перепроектирует его результат самостоятельно.
+
+Без явного поля `Creator engine: gpt-taste` используй `native`. Dashboard, checkout, forms, data/business UI, локальные technical fixes и quality audit не переключаются на `gpt-taste` автоматически.
+
 ## 2. Design context diet
 
 Creator получает только контекст, который помогает принять визуальное решение:
@@ -86,6 +97,10 @@ Creator brief должен помещаться в один короткий э�
 
 ## Scope
 [Что можно менять и что остаётся вне текущего прохода]
+
+## Creator route
+- Creator engine: native / gpt-taste
+- gpt-taste mode: page / block / component / not applicable
 ```
 
 Положительное направление должно быть конкретнее, чем `современно` или `дорого`: назови focal object, отношение текста и media, плотность, характер типографики и желаемый ритм. Не фиксируй будущий layout словами, если его ещё можно лучше найти в браузере.
@@ -122,7 +137,7 @@ Product UI, данные, формы, checkout, pricing rules и другая б
 1. Посмотри approved visual evidence и реальные assets до чтения длинных текстовых объяснений.
 2. Сформулируй один главный visual job и один focal event.
 3. Дёшево исследуй несколько композиционных ходов — внутренние thumbnails, low-fi sketches или короткие DOM/CSS probes — и выбери лучший. Пользователю покажи один собранный high-fidelity concept, если он не просил варианты.
-4. Реализуй его без промежуточного отчёта о каждом решении.
+4. При `gpt-taste` сохрани его обязательный `design_plan` и следуй ему; при `native` реализуй выбранный ход без промежуточного отчёта о каждом решении.
 5. Открой live UI и получи screenshots на требуемых mobile/reference/wide viewports.
 
 Первый render — не финальный verdict. Его задача — превратить абстрактные слова в видимый материал, который можно честно оценить.
@@ -135,7 +150,7 @@ Critic начинается только после render.
 2. Сравни с Visual North Star, approved evidence, соседями и Desktop Canvas Contract.
 3. Теперь можно использовать полные релевантные knowledge bases как справочник: UI, copy, anti-slop, contemporary direction, page rhythm.
 4. Верни максимум три главных visual findings. Не превращай этот проход в полный compliance audit.
-5. Выбери один связный self-fix с самым большим визуальным эффектом, внеси его и повторно посмотри render.
+5. Выбери один связный self-fix с самым большим визуальным эффектом. Для `gpt-taste` верни findings skill и примени его correction; для `native` внеси исправление напрямую. Затем повторно посмотри render.
 
 Формат critic:
 
@@ -167,8 +182,9 @@ Quality stage может использовать базы целиком. Он 
 - creator brief короткий, положительный и outcome-first;
 - creator получил North Star, approved visual evidence и реальные assets, если они существуют;
 - до render выбрано 4–6 релевантных правил вместо полной загрузки баз;
+- creator engine и, если применимо, gpt-taste mode заданы явно;
 - live UI отрисован и просмотрен на нужных viewports;
 - critic назвал не более трёх главных visual findings;
-- выполнен один связный self-fix и повторный render;
+- выполнен один связный self-fix и повторный render; visual correction gpt-taste результата прошла обратно через skill;
 - полный compliance оставлен quality stage;
 - truth, permissions, safety и accessibility не ослаблены.

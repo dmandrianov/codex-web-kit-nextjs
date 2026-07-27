@@ -2,6 +2,37 @@
 
 This file describes changes that may require special handling when updating Prompt Kit inside an existing project.
 
+## 0.7.0
+
+Compatibility: non-breaking from `0.4.22+`.
+
+### Required
+
+- Update only the managed block in `AGENTS.md` to version `0.7.0`; preserve everything outside it.
+- Add:
+  - `prompts/_guidelines/gpt-taste-integration.md`;
+  - `prompts/_templates/gpt-taste-profile-template.md`;
+  - `prompts/_templates/gpt-taste-component-spec-template.md`;
+  - `prompts/07-page-planning/00-gpt-taste-component-spec.md`;
+  - `prompts/08-block-build/00-gpt-taste-creative-build.md`;
+  - `prompts/08-block-build/07-approve-gpt-taste-profile.md`.
+- Update router/index/state, Creator-Critic workflow, design concept flow, block planning/content preview, smoke/integrity/alignment prompts and public documentation.
+- Treat the original `gpt-taste/SKILL.md` as an optional external pinned dependency, not a kit-owned release file. When selected, verify:
+  - repository `Leonxlnx/taste-skill`;
+  - path `skills/gpt-tasteskill/SKILL.md`;
+  - commit `e988add20dab0fa97d7a76781c48961c8184288e`;
+  - SHA-256 `2e64c269953f2656c21bf5a0fa6b4568e82fe0c72b36e8f84758e090349966a5`.
+
+### Existing projects
+
+- Existing approved design, code and project stage remain valid. Do not rerun concept or redesign automatically.
+- If a project already has an explicitly approved gpt-taste concept, create `docs/design-system/gpt-taste-profile.md` only from live/screenshots/decisions the user actually approved.
+- Otherwise choose `Creator engine: gpt-taste` only on the next eligible expressive task:
+  - `page` through `05-design-system/03`;
+  - `block` or `component` through `08-block-build/00-gpt-taste-creative-build`.
+- Existing product/business UI, checkout, forms, local fixes, quality, SEO, deployment and maintenance remain on their normal routes unless the user explicitly overrides creator selection.
+- Missing or mismatched gpt-taste blocks UI creation before any silent fallback. Updating/installing the external skill is a separate user-authorized action.
+
 ## 0.6.0
 
 ### Required

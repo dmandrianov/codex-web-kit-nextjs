@@ -14,9 +14,10 @@
 
 ## Контекст, который нужно дать
 
-- Live `design-lab/design-concepts/index.html`.
+- Active live preview: `design-lab/design-concepts/` для `native` или `design-lab/gpt-taste/page/` для `gpt-taste`.
 - `qa-mobile.png`, `qa-desktop.png`, `qa-wide.png`.
 - `docs/design-system/concepts/style-shortlist.md`.
+- Creator engine/mode и `design-plan.md` / profile candidate, если concept создан `$gpt-taste`.
 - Комментарий пользователя и новые references/assets, если появились.
 - `prompts/_guidelines/creator-critic-design-workflow.md`.
 
@@ -41,9 +42,10 @@
    - `needs new shortlist`.
 3. Переведи слова пользователя в 1–3 наблюдаемых изменения: например, focal object, scale, density, color role, media, typography, CTA или rhythm.
 4. Зафиксируй одну сильную часть `Keep` и максимум три пункта `Change`. Не дополняй feedback своими десятью замечаниями.
-5. Убедись, что concept действительно был осмотрен на mobile, `1440` и `2560 CSS px`. Полная `1920/3840` matrix относится к позднему системному/page-level review по применимости.
-6. Создай или обнови `docs/design-system/concepts/concept-feedback.md`.
-7. Обнови `docs/project-state.md` и следующий промпт.
+5. Если creator engine — `gpt-taste`, пометь visual changes как input для следующего `$gpt-taste` pass. Не формулируй самостоятельный base redesign.
+6. Убедись, что concept действительно был осмотрен на mobile, `1440` и `2560 CSS px`. Полная `1920/3840` matrix относится к позднему системному/page-level review по применимости.
+7. Создай или обнови `docs/design-system/concepts/concept-feedback.md`.
+8. Обнови `docs/project-state.md` и следующий промпт.
 
 ## Output
 
@@ -51,6 +53,9 @@
 # Design Concept Feedback
 
 ## Active concept
+
+- Creator engine:
+- gpt-taste mode:
 
 ## What the user wants to keep
 

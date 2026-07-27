@@ -108,6 +108,13 @@
 
 ## Дизайн-система
 
+- Creator engine: native / gpt-taste
+- gpt-taste mode: block / component / not applicable
+- Engine selection reason:
+- Explicit user override: yes / no
+- gpt-taste profile:
+- Locked profile choices:
+- Open RNG choices:
 - Visual North Star:
 - Approved visual evidence:
 - Используемые токены:
@@ -153,6 +160,7 @@
 
 ## Done when
 
+- Creator engine/mode заданы явно; без явного `gpt-taste` используется native route.
 - Основной build scope — текущий блок.
 - Для marketing chapter основной scope остаётся текущим блоком; разрешены только задокументированные узкие corrections соседей после full-page eyes-check.
 - Для product/business UI соседняя логика, states, data и actions не менялись.

@@ -151,6 +151,8 @@ Maintainer исходного репозитория использует `promp
 
 Для обычных блоков используй короткую цепочку: сначала `prompts/07-page-planning/07-block-content-preview.md`, если в блоке есть публичный текст или важная смысловая подача, затем `prompts/08-block-build/00-build-block-fast-lane.md`. Preview утверждает смысл, факты, claims, voice и CTA intent, но не замораживает точные переносы и layout. Формула и альтернативы нужны только при реальном смысловом выборе. Fast lane работает как `creator → live render → critic до трёх findings → один self-fix`; для сложного блока остаётся deep mode.
 
+Для выразительных marketing-задач можно явно выбрать оригинальный `gpt-taste` без изменения его `SKILL.md`. Есть три режима: `page` для полноценного disposable concept, `block` для одной секции и `component` для самостоятельного компонента со specimen. Style hypothesis или spec фиксирует engine/mode, поэтому page идёт через `05-design-system/03`, page-bound block/component — через planning и `08-block-build/00-gpt-taste-creative-build.md`, а прямой standalone component сначала получает компактный `07-page-planning/00-gpt-taste-component-spec.md` без фиктивной страницы. После approval continuity profile сохраняет утверждённую идентичность и оставляет случайность только для открытых решений.
+
 Чтобы поблочная разработка не превращала страницу в набор разных сайтов или одинаковых секций, используй `prompts/_guidelines/page-composition-rhythm.md`. Marketing-композицию можно смотреть главой из `2–4` соседних блоков, не расширяя scope product data, forms, checkout и business logic. После первых `2–3` живых блоков provisional приёмы получают решение `promote / refine / remove`; затем остаются короткие page-level rhythm checks.
 
 Для практического качества UI используй `prompts/_knowledge/ui-design-quality.md`. Это большая reference-base, а не обязательный учебник перед первым рисунком. Creator просматривает карту разделов и активирует только `4–6` правил для текущей задачи. После live render critic может использовать полную базу, а полный `UI quality check` относится к quality stage. Так знания сохраняются, но не заставляют первый вариант одновременно удовлетворять сотням пожеланий.
@@ -167,7 +169,7 @@ Maintainer исходного репозитория использует `promp
 
 ## Важное про дизайн
 
-Дизайн-система теперь не начинается с абстрактных токенов или каталога модных стилей. Сначала Codex выводит гипотезы из предмета, процесса, материалов и реальных assets проекта; style library остаётся fallback. Он может дёшево проверить до трёх low-fi sketches или DOM/CSS probes, выбирает лучший и собирает один disposable high-fidelity concept в `design-lab/design-concepts/`.
+Дизайн-система теперь не начинается с абстрактных токенов или каталога модных стилей. Сначала Codex выводит гипотезы из предмета, процесса, материалов и реальных assets проекта; style library остаётся fallback. Он может дёшево проверить до трёх low-fi sketches или DOM/CSS probes, выбирает лучший и собирает один disposable high-fidelity concept: native в `design-lab/design-concepts/` или gpt-taste page mode в `design-lab/gpt-taste/page/`.
 
 Пользователю по умолчанию показывается один сильный concept, а не три почти готовых сайта. Если пользователь полностью отвергает стиль, следующий проход берёт другую гипотезу; partial feedback уточняет текущую. После approval brand, core type/color/action semantics, accessibility и product patterns становятся stable foundation, а marketing composition, media treatment, texture и motion могут временно оставаться provisional.
 

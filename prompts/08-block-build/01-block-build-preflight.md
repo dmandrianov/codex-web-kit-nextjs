@@ -27,6 +27,7 @@
 - `docs/design-system/accessibility.md`.
 - 4–6 relevant quality rules, выбранных по creator/critic workflow; полный UI standard остаётся quality-stage input.
 - `prompts/_guidelines/creator-critic-design-workflow.md`.
+- `prompts/_guidelines/gpt-taste-integration.md` и approved profile, если spec выбирает этот engine.
 - `docs/nextjs/app-router-structure.md`.
 - Текущие файлы страницы, соседние секции и существующие компоненты.
 
@@ -40,21 +41,26 @@
 - Не добавляй зависимости.
 - Не соглашайся на реализацию всей страницы одним заходом, если пользователь явно не подтвердил исключение и риск качества.
 - Если block spec не готов, вернись в `prompts/07-page-planning/05-block-breakdown.md` или `prompts/07-page-planning/06-page-planning-review.md`.
+- Не теряй creator engine во время deep planning. Explicit gpt-taste остаётся visual creator; native passes не должны незаметно перепроектировать его результат.
 
 ## Процесс
 
 1. Проверь, что выбран ровно один block spec.
 2. Проверь, что block spec содержит цель, user question, scope, content, design constraints, files, states и done when.
-3. Определи сложность блока: `simple`, `medium`, `complex`.
+3. Зафиксируй `Creator engine` и mode из spec, затем определи сложность блока: `simple`, `medium`, `complex`.
 4. Составь границы изменений. Для product/business UI защити соседей полностью. Для marketing chapter разреши только post-render narrow corrections: spacing/surface/transition/alignment/media handoff без изменения смысла и логики.
 5. Сопоставь block spec с existing components и design tokens.
 6. Собери creator brief из 4–6 релевантных направлений и отдельно перечисли риски, которые critic проверит после render. Не переписывай полный UI checklist в preflight.
 7. Отметь permissible purposeful expressive exception для marketing scope или `not applicable`; truth, accessibility и semantic tokens остаются hard boundaries.
 8. Если есть reference adaptation, выпиши `preserve`, `adapt`, `forbidden-to-copy`.
-9. Определи, какие проходы нужны: structure, styling, responsive, interaction/states, review.
+9. Определи, какие проходы нужны: structure, styling, responsive, interaction/states, review. Для gpt-taste это technical/quality responsibilities вокруг его creator build, а не замена engine.
 10. Если нет утверждённого content preview для смыслового блока, остановись и предложи `prompts/07-page-planning/07-block-content-preview.md`.
 11. Создай или обнови `docs/pages/[page-slug]/blocks/[block-slug]-build-plan.md`.
-12. Обнови `docs/project-state.md`: отметь `Current block preflight done` и укажи следующий промпт.
+12. Выбери next prompt:
+    - native complex → `02-build-block-structure.md`;
+    - native simple/medium → `00-build-block-fast-lane.md`;
+    - gpt-taste block/component → `00-gpt-taste-creative-build.md`.
+13. Обнови `docs/project-state.md`: отметь `Current block preflight done`, creator engine/mode и следующий промпт.
 
 ## Output
 
@@ -67,6 +73,8 @@
 
 - Status: ready / needs spec fixes
 - Complexity: simple / medium / complex
+- Creator engine: native / gpt-taste
+- gpt-taste mode: block / component / not applicable
 - Next prompt:
 
 ## Scope
@@ -112,14 +120,18 @@
 - Границы изменений понятны.
 - Product/business соседи защищены; marketing chapter correction scope явно ограничен.
 - Сложность блока оценена.
+- Creator engine сохранён; deep plan не превращает gpt-taste result в native redesign.
 - Creator не загружен полным checklist; post-render critic risks понятны.
 - Понятно, каким следующим проходом реализовывать блок.
 - `docs/project-state.md` обновлен.
 
 ## Follow-up
 
-Если deep mode подтверждён, следующий промпт: `prompts/08-block-build/02-build-block-structure.md`.
+Если deep mode подтверждён:
 
-Если после preflight стало понятно, что блок обычный и рисков нет, вернись в `prompts/08-block-build/00-build-block-fast-lane.md`.
+- native → `prompts/08-block-build/02-build-block-structure.md`;
+- gpt-taste block/component → `prompts/08-block-build/00-gpt-taste-creative-build.md`, а deep plan задаёт последующие technical/quality checks.
+
+Если после preflight стало понятно, что блок обычный и рисков нет, используй route из spec: native fast lane или gpt-taste creative build.
 
 Если preflight выявил проблемы в spec, вернись к `prompts/07-page-planning/05-block-breakdown.md` или `prompts/07-page-planning/06-page-planning-review.md`.

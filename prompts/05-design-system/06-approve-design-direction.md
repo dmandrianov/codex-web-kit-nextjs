@@ -15,12 +15,14 @@
 ## Контекст, который нужно дать
 
 - Утверждённый live concept и mobile / 1440 / 2560 screenshots; если stage явно пропущен, решение пользователя о skip.
-- `design-lab/design-concepts/concept-decisions.md`, если concept stage не был пропущен.
+- Active decisions: `design-lab/design-concepts/concept-decisions.md` для native или `design-lab/gpt-taste/page/concept-decisions.md` для gpt-taste.
+- `design-lab/gpt-taste/page/design-plan.md` и `gpt-taste-profile-candidate.md`, если approved concept создан gpt-taste.
 - `style-shortlist.md` и `concept-feedback.md`.
 - Strategy, messaging, IA и reference principles.
 - `prompts/_guidelines/creator-critic-design-workflow.md`.
 - `prompts/_knowledge/contemporary-visual-direction.md`.
 - `prompts/_templates/visual-north-star-template.md`.
+- `prompts/_guidelines/gpt-taste-integration.md` и `prompts/_templates/gpt-taste-profile-template.md`, если approved concept создан `gpt-taste`.
 
 ## Ограничения
 
@@ -49,7 +51,14 @@ Provisional не означает случайный. Он должен прод
 6. Оставь максимум три hard invariants. Предпочтение: явное решение пользователя, accessibility, truth/proof/brand safety.
 7. Назначь `Calibration checkpoint`: после 2–3 живых marketing-блоков провести page-level screenshot review и решить, какие provisional patterns становятся stable, какие меняются, какие удаляются.
 8. Создай документы по компактным схемам ниже.
-9. Обнови `docs/project-state.md`: concept/direction/North Star approved и следующий prompt.
+9. Если approved concept использовал `gpt-taste / page`, перенеси проверенные решения из `design-lab/gpt-taste/page/gpt-taste-profile-candidate.md` в `docs/design-system/gpt-taste-profile.md`:
+   - status `approved`;
+   - source/commit/SHA-256 остаются canonical;
+   - утверждённые identity choices становятся `locked`;
+   - оставшиеся варианты остаются `available/open`;
+   - used architectures и project seed сохраняются.
+   Не закрепляй как stable то, чего пользователь не видел или не утверждал.
+10. Обнови `docs/project-state.md`: concept/direction/North Star approved, creator engine/profile status и следующий prompt.
 
 ## Output
 
@@ -86,6 +95,8 @@ Provisional не означает случайный. Он должен прод
 
 `docs/design-system/visual-north-star.md` создай по короткому шаблону `prompts/_templates/visual-north-star-template.md`.
 
+Для approved `gpt-taste / page` также создай `docs/design-system/gpt-taste-profile.md`.
+
 В ответе покажи направление, 3–5 anchors, что уже stable, что пока provisional и когда будет calibration.
 
 ## Done when
@@ -95,6 +106,7 @@ Provisional не означает случайный. Он должен прод
 - North Star короткий, положительный и связан с live evidence.
 - Зафиксированы 3–5 anchors, creative freedom и максимум три hard invariants.
 - Stable foundation отделён от provisional expressive vocabulary.
+- Для approved gpt-taste concept создан profile с locked/open/used choices; upstream `SKILL.md` не изменён.
 - Назначен calibration checkpoint после 2–3 живых блоков.
 - Media/proof truth и accessibility сохранены.
 - `docs/project-state.md` обновлён.

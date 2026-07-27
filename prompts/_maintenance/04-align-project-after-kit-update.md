@@ -71,31 +71,36 @@
    - есть ли смысл предложить targeted concept refresh или calibration одного слабого marketing chapter;
    - не требуется ли только начать новый loop со следующей visual task без переписывания старых docs/UI.
    Не запускай redesign автоматически и не требуй терминологической миграции ради самой терминологии.
-7. Для каждого изменения найди project evidence:
+7. Для gpt-taste integration отдельно проверь:
+   - есть ли в существующем проекте approved concept, который уже явно создан gpt-taste;
+   - можно ли создать `docs/design-system/gpt-taste-profile.md` только из подтверждённого evidence;
+   - стоит ли предложить `page`, `block` или `component` mode для следующей новой expressive task.
+   Не назначай skill старому UI задним числом, не создавай profile из догадок и не запускай redesign автоматически.
+8. Для каждого изменения найди project evidence:
    - более поздний approved artifact;
    - review verdict;
    - принятое решение;
    - уже реализованный код;
    - explicit skip пользователя.
-8. Присвой каждому area один status:
+9. Присвой каждому area один status:
    - `covered` — смысл уже покрыт;
    - `migration artifact created/needed` — нужен маленький мостик;
    - `optional refresh` — улучшение полезно, но не обязательно;
    - `recommended rerun` — старый результат явно слабый или конфликтует с новой логикой;
    - `blocked` — нужен пользователь или внешние данные.
-9. Если нужен безопасный migration artifact, создавай его только точечно и только из существующего evidence. Не выдумывай новые продуктовые, дизайнерские, коммерческие или технические решения.
-10. Сформируй optional refresh offers:
+10. Если нужен безопасный migration artifact, создавай его только точечно и только из существующего evidence. Не выдумывай новые продуктовые, дизайнерские, коммерческие или технические решения.
+11. Сформируй optional refresh offers:
    - человеческое название результата;
    - зачем это может помочь;
    - примерная цена по времени/риску;
    - точный prompt;
    - естественная команда пользователя.
    Не запускай ни один offer автоматически.
-11. Для существующего visible UI без first-frame evidence предложи targeted optional refresh: сначала `05/09` для contract при необходимости, затем `06/04` для foundation и `09/05` для fresh-load verification. Не запускай его автоматически и не откатывай project stage.
-12. Для design workflow предлагай только один уместный optional refresh: новый concept через `05/03` или calibration слабого marketing chapter через page-level screenshot review. Не предлагай массовый redesign.
-13. Определи `Recommended next prompt after alignment`. Он должен продолжать реальную работу проекта и не подменяться новым optional feature только потому, что kit обновился.
-14. Создай или обнови `docs/prompt-kit-workflow-alignment.md`.
-15. Обнови `docs/project-state.md`:
+12. Для существующего visible UI без first-frame evidence предложи targeted optional refresh: сначала `05/09` для contract при необходимости, затем `06/04` для foundation и `09/05` для fresh-load verification. Не запускай его автоматически и не откатывай project stage.
+13. Для design workflow предлагай только один уместный optional refresh: новый concept через `05/03`, gpt-taste mode для следующей новой expressive task или calibration слабого marketing chapter. Не предлагай массовый redesign.
+14. Определи `Recommended next prompt after alignment`. Он должен продолжать реальную работу проекта и не подменяться новым optional feature только потому, что kit обновился.
+15. Создай или обнови `docs/prompt-kit-workflow-alignment.md`.
+16. Обнови `docs/project-state.md`:
     - installed kit version и release tag;
     - last kit update date;
     - workflow alignment status;
@@ -103,7 +108,7 @@
     - сохранённую реальную project stage;
     - recommended next prompt;
     - optional refresh offers.
-16. Проверь, что alignment и project state согласованы. Update-транзакция считается завершённой только после этой проверки либо честного status `needs user choice` / `blocked`.
+17. Проверь, что alignment и project state согласованы. Update-транзакция считается завершённой только после этой проверки либо честного status `needs user choice` / `blocked`.
 
 ## Output
 

@@ -97,14 +97,12 @@
 
 ## Follow-up
 
-Если `Quality passed`, следующий промпт: следующий block spec через `prompts/08-block-build/00-build-block-fast-lane.md` или `prompts/10-handoff/01-handoff-scope.md`, если работу нужно сдать или завершить итерацию.
+Если `Quality passed`, следующий промпт: следующий block spec через native fast lane или gpt-taste creative build согласно его explicit route; либо `prompts/10-handoff/01-handoff-scope.md`, если работу нужно сдать или завершить итерацию.
 
 Если `needs fixes`, вернись к одному из промптов:
 
-- `prompts/08-block-build/02-build-block-structure.md`;
-- `prompts/08-block-build/03-style-block-from-design-system.md`;
-- `prompts/08-block-build/04-responsive-pass.md`;
-- `prompts/08-block-build/05-interaction-and-states-pass.md`;
+- gpt-taste visual/composition/chapter finding → `prompts/08-block-build/00-gpt-taste-creative-build.md`;
+- native или non-redesign technical failure → соответствующий `02-build-block-structure.md`, `03-style-block-from-design-system.md`, `04-responsive-pass.md` или `05-interaction-and-states-pass.md`;
 - `prompts/09-quality/02-visual-screenshot-review.md`;
 - `prompts/09-quality/03-accessibility-and-usability-check.md`;
 - `prompts/09-quality/04-technical-checks.md`;

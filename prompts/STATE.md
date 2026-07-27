@@ -26,6 +26,10 @@
 - Deployment flag: no
 - Technical SEO status: not checked / pre-deploy ready / production verified / needs fixes
 - Current design pass: none / creator brief ready / rendered / critic reviewed / self-fixed / quality checked
+- Current creator engine: native / gpt-taste / not applicable
+- Current gpt-taste mode: page / block / component / not applicable
+- gpt-taste skill status: not checked / checksum matched / missing / mismatch
+- gpt-taste profile: not applicable / candidate / approved / needs recalibration
 - Last updated: YYYY-MM-DD
 
 ## Kit compatibility
@@ -68,6 +72,8 @@
 - [ ] Reference principles defined
 - [ ] Design style shortlist created
 - [ ] Design style hypothesis queue created
+- [ ] Creator engine and mode selected explicitly
+- [ ] gpt-taste original skill checksum matched, if selected
 - [ ] Concept creator brief uses Design context diet
 - [ ] Approved visual evidence and real assets passed to creator
 - [ ] Current design concept rendered live
@@ -79,6 +85,7 @@
 - [ ] Design concept approved
 - [ ] Design direction approved
 - [ ] Visual North Star approved
+- [ ] gpt-taste project profile approved, if selected
 - [ ] Approved visual evidence saved
 - [ ] Icon pack shortlisted
 - [ ] Icon pack approved
@@ -113,10 +120,12 @@
 - [ ] Current block content preview approved
 - [ ] Current block public facts and claims approved
 - [ ] Current block fast build done
+- [ ] Current gpt-taste block/component build done, if selected
 - [ ] Current block creator brief uses Design context diet
 - [ ] Current block live screenshots captured
 - [ ] Current block critic completed with up to 3 findings
 - [ ] Current block one-pass self-fix rendered again
+- [ ] gpt-taste visual findings returned to skill, if selected
 - [ ] Current block smoke checked
 - [ ] Current block preflight done
 - [ ] Current block structure built
@@ -212,6 +221,9 @@
 - Если проект готовится к размещению, ставь `Deployment flag: yes` и веди deployment artifacts.
 - Если начат technical SEO gate, обновляй `Technical SEO status` и веди `docs/seo/pre-deploy-technical-seo.md` / `docs/seo/production-seo-verification.md`.
 - `Current design pass` отражает только текущую фазу creator → render → critic → self-fix → quality. Не создавай отдельный state-field для каждого из 4–6 выбранных creator criteria.
+- `Current creator engine` и `Current gpt-taste mode` бери из active hypothesis/spec; без explicit selection используй `native`.
+- Не ставь gpt-taste status `checksum matched`, пока original `SKILL.md` не прочитан полностью и SHA-256 не совпал с pinned identity из integration guideline.
+- Approved gpt-taste profile хранит locked/open/used choices; отсутствие profile не откатывает stage, но блокирует обещание continuity для следующего skill run.
 - До render не отмечай полный UI/copy compliance: creator фиксирует только context diet и факт live render. Полные базы и checklist относятся к critic/quality.
 - После обновления указывай следующий рекомендуемый промпт.
 - Для следующего промпта указывай естественную короткую команду пользователя без номера или пути к prompt, например: `да, продолжай со стратегией`.

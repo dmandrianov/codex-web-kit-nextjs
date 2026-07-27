@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.7.0 - 2026-07-27
+
+Added:
+
+- Full external `gpt-taste` integration without copying or modifying upstream `SKILL.md`.
+- Three explicit creator modes: `page` for a complete visual concept, `block` for one marketing/editorial section and `component` for a standalone expressive component with a specimen harness.
+- Canonical source, pinned commit and SHA-256 preflight with a hard stop on missing or mismatched skill identity.
+- `docs/design-system/gpt-taste-profile.md` contract and template for locked project identity/seed, used and available architectures, open RNG choices, motion and asset truth.
+- Dedicated `prompts/08-block-build/00-gpt-taste-creative-build.md` route for block/component work.
+- Direct standalone component spec route that does not require a fictional page plan.
+- Explicit approval route that creates or updates profile memory only after the user accepts live evidence; rejected runs do not pollute continuity.
+
+Changed:
+
+- Style shortlist now selects `Creator engine: native / gpt-taste` explicitly; gpt-taste page concepts may use the full page-level skill contract in a disposable lab.
+- Block specs, page planning and content preview carry creator engine, mode, profile locks and conditional build prompt.
+- Creator-Critic workflow returns visual/composition findings to `$gpt-taste`; base directly owns only truth, accessibility, security, runtime and responsive-delivery fixes that do not redesign.
+- Router, state, integrity and workflow alignment understand the three modes and continuity profile.
+
+Guardrails:
+
+- Original `gpt-taste/SKILL.md` is not vendored, summarized, edited or silently replaced by native creator behavior.
+- Block/component scope loads the full skill but does not synthesize Nav, Hero, Footer, page AIDA shell, fake claims or CTA outside the approved spec.
+- Dashboard, checkout, account, forms, data/business UI, local fixes, copy-only, quality, SEO, deployment and maintenance do not invoke gpt-taste automatically.
+- Approved profile choices do not reroll in later block/component runs; randomness remains available only for unresolved scoped choices.
+
+Migration:
+
+- Follow the `0.7.0` section in `MIGRATIONS.md`. Existing UI and project stage remain unchanged. Use gpt-taste on the next eligible visual task only after an explicit route; create a continuity profile from approved evidence, never retroactively from guesses.
+
 ## 0.6.0 - 2026-07-16
 
 Added:

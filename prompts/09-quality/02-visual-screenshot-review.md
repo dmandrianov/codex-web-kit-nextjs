@@ -89,8 +89,11 @@
 
 11. Из всех наблюдений выбери максимум три findings с самым большим влиянием. Не заполняй таблицу всеми `pass`.
 12. Для каждой находки дай screenshot evidence, влияние и конкретный fix.
-13. Сделай один focused fix pass внутри scope.
-14. Для marketing chapter допускается одна узкая chapter correction после full-page evidence.
+13. Сделай один focused fix pass внутри scope:
+    - native → прямой visual fix;
+    - gpt-taste visual/composition → handback findings/screenshots `$gpt-taste` и его correction;
+    - base напрямую исправляет только non-redesign truth/accessibility/runtime/responsive-delivery failure.
+14. Для native marketing chapter допускается одна узкая chapter correction после full-page evidence; для gpt-taste она возвращается skill.
 15. Пересними затронутые viewports и подтверди, что проблема закрыта и не появилась regression.
 16. Если fix требует новой концепции, новых facts/assets или расширения product logic, не маскируй это косметикой: запиши blocker и owner prompt.
 17. Создай или обнови visual-review artifact и `docs/project-state.md`.
@@ -173,7 +176,7 @@
 - Для deep/final visible UI проверены mobile, `1440 / 1920 / 2560 CSS px`; применимый `3840` проверен или имеет reasoned skip.
 - Полный релевантный UI/copy/contemporary standard применён внутренне.
 - Наружу вынесены максимум три главные findings с evidence.
-- Выполнен один focused fix pass и screenshot recheck либо указан настоящий blocker.
+- Выполнен один focused fix pass и screenshot recheck либо указан настоящий blocker; visual fix gpt-taste result прошёл через skill.
 - Truth/proof, accessibility, semantic tokens и shippable scope проходят hard gates.
 - Purposeful expressive pattern оценён по роли, а не запрещён автоматически.
 - Product/business neighbor logic не менялась.

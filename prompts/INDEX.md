@@ -6,6 +6,7 @@
 
 - `prompts/_knowledge/codex-user-response-quality.md` - обязательный стандарт для всех сообщений Codex человеку: результат сначала, простое объяснение, польза, нужное действие и только затем служебные технические детали.
 - `prompts/_guidelines/creator-critic-design-workflow.md` - главный workflow для новой композиции и заметного redesign: короткий positive creator brief, Design context diet, live render, critic до трёх findings, один self-fix и полный compliance позже.
+- `prompts/_guidelines/gpt-taste-integration.md` - внешняя рамка для неизменённого upstream `$gpt-taste`: pinned identity, explicit routing, modes `page / block / component`, continuity profile и возврат visual fixes skill.
 - `prompts/_guidelines/anti-ai-slop-design-and-copy.md` - reference для critic и quality; до первого render creator выбирает из него только применимые критерии, а не читает весь avoid-list.
 - `prompts/_guidelines/landing-copy-formulas.md` - diagnostic fallback для заголовков, CTA и секций, когда прямой fact-backed текст не складывается.
 - `prompts/_guidelines/page-composition-rhythm.md` - reference для page rhythm и соседних блоков; creator активирует только критерии, нужные текущему visual chapter.
@@ -14,6 +15,8 @@
 - `prompts/_knowledge/contemporary-visual-direction.md` - reference для concept critic: first-viewport visual event, media/icon/motion treatment, currentness и anti-2020 smell check; creator заранее получает только выбранные критерии и реальные assets.
 - `prompts/_knowledge/technical-seo-baseline.md` - базовый technical SEO standard: route indexability, metadata, heading hierarchy, canonical, robots/noindex, sitemap, JSON-LD, crawlability, status codes, redirects и production verification без keyword strategy.
 - `prompts/_templates/visual-north-star-template.md` - компактный перенос approved visual direction в page planning, block build и screenshot eyes-check: positive continuity anchors, creative freedom, approved evidence и только настоящие hard boundaries.
+- `prompts/_templates/gpt-taste-profile-template.md` - память проекта для gpt-taste: locked identity/seed, used and available architectures, open RNG choices, motion и asset truth.
+- `prompts/_templates/gpt-taste-component-spec-template.md` - standalone component contract: content/actions, real states, specimen matrix, profile continuity and runtime scope.
 
 ## Как загружается дизайн-контекст
 
@@ -64,7 +67,7 @@
 
 - `prompts/05-design-system/01-visual-reference-principles.md` - извлечь принципы из стартовых референсов и скриншотов.
 - `prompts/05-design-system/02-design-style-shortlist.md` - выбрать style hypothesis queue из 3 кандидатов и одну `Prototype next` hypothesis.
-- `prompts/05-design-system/03-design-concept-prototypes.md` - по короткому creator brief создать один disposable high-fidelity concept x 2 блока, затем провести screenshot critic и один self-fix.
+- `prompts/05-design-system/03-design-concept-prototypes.md` - создать один disposable concept: native x 2 блока или полноценный `gpt-taste / page`, затем провести screenshot critic и один self-fix через выбранный creator engine.
 - `prompts/05-design-system/04-design-concept-feedback.md` - собрать фидбек и решение: approve, iterate, try next hypothesis или new shortlist.
 - `prompts/05-design-system/05-design-concept-iteration.md` - уточнить один active concept внутри выбранной hypothesis.
 - `prompts/05-design-system/06-approve-design-direction.md` - зафиксировать approved concept и `docs/design-system/design-direction.md`.
@@ -86,6 +89,7 @@
 
 ## 07. Page planning
 
+- `prompts/07-page-planning/00-gpt-taste-component-spec.md` - подготовить standalone gpt-taste component contract и specimen scope без фиктивной page spec.
 - `prompts/07-page-planning/01-select-page-and-scope.md` - выбрать одну страницу и зафиксировать scope.
 - `prompts/07-page-planning/02-page-spec.md` - создать `docs/pages/[page]/page-spec.md`.
 - `prompts/07-page-planning/03-adapt-reference-to-block-spec.md` - адаптировать screenshot/reference в требования к блоку.
@@ -96,6 +100,7 @@
 
 ## 08. Block build
 
+- `prompts/08-block-build/00-gpt-taste-creative-build.md` - реализовать один выразительный marketing block или standalone component через полный original `$gpt-taste`, specimen/live render, critic и correction через skill.
 - `prompts/08-block-build/00-build-block-fast-lane.md` - реализовать обычный блок по creator → render → critic → one self-fix без полного checklist до render.
 - `prompts/08-block-build/01-block-build-preflight.md` - проверить block spec, scope, файлы и план проходов.
 - `prompts/08-block-build/02-build-block-structure.md` - реализовать структуру одного блока.
@@ -103,6 +108,7 @@
 - `prompts/08-block-build/04-responsive-pass.md` - провести адаптивный проход одного блока.
 - `prompts/08-block-build/05-interaction-and-states-pass.md` - проверить интерактив и состояния одного блока.
 - `prompts/08-block-build/06-block-build-review.md` - проверить готовность блока к quality stage.
+- `prompts/08-block-build/07-approve-gpt-taste-profile.md` - после явного approval создать profile или применить принятый run delta к project continuity memory.
 
 ## 09. Quality
 

@@ -23,6 +23,7 @@
 - `prompts/_knowledge/ui-design-quality.md`.
 - `prompts/_knowledge/site-copy-quality.md`, если блок содержит или меняет user-facing copy.
 - `prompts/_guidelines/creator-critic-design-workflow.md`.
+- `prompts/_guidelines/gpt-taste-integration.md`, original design plan и correction evidence, если result создан gpt-taste.
 - Локальный URL или инструкции запуска, если есть.
 - Список изменённых файлов.
 
@@ -47,8 +48,11 @@
 6. Как critic, выбери максимум три главные проблемы; полный UI checklist оставь `09-quality`.
 7. Проверь approved meaning/facts/claims/voice/action, responsive и interaction readiness.
 8. Проверь provisional expressive pattern и выбери keep/revise/remove.
-9. Сделай один focused self-fix, если он нужен, и повторно просмотри screenshots.
-10. Для marketing chapter разрешена одна узкая correction после full-page evidence; задокументируй её. Product/business соседи не меняй.
+9. Если нужен focused visual fix:
+   - native → внеси его напрямую;
+   - gpt-taste → верни findings/evidence `$gpt-taste` и примени его correction.
+   Base может прямо закрыть non-redesign truth/accessibility/runtime/responsive-delivery failure. Затем повторно просмотри screenshots.
+10. Для native marketing chapter разрешена одна узкая correction после full-page evidence. Для gpt-taste любую visual chapter correction верни skill. Задокументируй её; product/business соседи не меняй.
 11. Создай или обнови `docs/pages/[page-slug]/blocks/[block-slug]-build-review.md`.
 12. Если блок готов, обнови `docs/project-state.md`: отметь `Current block implemented`, следующий промпт `prompts/09-quality/01-quality-preflight.md`.
 13. Если не готов, укажи, к какому `08-block-build` промпту вернуться.
@@ -109,8 +113,8 @@
 - Post-render critic назвал максимум три findings и сделал один focused fix/recheck; полный UI quality check передан в `09-quality`.
 - Site copy check пройден, если блок содержит пользовательский текст, или конкретные fixes отправлены в нужный `08-block-build` prompt.
 - Responsive/interaction risks зафиксированы.
-- Desktop Canvas Contract пройден или конкретный fix возвращён в `prompts/08-block-build/04-responsive-pass.md`.
-- First-render Responsive Delivery Contract пройден; иначе fix возвращён в responsive pass или shared styling foundation.
+- Desktop Canvas Contract пройден; native/non-redesign technical fix может вернуться в `04-responsive-pass`, а visual recomposition gpt-taste возвращается skill.
+- First-render Responsive Delivery Contract пройден; иначе non-redesign technical fix возвращён в responsive pass/shared foundation, а visual change gpt-taste — skill.
 - Если статус `Block ready`, следующий шаг ведёт в `09-quality`.
 - `docs/project-state.md` обновлен.
 
@@ -120,7 +124,5 @@
 
 Если `needs fixes`, вернись к одному из промптов:
 
-- `prompts/08-block-build/02-build-block-structure.md`;
-- `prompts/08-block-build/03-style-block-from-design-system.md`;
-- `prompts/08-block-build/04-responsive-pass.md`;
-- `prompts/08-block-build/05-interaction-and-states-pass.md`.
+- gpt-taste visual/composition/chapter finding → `prompts/08-block-build/00-gpt-taste-creative-build.md`;
+- native или non-redesign technical failure → соответствующий `02-build-block-structure.md`, `03-style-block-from-design-system.md`, `04-responsive-pass.md` или `05-interaction-and-states-pass.md`.

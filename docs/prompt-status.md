@@ -41,6 +41,7 @@
 - Есть общий pipeline для сайтов: intake brief -> project rules -> strategy -> research -> IA -> design system -> Next.js setup -> page planning -> block content preview -> block build -> quality -> handoff.
 - Design system использует Sol-friendly loop: project-derived hypotheses -> до трёх дешёвых low-fi probes -> один public high-fidelity concept -> screenshot critic -> one self-fix -> approved stable/provisional direction -> calibration после `2–3` live blocks.
 - Канонический `prompts/_guidelines/creator-critic-design-workflow.md` отделяет creator, critic и full quality; marketing rhythm можно проверять chapter из `2–4` блоков, не расширяя product/business scope.
+- Оригинальный gpt-taste подключён как pinned external creator engine без изменения `SKILL.md`: explicit modes `page / block / component`, continuity profile и correction loop через `$gpt-taste`.
 - Добавлен общий anti-AI-slop/copy-density guideline для дизайна, контента, page planning, block build и quality.
 - Есть отдельный e-commerce слой: e-commerce brief, product data model, каталог, PLP, product card, PDP, фильтры, commercial rules, cart, checkout, account/orders, analytics и review.
 - Есть отдельный deployment слой: SSH/server access, baseline security, runtime, env/secrets, domain/DNS/SSL, deploy, process/proxy, post-deploy checks, monitoring/rollback и handoff.
@@ -59,6 +60,10 @@
 | Конкурентный цикл | `05-competitor-discovery.md` -> `06-competitor-feature-loop.md` | Codex предлагает 2-3 идеи за раз и ждёт выбора пользователя |
 | Новый обычный сайт | `00` -> `01` -> `02` -> `03` -> `04` -> `05` -> `07` | Получаются документы, по которым можно планировать страницу |
 | Дизайн-система без референсов | `05/02` -> `05/03` -> `05/04` -> `05/06` -> `05/07` -> `05/08` | Гипотезы выводятся из проекта, до трёх low-fi проб стоят дёшево, пользователю показывается один high-fi concept, а media/icon/motion decisions фиксируются после render |
+| gpt-taste page | `05/02` -> `05/03` -> `05/04` -> `05/06` | Explicit engine вызывает полный original skill, создаёт полноценный page concept, возвращает visual fix skill и после approval фиксирует continuity profile |
+| gpt-taste block/component | `07/05` -> `07/07` -> `08/00-gpt-taste` -> `09/00` | Block не разрастается в page shell; component имеет specimen/states; profile locks сохраняются, visual findings исправляет skill |
+| standalone gpt-taste component | `07/00-gpt-taste-component-spec` -> `08/00-gpt-taste` -> `08/07 profile approval` | Прямая component-задача не требует page spec; run delta меняет canonical profile только после user approval |
+| gpt-taste non-trigger | dashboard / checkout / forms / local fix / quality / SEO / deployment | Router сохраняет native/профильный маршрут, если пользователь явно не выбрал gpt-taste |
 | Итерация дизайна | `05/04` -> `05/05` или `05/03` -> `05/04` -> `05/06` | Фидбек "почти, но..." уточняет один active concept, а полный reject переводит к следующей гипотезе |
 | Верстка одного блока | `07-page-planning` -> `07/07` -> `08/00` -> optional `09/00` | Content approval не замораживает layout; creator render получает 4–6 правил, critic возвращает до трёх findings и делает один self-fix |
 | Ритм страницы | `07/05` -> `07/06` -> `08/00` -> calibration | Marketing chapter держит continuity `2–4` блоков; product/business scope остаётся узким; provisional vocabulary получает `promote / refine / remove` |
@@ -106,7 +111,7 @@
 | `prompts/04-information-architecture/04-ia-review.md` | Каркас готов | Verdict `IA ready` / `needs fixes` перед design system | Критерии блокеров для e-commerce и обычных сайтов |
 | `prompts/05-design-system/01-visual-reference-principles.md` | Каркас готов | Разбор стартовых референсов и скриншотов | Качество правил adapt/avoid/forbidden-to-copy |
 | `prompts/05-design-system/02-design-style-shortlist.md` | Каркас готов | Project-derived hypothesis queue и дешёвые low-fi probes | Реальные materials/process/assets первичны; style library — fallback; один concept выбран для high-fi |
-| `prompts/05-design-system/03-design-concept-prototypes.md` | Каркас готов | Creator → live high-fi concept x 2 блока → critic → self-fix | Короткий positive brief, expressive lever, mobile/1440/2560 first-frame sanity и compact post-render decisions |
+| `prompts/05-design-system/03-design-concept-prototypes.md` | Каркас готов | Native concept x 2 блока или полный gpt-taste page concept → critic → correction | Explicit engine, original design plan, mobile/1440/2560 first-frame sanity и profile candidate |
 | `prompts/05-design-system/04-design-concept-feedback.md` | Каркас готов | Сбор фидбека пользователя по одному active concept | Перевод вкусового фидбека в approved / needs iteration / rejected, try next hypothesis / needs new shortlist |
 | `prompts/05-design-system/05-design-concept-iteration.md` | Каркас готов | Refined pass одного active concept | Не начинать стиль заново при partial-fit, но полный reject отправлять к следующей гипотезе |
 | `prompts/05-design-system/06-approve-design-direction.md` | Каркас готов | Approved stable foundation + provisional expressive vocabulary | Короткий North Star, честный skip и calibration `promote / refine / remove` после 2–3 live blocks |
@@ -123,6 +128,7 @@
 | `prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md` | Каркас готов | Настройка lint/type/build/scripts | Политика добавления зависимостей и formatting |
 | `prompts/06-nextjs-setup/06-next-ready-review.md` | Каркас готов | Verdict `Next ready` / `needs fixes` перед page planning | Проверка структуры, scripts, styling foundation |
 | `prompts/07-page-planning/01-select-page-and-scope.md` | Каркас готов | Выбор одной страницы из sitemap | Scope boundaries, route, e-commerce dependencies |
+| `prompts/07-page-planning/00-gpt-taste-component-spec.md` | Каркас готов | Прямой standalone component contract | Content/actions, real states, specimen, explicit override and skill preflight without fictional page planning |
 | `prompts/07-page-planning/02-page-spec.md` | Каркас готов | Page spec для главной/каталога/PDP | Связь IA/design-system/Next.js route |
 | `prompts/07-page-planning/03-adapt-reference-to-block-spec.md` | Каркас готов | Адаптация скриншота блока | Preserve/adapt/forbidden-to-copy и component mapping |
 | `prompts/07-page-planning/04-content-and-seo-plan.md` | Каркас готов | Content/SEO план страницы | Metadata, headings, internal links, fact safety, text density, site copy notes |
@@ -130,12 +136,14 @@
 | `prompts/07-page-planning/06-page-planning-review.md` | Каркас готов | Verdict `Ready for block build` / `needs fixes` | Проверка первого block spec, page rhythm, token/icon lock и рисков |
 | `prompts/07-page-planning/07-block-content-preview.md` | Каркас готов | Согласование смысла блока до кода | Facts/claims/voice/CTA intent approved; line breaks/layout flexible; formula/alternatives diagnostic only |
 | `prompts/08-block-build/00-build-block-fast-lane.md` | Каркас готов | Короткий creator → render → critic → self-fix | Design context diet, один purposeful provisional exception, fresh-load mobile/1440/wide evidence и top-3 findings |
+| `prompts/08-block-build/00-gpt-taste-creative-build.md` | Каркас готов | Full-skill block/component creator → live specimen → critic → skill correction | Pinned identity, scope without page shell, profile locks/open RNG and visual handback |
 | `prompts/08-block-build/01-block-build-preflight.md` | Каркас готов | Deep preflight для complex blocks | Решение simple/medium/complex и защита соседних блоков |
 | `prompts/08-block-build/02-build-block-structure.md` | Каркас готов | Реализация структуры одного блока | Semantic markup, imports, подключение без styling creep |
 | `prompts/08-block-build/03-style-block-from-design-system.md` | Каркас готов | Styling одного блока по дизайн-системе | Tokens/layout/components/reference adaptation |
 | `prompts/08-block-build/04-responsive-pass.md` | Каркас готов | Проверка mobile/tablet и desktop matrix 1440/1920/2560/3840 одного блока | Canvas invariants, fresh-load first frame, hydration stability, media candidates и expansion zones |
 | `prompts/08-block-build/05-interaction-and-states-pass.md` | Каркас готов | Hover/focus/form/data states одного блока | Keyboard, aria, empty/loading/error states |
 | `prompts/08-block-build/06-block-build-review.md` | Каркас готов | Verdict `Block ready` / `needs fixes` | Проверка scope, соседних блоков, design-system соответствия, Site copy check и UI quality check |
+| `prompts/08-block-build/07-approve-gpt-taste-profile.md` | Каркас готов | Create/merge accepted block/component run candidate | Reject leaves canonical profile untouched; lock only seen identity and preserve source/hash |
 | `prompts/09-quality/00-block-smoke-check.md` | Каркас готов | Быстрый smoke-check обычного блока | Грубые visual/runtime/accessibility ошибки, Site copy smoke, UI quality smoke, Contemporary visual smoke, before/after calibration, rhythm/token/icon smoke без полного QA |
 | `prompts/09-quality/01-quality-preflight.md` | Каркас готов | Deep quality plan для одного блока | Scope, commands, URL, viewports, allowed fixes, UI quality criteria и Site copy criteria |
 | `prompts/09-quality/02-visual-screenshot-review.md` | Каркас готов | Визуальный аудит одного блока или узкого scope | Mobile/reference/wide eyes-check, desktop canvas matrix, сравнение с Visual North Star/approved concept, UI quality, self-fix + screenshot recheck |

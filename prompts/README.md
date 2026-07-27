@@ -38,6 +38,8 @@
 - Для большой задачи показывай маршрут из нескольких промптов, но выполняй только текущий prompt-step.
 - Не верстай страницу без page scope, page spec, content/SEO plan, block breakdown и page planning review.
 - Новую композицию делай по `prompts/_guidelines/creator-critic-design-workflow.md`: короткий positive brief → live render → critic → один self-fix → полный quality позже.
+- Если hypothesis/spec явно выбирает `Creator engine: gpt-taste`, прочитай `prompts/_guidelines/gpt-taste-integration.md` и original skill полностью. Режимы: `page`, `block`, `component`; visual findings возвращаются `$gpt-taste`.
+- Прямой standalone gpt-taste component сначала получает `07-page-planning/00-gpt-taste-component-spec.md`; каждый accepted block/component profile delta применяется через `08-block-build/07-approve-gpt-taste-profile.md`.
 - До первого render действует Design context diet: Visual North Star, approved screenshots/live concept, реальные assets, нужная часть design system и только 4–6 релевантных правил. Полные UI/copy/anti-slop/contemporary/page-rhythm базы используются после render как critic/reference.
 - Creator brief описывает outcome, positive direction и creative freedom. Абсолютные `ALWAYS`/`NEVER` оставляй только для truth, permissions, safety, secrets и accessibility.
 - Дизайн-систему начинай со style hypothesis queue. Creator может дёшево исследовать несколько low-fi ходов, но пользователю по умолчанию показывает один собранный active concept; после approval выбери iconography и затем design tokens.
@@ -49,13 +51,13 @@
 - После render critic сначала смотрит screenshots, затем использует полные релевантные базы, называет максимум три главных visual findings и делает один связный self-fix. Полные `UI quality check` и `Site copy check` относятся к quality stage.
 - Для чистой copy-задачи без UI render сразу используй `prompts/_knowledge/site-copy-quality.md`; `landing-copy-formulas.md` подключай как diagnostic fallback, если прямой fact-backed hero/CTA не работает. Truth и неподтверждённые claims остаются жёсткими требованиями.
 - Для базового technical SEO применяй `prompts/_knowledge/technical-seo-baseline.md`: до deploy пройди `13-technical-seo/01`, после общего production smoke — `13-technical-seo/02`. Это отдельный gate для metadata, heading hierarchy, canonical, robots/noindex, sitemap, JSON-LD, crawlability, status codes и redirects без keyword research.
-- Design concept prototypes храни в `design-lab/design-concepts/`, не в production `src/`.
+- Native design concept prototypes храни в `design-lab/design-concepts/`, gpt-taste page concepts — в `design-lab/gpt-taste/page/`, не в production `src/`.
 - Design concept prototypes открывай как live HTML/CSS preview в браузере. Скриншоты можно использовать как QA evidence, но не как основной формат согласования.
 - Если пользователь отверг concept целиком, пробуй следующую hypothesis, а не косметическую iteration того же направления.
 - Перед реализацией смыслового блока покажи `07-page-planning/07-block-content-preview.md`: смысл, факты, claims, voice, CTA intent, рабочий текст и короткий visual intent. Формула и варианты нужны только при реальной диагностической пользе.
 - Content approval не замораживает line breaks, точную геометрию или ещё не собранную композицию; отдельный live preview блока до кода не обязателен.
 - Перед approval публичного текста делай pain-first human check: фраза должна отвечать на реальную ситуацию пользователя и звучать в правильном голосе проекта.
-- Реализацию обычного блока начинай с fast lane `08-block-build/00-build-block-fast-lane.md` только после approved preview или явного пропуска согласования текста.
+- Реализацию начинай после approved preview или явного пропуска: native — `08-block-build/00-build-block-fast-lane.md`, gpt-taste block/component — `08-block-build/00-gpt-taste-creative-build.md`.
 - Deep mode `08-block-build/01...06` используй только для сложных, критичных или проблемных блоков.
 - Quality pass по умолчанию делай через `09-quality/00-block-smoke-check.md`; полный QA `09-quality/01...06` запускай только по риску.
 - Не копируй скриншоты, Behance или чужие сайты 1:1: используй их как reference input и адаптируй под дизайн-систему проекта.

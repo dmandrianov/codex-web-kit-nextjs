@@ -8,6 +8,8 @@
 
 Ты действуешь как practical QA engineer, который быстро ловит грубые ошибки и не превращает проверку простого блока в отдельный проект.
 
+Если block/component создан через `gpt-taste`, technical/truth/accessibility failures можно исправить прямо только без redesign; visual/composition findings верни `$gpt-taste` по `prompts/_guidelines/gpt-taste-integration.md`.
+
 ## Цель
 
 Проверить один блок быстрым smoke-check: визуальная целостность, mobile/reference-desktop/wide, базовая доступность, console/runtime, минимальные команды проверки, если они доступны.
@@ -59,8 +61,12 @@
 11. Проверь базовую accessibility: семантика, focus для интерактива, alt/labels если применимо.
 12. Проверь console/runtime, hydration warnings и отсутствие viewport-dependent mount branch, если доступен браузер/код.
 13. Для critical media проверь reserved geometry, rendered size, selected resource/natural size и loading role. Не требуй ранней загрузки от каждого изображения.
-14. Если есть исправимая проблема, сделай один focused self-fix и повторно посмотри затронутые screenshots до verdict.
-15. Для marketing chapter после full-page evidence разрешена одна узкая spacing/surface/transition/alignment/media-handoff correction; не меняй смысл, claims или business logic соседей.
+14. Если есть исправимая проблема:
+    - native → сделай один focused self-fix;
+    - gpt-taste visual/composition → верни finding/evidence `$gpt-taste` и примени его correction;
+    - non-redesign truth/accessibility/runtime/responsive-delivery failure → base может исправить прямо.
+    Затем повторно посмотри затронутые screenshots до verdict.
+15. Для native marketing chapter после full-page evidence разрешена одна узкая spacing/surface/transition/alignment/media-handoff correction. Для gpt-taste visual chapter correction верни skill. Не меняй смысл, claims или business logic соседей.
 16. Запусти лёгкие команды проверки, если они уже известны и быстры.
 17. Создай или обнови `docs/pages/[page-slug]/blocks/[block-slug]-smoke-check.md`.
 18. Обнови `docs/project-state.md`: отметь smoke status, screenshot eyes-check и следующий prompt.
@@ -138,7 +144,7 @@
 - Mobile/reference-desktop/wide screenshots visible UI реально просмотрены и сравнены с Visual North Star/Desktop Canvas Contract/approved evidence.
 - Wide guard сохраняет core hierarchy, density, focal weight, text measure и copy/media relation; иначе smoke status не может быть `passed`.
 - First frame уже соответствует viewport; hydration/mount не меняет core canvas, а critical media не вызывает unreserved shift или oversized fetch без причины.
-- Если результат имел исправимую главную проблему, выполнен один focused self-fix и повторный eyes-check.
+- Если результат имел исправимую главную проблему, выполнен один focused correction и повторный eyes-check; gpt-taste visual fix прошёл через skill.
 - Contemporary visual smoke пройден для блоков с media/icon/motion/currentness role или проблема записана с owner prompt.
 - Нет очевидного AI-slop или copy overload, либо проблема зафиксирована как follow-up.
 - Truth, accessibility, semantic tokens и iconography проходят hard gates либо проблема зафиксирована.
@@ -149,7 +155,7 @@
 
 ## Follow-up
 
-Если smoke passed и есть следующий block spec, следующий промпт: `prompts/08-block-build/00-build-block-fast-lane.md`.
+Если smoke passed и есть следующий block spec, выбери prompt по его route: native → `prompts/08-block-build/00-build-block-fast-lane.md`, gpt-taste block/component → `prompts/08-block-build/00-gpt-taste-creative-build.md`.
 
 Если нужен detailed QA, используй `prompts/09-quality/01-quality-preflight.md`.
 

@@ -143,6 +143,14 @@
     - stable vocabulary отделён от provisional expressive choices, есть calibration `promote / refine / remove` после первых `2-3` live marketing blocks;
     - marketing chapter может охватывать `2-4` соседних blocks только для visual rhythm; product data, forms, checkout, pricing и business logic остаются block-scoped;
     - truth, permissions, secrets, accessibility и core action/status semantics остаются hard invariants.
+    - integration guideline, profile/component templates, standalone component spec, dedicated build и profile approval prompts присутствуют в payload;
+    - canonical source, pinned commit и SHA-256 gpt-taste согласованы во всех этих файлах;
+    - modes `page / block / component` маршрутизируются явно, но original `SKILL.md` не входит в Prompt Kit payload и не переписан;
+    - missing/mismatched skill блокирует выбранный gpt-taste pass без silent native fallback;
+    - dashboard, checkout, forms, data/business UI, local fix, copy-only, quality, SEO, deployment и maintenance не получают gpt-taste автоматически;
+    - approved gpt-taste profile отделяет locked identity/seed от used/available/open choices;
+    - first block/component candidate становится approved только через explicit user approval route;
+    - block/component scope не синтезирует page shell, а visual findings возвращаются `$gpt-taste`.
 14. Проверь Git isolation:
    - `.git/` и Git metadata не находятся в payload/manifest;
    - root Git config/remotes/hooks не менялись текущей maintenance operation, если есть before/after evidence;

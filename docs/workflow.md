@@ -149,6 +149,7 @@ Updater сверяет встроенный numeric repository ID, private statu
 - `docs/design-system/concepts/style-shortlist.md`;
 - `design-lab/design-concepts/index.html`;
 - `design-lab/design-concepts/styles.css`;
+- либо полноценный gpt-taste page concept и profile candidate в `design-lab/gpt-taste/page/`;
 - `docs/design-system/concepts/concept-feedback.md`;
 - `docs/design-system/concepts/approved-concept.md`;
 - `docs/design-system/design-direction.md`;
@@ -158,6 +159,7 @@ Updater сверяет встроенный numeric repository ID, private statu
 - `docs/design-system/component-inventory.md`;
 - `docs/design-system/accessibility.md`;
 - `docs/design-system/design-system-review.md`;
+- `docs/design-system/gpt-taste-profile.md`, если пользователь утвердил gpt-taste page concept;
 - правило: будущие скриншоты блоков используются как UX/reference input и адаптируются под дизайн-систему, а не копируются.
 - правило: design shortlist выводит гипотезы прежде всего из предмета, процесса, материалов и реальных assets проекта; style library является fallback. Creator может дёшево проверить до трёх low-fi sketches, но пользователю показывает один выбранный high-fidelity concept.
 - правило: до render creator получает approved evidence, реальные assets, positive direction, creative freedom и только `4–6` применимых критериев. После render critic подключает полные UI/copy/contemporary/anti-slop базы, называет максимум три findings и делает один связный self-fix.
@@ -168,6 +170,7 @@ Updater сверяет встроенный numeric repository ID, private statu
 - правило: marketing rhythm можно оценивать chapter из `2–4` соседних блоков, но product data, forms, checkout, pricing rules и business logic остаются block-scoped.
 - правило: layout rules содержат Desktop Canvas Contract и First-render Responsive Delivery Contract. Concept/fast sanity использует mobile + `1440` + wide `>=2560 CSS px`; полный `1440 / 1920 / 2560` matrix остаётся design-system/quality/handoff gate, а `3840` включается по применимости.
 - правило: полная UI/contemporary проверка выполняется после render и на quality stage; до render эти базы являются меню для выбора `4–6` критериев, а не единым checklist.
+- правило: style hypothesis явно выбирает native или gpt-taste. `gpt-taste / page` читает original skill полностью, сохраняет его `design_plan`, а visual self-fix возвращает skill.
 
 ## 6. Настройка Next.js
 
@@ -203,6 +206,7 @@ Updater сверяет встроенный numeric repository ID, private statu
 
 Промпты:
 
+- `prompts/07-page-planning/00-gpt-taste-component-spec.md` — прямой standalone component contract без фиктивной страницы;
 - `prompts/07-page-planning/01-select-page-and-scope.md`
 - `prompts/07-page-planning/02-page-spec.md`
 - `prompts/07-page-planning/03-adapt-reference-to-block-spec.md`
@@ -222,6 +226,7 @@ Updater сверяет встроенный numeric repository ID, private statu
 - `docs/pages/[page]/page-planning-review.md`;
 - `docs/pages/[page]/blocks/[block]-content-preview.md`;
 - первый block spec, готовый к реализации через `08-block-build`.
+- creator engine и mode в каждом block spec: native, gpt-taste block или gpt-taste component.
 - page story, composition roles, visual pattern budget и neighbor rules, чтобы страница читалась целиком, а не как набор одинаковых блоков.
 - site copy notes и `Site copy check` для любого user-facing copy, чтобы heading/lead/CTA, labels, errors, empty states, product text, checkout microcopy и SEO snippets не утверждались без фактов, пользы и понятного действия.
 - content approval фиксирует meaning, facts, claims, voice и CTA intent, но не exact wording, line breaks, geometry или будущую composition. Copy formulas подключаются только как diagnostic fallback.
@@ -234,16 +239,20 @@ Updater сверяет встроенный numeric repository ID, private statu
 Промпты:
 
 - `prompts/08-block-build/00-build-block-fast-lane.md`
+- `prompts/08-block-build/00-gpt-taste-creative-build.md`
 - `prompts/08-block-build/01-block-build-preflight.md`
 - `prompts/08-block-build/02-build-block-structure.md`
 - `prompts/08-block-build/03-style-block-from-design-system.md`
 - `prompts/08-block-build/04-responsive-pass.md`
 - `prompts/08-block-build/05-interaction-and-states-pass.md`
 - `prompts/08-block-build/06-block-build-review.md`
+- `prompts/08-block-build/07-approve-gpt-taste-profile.md`
 
 Результат:
 
 - быстрый build одного обычного блока;
+- полный gpt-taste build одной marketing/editorial секции или standalone component со specimen, если это явно выбрано в spec;
+- после явного approval gpt-taste block/component его run candidate создаёт или обновляет approved continuity profile; rejected run canonical profile не меняет;
 - использование утверждённого `docs/pages/[page]/blocks/[block]-content-preview.md` для смысловых блоков;
 - stable vocabulary guard и явно помеченный provisional expressive proposal, если блоку нужен новый визуальный ход;
 - creator → render → critic: до render только `4–6` релевантных правил, после render максимум три high-impact findings и один связный self-fix;

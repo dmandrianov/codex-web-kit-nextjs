@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-<!-- PROMPT_KIT:BEGIN managed version=0.6.0 -->
+<!-- PROMPT_KIT:BEGIN managed version=0.7.0 -->
 
 ## Назначение
 
@@ -32,17 +32,18 @@
 6. Выбери 1 основной промпт из `prompts/` и максимум 1 вспомогательный.
 7. Открой выбранный `.md` промпт полностью и работай по его секциям: роль, цель, контекст, ограничения, процесс, output, done when, follow-up.
 8. Для visual concept, новой композиции, заметного redesign или visible marketing block используй `prompts/_guidelines/creator-critic-design-workflow.md`: короткий creator brief → live render → critic → один self-fix.
-9. До первого render соблюдай Design context diet: Visual North Star, approved screenshots/live concept, реальные assets, нужные части design system и 4–6 релевантных правил. Полные UI/copy/anti-slop базы до render не загружай.
-10. После render используй полные релевантные базы как critic/reference. Critic возвращает максимум три главных visual findings; полный compliance выполняется на quality stage.
-11. Для чистой copy-задачи без UI-creator pass используй `prompts/_knowledge/site-copy-quality.md`. Для hero/offer/CTA обращайся к `prompts/_guidelines/landing-copy-formulas.md` как к diagnostic fallback, только если прямой fact-backed текст не складывается. Truth и неподтверждённые claims проверяй всегда.
-12. Для critic, quality и локальной UI-правки используй релевантные разделы `prompts/_knowledge/ui-design-quality.md`; полный `UI quality check` запускай на quality stage или при явно запрошенном полном аудите.
-13. Для visible UI извлеки из `docs/design-system/layout-rules.md` только применимую часть Desktop Canvas Contract. Concept и fast build делают дешёвый sanity pass на mobile, `1440 CSS px` и wide guard не уже `2560 CSS px`. Полная design-system/quality/handoff проверка использует `1440 / 1920 / 2560 CSS px`, а `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с явным reasoned skip.
-14. Для initial responsive layout применяй `First-render Responsive Delivery Contract`: сервер отдаёт устойчивую структуру, CSS media/container queries выбирают геометрию до первого кадра, а JavaScript не исправляет canvas после mount. `window.innerWidth` допустим как QA evidence, но не как источник основной геометрии. Responsive media заранее резервирует место и выбирает ресурс под фактическую rendered width.
-15. Для technical SEO используй `prompts/_knowledge/technical-seo-baseline.md`; SEO, deployment, permissions, secrets и production safety не входят в творческое упрощение правил.
-16. Если задача требует цепочки, назови маршрут из следующих промптов, но выполняй только текущий шаг. Не загружай и не исполняй всю цепочку сразу.
-17. Для крупных переходов сначала предложи следующий шаг и дождись подтверждения пользователя.
-18. После выполненной работы создай или обнови `docs/project-state.md`.
-19. Заверши ответ понятным блоком `Следующий шаг`, чтобы пользователю не приходилось расшифровывать путь к промпту или спрашивать "что дальше?".
+9. Если active hypothesis или block spec явно выбирает `Creator engine: gpt-taste`, прочитай `prompts/_guidelines/gpt-taste-integration.md`, затем оригинальный installed `gpt-taste/SKILL.md` полностью, проверь pinned SHA-256 и явно вызови `$gpt-taste`. Не изменяй и не сокращай upstream skill.
+10. До первого render соблюдай Design context diet: Visual North Star, approved screenshots/live concept, реальные assets, нужные части design system и 4–6 релевантных правил. Полные UI/copy/anti-slop базы до render не загружай.
+11. После render используй полные релевантные базы как critic/reference. Critic возвращает максимум три главных visual findings; для gpt-taste visual fixes возвращаются skill. Полный compliance выполняется на quality stage.
+12. Для чистой copy-задачи без UI-creator pass используй `prompts/_knowledge/site-copy-quality.md`. Для hero/offer/CTA обращайся к `prompts/_guidelines/landing-copy-formulas.md` как к diagnostic fallback, только если прямой fact-backed текст не складывается. Truth и неподтверждённые claims проверяй всегда.
+13. Для critic, quality и локальной UI-правки используй релевантные разделы `prompts/_knowledge/ui-design-quality.md`; полный `UI quality check` запускай на quality stage или при явно запрошенном полном аудите.
+14. Для visible UI извлеки из `docs/design-system/layout-rules.md` только применимую часть Desktop Canvas Contract. Concept и fast build делают дешёвый sanity pass на mobile, `1440 CSS px` и wide guard не уже `2560 CSS px`. Полная design-system/quality/handoff проверка использует `1440 / 1920 / 2560 CSS px`, а `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с явным reasoned skip.
+15. Для initial responsive layout применяй `First-render Responsive Delivery Contract`: сервер отдаёт устойчивую структуру, CSS media/container queries выбирают геометрию до первого кадра, а JavaScript не исправляет canvas после mount. `window.innerWidth` допустим как QA evidence, но не как источник основной геометрии. Responsive media заранее резервирует место и выбирает ресурс под фактическую rendered width.
+16. Для technical SEO используй `prompts/_knowledge/technical-seo-baseline.md`; SEO, deployment, permissions, secrets и production safety не входят в творческое упрощение правил.
+17. Если задача требует цепочки, назови маршрут из следующих промптов, но выполняй только текущий шаг. Не загружай и не исполняй всю цепочку сразу.
+18. Для крупных переходов сначала предложи следующий шаг и дождись подтверждения пользователя.
+19. После выполненной работы создай или обнови `docs/project-state.md`.
+20. Заверши ответ понятным блоком `Следующий шаг`, чтобы пользователю не приходилось расшифровывать путь к промпту или спрашивать "что дальше?".
 
 ## Project-specific правила
 
@@ -74,7 +75,7 @@
 - Если есть `project-brief.md`, но в `AGENTS.md` нет `Project-specific context` или нет проектных docs, используй `prompts/01-project-rules/`.
 - Если пользователь прислал визуальный референс или скриншот до готовой дизайн-системы, используй `prompts/05-design-system/01-visual-reference-principles.md`.
 - Если IA готова, но нет `docs/design-system/concepts/style-shortlist.md`, начни дизайн-систему с `prompts/05-design-system/02-design-style-shortlist.md`: создай style hypothesis queue, выбери одну `Prototype next` hypothesis и не переходи сразу к токенам.
-- Если есть style hypothesis queue, но нет active visual concept prototype, используй `prompts/05-design-system/03-design-concept-prototypes.md`: прототипируй один active concept за проход, а не 3 направления одновременно, и храни preview в `design-lab/design-concepts/`, не в production `src/`.
+- Если есть style hypothesis queue, но нет active visual concept prototype, используй `prompts/05-design-system/03-design-concept-prototypes.md`: прототипируй один active concept за проход, а не 3 направления одновременно. Native preview храни в `design-lab/design-concepts/`, `gpt-taste / page` — в `design-lab/gpt-taste/page/`, не в production `src/`.
 - Design concept prototypes должны открываться как live preview в браузере. В Codex desktop/app используй in-app Browser справа, если доступен; вне Codex открой системный браузер. Скриншоты не заменяют live review.
 - Для visual concept prototypes используй creator pass из `prompts/_guidelines/creator-critic-design-workflow.md`: сначала approved evidence, реальные assets, positive direction и 4–6 выбранных критериев; полную contemporary/UI/anti-slop проверку перенеси после render.
 - Если есть prototypes, но нет feedback/approval, используй `prompts/05-design-system/04-design-concept-feedback.md`; если нужен уточнённый вариант, используй `prompts/05-design-system/05-design-concept-iteration.md`.
@@ -84,6 +85,11 @@
 - Не переходи к `prompts/05-design-system/08-design-tokens.md`, пока visual concept не утверждён или пользователь явно не пропустил concept stage.
 - Не пропускай `docs/design-system/iconography.md`, кроме случая, когда пользователь явно просит пропустить iconography step.
 - Для creator pass собери Design context diet: outcome, real copy/data, Visual North Star, approved screenshots/live concept, реальные assets, применимые design-system contracts и 4–6 правил из UI/copy/anti-slop/contemporary/page-rhythm. Не загружай эти базы целиком до первого render.
+- `gpt-taste` имеет три explicit mode: `page` для полноценного concept, `block` для одной visible marketing/editorial секции, `component` для standalone expressive marketing component со specimen harness. Во всех режимах skill читается полностью; scope ограничивает deliverable и не разрешает синтезировать page shell для block/component.
+- Для прямого standalone component без page/block spec сначала используй `prompts/07-page-planning/00-gpt-taste-component-spec.md`; не заставляй component request проходить фиктивное page planning.
+- По умолчанию creator engine `native`. Автоматически выбирай `gpt-taste` только для выразительной marketing/campaign/editorial/portfolio задачи с новым visual principle. Dashboard, account, checkout, forms, data/business UI, local fix, copy-only, quality, SEO, deployment и maintenance не вызывают его автоматически.
+- После approved gpt-taste page concept веди `docs/design-system/gpt-taste-profile.md`: locked identity/seed не reroll, used/available architectures и open RNG choices поддерживают continuity. Visual findings возвращай `$gpt-taste`; base напрямую исправляет только truth/accessibility/security/runtime/responsive-delivery failure без redesign.
+- Каждый gpt-taste block/component build пишет только run profile candidate. После explicit approval объедини его с canonical profile через `prompts/08-block-build/07-approve-gpt-taste-profile.md`; rejected result не меняет continuity memory.
 - Сохраняй stable vocabulary проекта: brand identity, core type/color/action semantics, accessibility и product interaction patterns. Композицию marketing-блока, media treatment, texture, section transition и motion можно пробовать как provisional choices и закреплять только после critic.
 - Для ритма marketing-страницы creator может смотреть visual chapter из 2–4 соседних блоков; product data, forms, checkout, pricing rules и другая business logic остаются block-scoped.
 - Для critic pass после render используй полные релевантные базы как reference, но верни максимум три главных visual findings и сделай один связный self-fix. Полные `UI quality check` и `Site copy check` выполняй на quality stage.
@@ -96,7 +102,7 @@
 - Если пользователь просит сверстать смысловой блок и есть block spec, но нет утверждённого `docs/pages/[page]/blocks/[block]-content-preview.md`, сначала используй `prompts/07-page-planning/07-block-content-preview.md`: покажи смысл, факты, claims, voice, CTA intent, рабочий текст и короткий visual intent. Формула нужна только как diagnostic fallback, а альтернативы — только при реальном смысловом выборе. Approval не замораживает line breaks, точную геометрию или ещё не собранную композицию.
 - Не требуй отдельный live HTML-preview каждого блока до кода. После утверждения общего visual direction Codex свободен выбрать composition во время build, если пользователь явно не попросил предварительный макет.
 - Перед реализацией смыслового блока передай creator Visual North Star, approved screenshots и 2–3 соседних блока как visual evidence. Блок должен добавить новый смысл и продолжить тот же сайт; новый выразительный приём допустим как явный proposal, если существующей системе не хватает нужного хода.
-- Если пользователь утвердил content preview или явно написал `делай без согласования текста`, используй fast lane: `prompts/08-block-build/00-build-block-fast-lane.md`.
+- Если пользователь утвердил content preview или явно написал `делай без согласования текста`, используй route из block spec: native → `prompts/08-block-build/00-build-block-fast-lane.md`, gpt-taste block/component → `prompts/08-block-build/00-gpt-taste-creative-build.md`.
 - Для обычных `simple` и `medium` блоков не запускай длинную цепочку structure -> styling -> responsive -> interaction -> review. Делай один fast build и при необходимости один smoke-check.
 - Для любого visible marketing block в fast build открой live page и просмотри mobile, reference-desktop `1440 CSS px` и wide-desktop не уже `2560 CSS px`. Critic сравнивает screenshots с Visual North Star, Desktop Canvas Contract, approved concept/Hero и соседями, называет максимум три главных findings, делает один связный self-fix и повторный eyes-check.
 - После первых 2–3 живых marketing-блоков сделай page-level eyes-check и реши для каждого provisional приёма `promote / refine / remove`; затем повторяй короткий rhythm-check каждые 3–4 блока. Перед quality/handoff проверь `1440 / 1920 / 2560 CSS px`, а `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с reasoned skip.
@@ -129,6 +135,7 @@
 - Не запускай пачку промптов одновременно. Для большой задачи строй маршрут, но выполняй его по одному prompt-step за раз. Исключение: безопасное обновление Prompt Kit считается одной maintenance-транзакцией `01 -> 02 -> 04`.
 - По умолчанию показывай пользователю один active visual concept за проход; creator может внутренне рассмотреть несколько композиционных ходов, а style shortlist хранит очередь гипотез.
 - До утверждения visual concept и iconography production UI использует только подтверждённую основу. Disposable concept может пробовать выразительный приём как proposal, который после render либо отклоняется, либо добавляется в design system.
+- Не копируй, не редактируй и не vendor upstream `gpt-taste/SKILL.md` внутрь Prompt Kit. Kit хранит source/commit/checksum и explicit route; missing или mismatched skill блокирует выбранный gpt-taste UI pass вместо молчаливого fallback.
 - Не клади design concept prototypes в `src/`: это disposable артефакты в `design-lab/design-concepts/`.
 - Не согласовывай design concept prototypes только через скриншоты, если можно открыть HTML preview в браузере.
 - Не используй deep-проверки для каждого простого блока по умолчанию. Экономь время и токены: fast lane является стандартом, deep mode - исключением по риску.
