@@ -11,6 +11,7 @@ import {
   assertGitHubReleaseAssets,
   buildRelease,
   collectLocalReleaseAssets,
+  findReleaseByTag,
   findSecretKind,
   normalizeGitHubRepository,
   verifyArtifacts,
@@ -316,6 +317,13 @@ test("GitHub draft assets must match local sizes and available SHA-256 digests",
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test("draft releases are resolved from the paginated release list", () => {
+  const draft = { id: 77, tag_name: "v1.2.3", draft: true, prerelease: false };
+  assert.equal(findReleaseByTag([[{ tag_name: "v1.2.2" }], [draft]], "v1.2.3"), draft);
+  assert.equal(findReleaseByTag([], "v1.2.3"), null);
+  assert.throws(() => findReleaseByTag({ releases: [] }, "v1.2.3"), /invalid release list/);
 });
 
 test("incoming updater trust root rejects a self-consistent manifest paired with foreign embedded constants", async () => {

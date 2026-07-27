@@ -918,6 +918,12 @@ export async function assertGitHubReleaseAssets(release, expectedAssets, label) 
   }
 }
 
+export function findReleaseByTag(pages, tag) {
+  const releases = Array.isArray(pages) && pages.every(Array.isArray) ? pages.flat() : pages;
+  if (!Array.isArray(releases)) throw new Error("GitHub returned an invalid release list");
+  return releases.find((release) => release?.tag_name === tag) ?? null;
+}
+
 export async function publishRelease(root = process.cwd(), options = {}) {
   if (!options.tag) throw new Error("Publishing requires --tag vX.Y.Z");
   const source = await verifySource(root, { tag: options.tag, publish: true });
@@ -927,9 +933,7 @@ export async function publishRelease(root = process.cwd(), options = {}) {
     "api", "--paginate", "--slurp", "--method", "GET",
     `repos/${trust.fullName}/releases?per_page=100`,
   ], "checking for an existing release");
-  const releases = Array.isArray(pages) && pages.every(Array.isArray) ? pages.flat() : pages;
-  if (!Array.isArray(releases)) throw new Error("GitHub returned an invalid release list");
-  if (releases.some((release) => release?.tag_name === options.tag)) throw new Error(`Release ${options.tag} already exists; refusing to replace it`);
+  if (findReleaseByTag(pages, options.tag)) throw new Error(`Release ${options.tag} already exists; refusing to replace it`);
 
   const output = verified.output;
   const names = assetNames(source.config, source.metadata.version.version);
@@ -950,10 +954,12 @@ export async function publishRelease(root = process.cwd(), options = {}) {
     path.join(output, names.checksum),
   ], "creating the private draft release");
 
-  const draft = await ghJson([
-    "api", "--method", "GET", `repos/${trust.fullName}/releases/tags/${encodeURIComponent(options.tag)}`,
+  const draftPages = await ghJson([
+    "api", "--paginate", "--slurp", "--method", "GET",
+    `repos/${trust.fullName}/releases?per_page=100`,
   ], "verifying the draft release");
-  if (!Number.isSafeInteger(draft.id) || draft.id <= 0 || draft.tag_name !== options.tag || draft.draft !== true || draft.prerelease) {
+  const draft = findReleaseByTag(draftPages, options.tag);
+  if (!draft || !Number.isSafeInteger(draft.id) || draft.id <= 0 || draft.tag_name !== options.tag || draft.draft !== true || draft.prerelease) {
     throw new Error("Draft GitHub release metadata is invalid");
   }
   await assertGitHubReleaseAssets(draft, expectedAssets, "Draft GitHub release");
