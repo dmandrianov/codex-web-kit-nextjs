@@ -960,11 +960,16 @@ export async function publishRelease(root = process.cwd(), options = {}) {
     path.join(output, names.checksum),
   ], "creating the private draft release");
 
-  const draftPages = await ghJson([
-    "api", "--paginate", "--slurp", "--method", "GET",
-    `repos/${trust.fullName}/releases?per_page=100`,
-  ], "verifying the draft release");
-  const draft = findReleaseByTag(draftPages, options.tag);
+  let draft = null;
+  for (const delay of [0, 250, 750, 1500, 3000]) {
+    if (delay) await waitMilliseconds(delay);
+    const draftPages = await ghJson([
+      "api", "--paginate", "--slurp", "--method", "GET",
+      `repos/${trust.fullName}/releases?per_page=100`,
+    ], "verifying the draft release");
+    draft = findReleaseByTag(draftPages, options.tag);
+    if (draft) break;
+  }
   if (!draft || !Number.isSafeInteger(draft.id) || draft.id <= 0 || draft.tag_name !== options.tag || draft.draft !== true || draft.prerelease) {
     throw new Error("Draft GitHub release metadata is invalid");
   }
