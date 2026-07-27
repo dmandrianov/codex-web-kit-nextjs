@@ -120,12 +120,18 @@ async function runGh(args, purpose) {
 }
 
 async function ghJson(args, purpose) {
-  const { stdout } = await runGh(args, purpose);
-  try {
-    return JSON.parse(stdout);
-  } catch {
-    throw new Error(`GitHub CLI returned invalid JSON while ${purpose}`);
+  let lastError;
+  for (const delay of [0, 250, 750, 1500]) {
+    if (delay) await waitMilliseconds(delay);
+    try {
+      const { stdout } = await runGh(args, purpose);
+      return JSON.parse(stdout);
+    } catch (error) {
+      lastError = error;
+    }
   }
+  if (lastError?.message?.includes("invalid JSON")) throw lastError;
+  throw new Error(`GitHub CLI read failed after bounded retries while ${purpose}`);
 }
 
 function waitMilliseconds(milliseconds) {
