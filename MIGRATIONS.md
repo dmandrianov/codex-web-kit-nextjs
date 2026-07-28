@@ -27,7 +27,7 @@ Compatibility: non-breaking from `0.4.22+`.
 - Ordinary hero, CTA, cards, forms and block content preview use the lightweight native contract and `Site copy fast pass` on the next relevant copy task.
 - The full `Site copy check` remains for long, critical or risky text.
 - New SEO articles use the explicit `prompts/_content/01-write-seo-article.md` route. If the pinned external skill is missing or mismatched, stop before drafting and install/repair it separately; do not vendor it into the project.
-- A controlled comparison on the existing `reference-project` Tension block showed better directness, claim support and entity precision without adding a new workflow stage.
+- A controlled comparison on an anonymized Tension block showed better directness, claim support and entity precision without adding a new workflow stage.
 
 ### Breaking changes
 

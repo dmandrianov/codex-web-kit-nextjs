@@ -243,7 +243,7 @@ Changed:
 
 Evidence:
 
-- Based on a 2026-07-14 controlled downstream-project audit: the same `gpt-5.6-sol` produced a strong Hero from an approved live concept and weaker downstream blocks from over-constrained prose contracts.
+- Based on a controlled downstream-project audit: the same `gpt-5.6-sol` produced a strong Hero from an approved live concept and weaker downstream blocks from over-constrained prose contracts.
 
 Migration:
 
