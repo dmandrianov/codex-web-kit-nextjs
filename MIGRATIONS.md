@@ -37,6 +37,7 @@ Compatibility: explicit one-time source migration from `0.4.22+`.
 - The local archive path does not call GitHub, change project Git or trust a new repository ID.
 - After installation, run the bundled `verify` command and the full integrity/alignment flow before using remote updates again.
 - Existing website stage, design, content, code and project-specific `AGENTS.md` content remain valid.
+- Historical `v0.6.0`–`v0.8.0` release pages, assets and tags were retired during the public-source privacy cleanup. Existing installed copies remain usable; official public distribution resumes with `0.9.0`.
 
 ### Breaking changes
 

@@ -15,6 +15,7 @@ Changed:
 - Release publication preflight now requires the transferred public personal repository and MIT publication contract.
 - The MIT text is packaged at legacy target `.prompt-kit/TERMS.md` so updater `0.8.x` can validate and install the bridge without keeping closed subscription terms.
 - Existing `0.8.0` installations move through a one-time verified local archive because their shipped updater rejects a personal owner before remote download.
+- Public history and release documentation were anonymized; legacy `v0.6.0`–`v0.8.0` GitHub Releases and tags were retired instead of being modified in place.
 
 Guardrails:
 
