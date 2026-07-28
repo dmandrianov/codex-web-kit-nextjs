@@ -176,10 +176,10 @@
 
 Используй для установки, обновления, проверки и выпуска самого Prompt Kit. Это не стадия создания сайта.
 
-- `prompts/_maintenance/01-update-prompt-kit.md` - по фразе `обнови базу` через browser-authenticated `gh` проверить private Organization Release, embedded numeric repository ID и безопасно применить kit-owned файлы, не затрагивая Git проекта.
-- `prompts/_maintenance/02-check-kit-integrity.md` - проверить incoming/installed manifest, immutable release/asset attestation, закрытый transport, `.prompt-kit/TERMS.md`, ссылки, обязательные файлы, managed-блок и ownership после применения release.
+- `prompts/_maintenance/01-update-prompt-kit.md` - по фразе `обнови базу` через browser-authenticated `gh` проверить trusted GitHub Release, embedded numeric repository ID и безопасно применить kit-owned файлы, не затрагивая Git проекта.
+- `prompts/_maintenance/02-check-kit-integrity.md` - проверить incoming/installed manifest, immutable release/asset attestation, trusted transport, MIT License по compatibility path `.prompt-kit/TERMS.md`, ссылки, обязательные файлы, managed-блок и ownership после применения release.
 - `prompts/_maintenance/03-migrate-agents-md.md` - перенести старый `AGENTS.md` на managed-блок без потери project-specific правил.
 - `prompts/_maintenance/04-align-project-after-kit-update.md` - сопоставить новый workflow с уже выполненным проектом и предложить optional refresh.
-- `prompts/_maintenance/05-release-prompt-kit.md` - maintainer-only подготовка версии, closed-use TERMS, deterministic assets, private Organization identity и draft-to-immutable GitHub Release.
+- `prompts/_maintenance/05-release-prompt-kit.md` - maintainer-only подготовка версии, current distribution terms, deterministic assets, trusted repository identity и draft-to-immutable GitHub Release.
 
 Обычное обновление является одной rollback-safe транзакцией `01 → 02 → 04`. Release authoring через `05` — отдельный source workflow и не запускается в пользовательском проекте.

@@ -42,7 +42,7 @@
           "type": ["string", "null"],
           "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
         },
-        "transport": { "const": "private-github-organization-gh" },
+        "transport": { "enum": ["private-github-organization-gh", "github-release-gh"] },
         "tag": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$" },
         "revision": { "type": "string", "minLength": 5, "maxLength": 64 }
       },

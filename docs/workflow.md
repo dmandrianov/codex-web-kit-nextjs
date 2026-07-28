@@ -12,7 +12,7 @@
 
 Обновление или выпуск самого Prompt Kit не меняет website stage.
 
-Если пользователь пишет `обнови базу`, Codex читает `.prompt-kit/manifest.json`, через уже авторизованный GitHub CLI проверяет последний стабильный immutable release и signed release/asset attestation в закрытом Organization repository и выполняет rollback-safe цепочку:
+Если пользователь пишет `обнови базу`, Codex читает `.prompt-kit/manifest.json`, через уже авторизованный GitHub CLI проверяет последний стабильный immutable release и signed release/asset attestation в доверенном repository и выполняет rollback-safe цепочку:
 
 1. `prompts/_maintenance/01-update-prompt-kit.md` — preflight, checksum, backup и применение kit-owned файлов;
 2. `prompts/_maintenance/02-check-kit-integrity.md` — проверка состава, hashes, links и managed-блока;
@@ -20,11 +20,11 @@
 
 Новый `.prompt-kit/manifest.json` записывается последним. Installed changelog и migrations находятся в `.prompt-kit/`, поэтому source-документы release не заменяют одноимённые корневые файлы сайта.
 
-Updater сверяет встроенный numeric repository ID, private status и Organization owner, не принимает raw token из environment и не использует Git проекта: не делает pull/merge/commit/push, не меняет remote и не создаёт вложенный `.git`. Изменения остаются обычным локальным diff пользователя.
+Updater сверяет встроенный numeric repository ID и personal owner `dmandrianov`, не принимает raw token из environment и не использует Git проекта: не делает pull/merge/commit/push, не меняет remote и не создаёт вложенный `.git`. Private/public visibility не меняет источник доверия. Изменения остаются обычным локальным diff пользователя.
 
-Если maintainer выпускает новую версию Web Kit, используется отдельный `prompts/_maintenance/05-release-prompt-kit.md`. Он проверяет source metadata, закрытые условия `TERMS.md`, private Organization identity и включённые immutable releases, строит deterministic assets, прикрепляет их к draft и публикует только полный проверенный private GitHub Release; пользовательский update flow при этом не запускается.
+Если maintainer выпускает новую версию Web Kit, используется отдельный `prompts/_maintenance/05-release-prompt-kit.md`. Он проверяет source metadata, действующие условия распространения, trusted repository identity и включённые immutable releases, строит deterministic assets, прикрепляет их к draft и публикует только полный проверенный GitHub Release; пользовательский update flow при этом не запускается.
 
-После окончания подписки remote update прекращается, но версии, скачанные во время активной подписки, остаются пригодными для собственных и клиентских проектов по `.prompt-kit/TERMS.md`.
+Если public repository временно недоступен, remote update прекращается, но уже установленная версия остаётся пригодной по MIT License, поставленной по compatibility path `.prompt-kit/TERMS.md`.
 
 Подробный контракт описан в `docs/release-and-update.md` и `prompts/OWNERSHIP.md`.
 

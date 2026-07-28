@@ -42,7 +42,7 @@
 
 1. Проверь provenance incoming fragment:
    - `kit.id` release равен `dmandrianov/web-kit`, а `source.repositoryId` совпадает со встроенным numeric trust root updater;
-   - для remote release private Organization source и browser-authenticated GitHub access уже проверены до staging; local fallback имеет явные checksum evidence;
+   - для remote release trusted repository ID, personal owner и browser-authenticated GitHub access уже проверены до staging; local fallback имеет явные checksum evidence;
    - archive checksum passed;
    - incoming manifest identity/version passed;
    - `AGENTS.md` указан в manifest как `hybrid` с policy `managed-block`.

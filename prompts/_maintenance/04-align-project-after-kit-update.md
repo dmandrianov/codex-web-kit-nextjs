@@ -25,7 +25,7 @@
 - Installed `.prompt-kit/manifest.json`.
 - `.prompt-kit/CHANGELOG.md`.
 - `.prompt-kit/MIGRATIONS.md`.
-- `.prompt-kit/TERMS.md`.
+- `.prompt-kit/TERMS.md` с MIT License по legacy compatibility path.
 - `docs/prompt-kit-update-summary.md`.
 - `docs/prompt-kit-integrity.md` со status `passed`.
 - `docs/project-state.md`.
@@ -49,7 +49,7 @@
 - Не скрывай полезные новые возможности: предложи их понятным optional refresh с ценой и риском.
 - Не меняй `.git/`, remotes, branches, hooks, commits или history. Alignment не требует Git mutations.
 - Не перезаписывай installed manifest, release history или migrations.
-- Не сохраняй GitHub credentials, token environment, payment email или subscriber username в alignment/project state. Зафиксируй только безопасный access status при необходимости.
+- Не сохраняй GitHub credentials, token environment или персональные данные доступа в alignment/project state. Зафиксируй только безопасный access status при необходимости.
 - Сообщения пользователю оформляй по `prompts/_knowledge/codex-user-response-quality.md`.
 
 ## Процесс
@@ -58,7 +58,7 @@
    - update summary status `updated`;
    - integrity status `passed`;
    - `.prompt-kit/manifest.json` содержит target version из summary;
-   - manifest numeric repository ID совпадает с embedded updater trust anchor, remote release/asset attestation прошла до extraction, а `.prompt-kit/TERMS.md` прошёл integrity;
+   - manifest numeric repository ID совпадает с embedded updater trust anchor, remote release/asset attestation прошла до extraction, а MIT License в `.prompt-kit/TERMS.md` прошла integrity;
    - managed marker `AGENTS.md` совпадает с target version.
    Если любое условие не выполнено, вернись в update/integrity и не создавай фиктивный alignment.
 2. Определи from/to versions из update summary, installed manifest, namespaced changelog и migrations.
@@ -121,7 +121,7 @@
 
 - Repository ID:
 - Repository canonical full name:
-- Private access status: active at update / local archive / not rechecked
+- Repository access status: active at update / local archive / not rechecked
 - Release tag:
 - From:
 - To:
@@ -194,7 +194,7 @@
 - Migration artifacts, если созданы, имеют явный source evidence.
 - `docs/project-state.md` обновлён до installed version и согласован с alignment.
 - Git пользователя не изменён.
-- Subscription identity и GitHub credentials не скопированы в project reports; `.prompt-kit/TERMS.md` остаётся частью установленного kit.
+- GitHub credentials не скопированы в project reports; MIT License по compatibility path `.prompt-kit/TERMS.md` остаётся частью установленного kit.
 - Пользователь понимает, нужно ли от него действие.
 
 ## Follow-up

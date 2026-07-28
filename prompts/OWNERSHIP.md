@@ -1,6 +1,6 @@
 # Владение файлами Prompt Kit
 
-Этот контракт определяет, что updater может менять в рабочем проекте, а что обязан сохранить. Официальный источник — private GitHub Organization repository, закреплённый положительным numeric repository ID в поставляемом updater. Installed и incoming manifests обязаны содержать тот же ID. `repositoryFullName` хранит последнее известное имя и может измениться при проверенном GitHub rename/transfer без смены доверенного ID.
+Этот контракт определяет, что updater может менять в рабочем проекте, а что обязан сохранить. Официальный источник — GitHub repository, закреплённый положительным numeric repository ID в поставляемом updater. Installed и incoming manifests обязаны содержать тот же ID. `repositoryFullName` хранит последнее известное имя и может измениться при проверенном GitHub rename/transfer без смены доверенного ID; canonical owner должен оставаться `dmandrianov`.
 
 ## Главное правило
 
@@ -18,7 +18,7 @@ Updater применяет только пути, перечисленные в 
 - `.prompt-kit/manifest.schema.json`
 - `.prompt-kit/update.mjs`
 - `.prompt-kit/.gitignore`
-- `.prompt-kit/TERMS.md`
+- `.prompt-kit/TERMS.md` — MIT License по legacy compatibility path
 - `prompts/README.md`
 - `prompts/INDEX.md`
 - `prompts/ROUTER.md`
@@ -49,12 +49,12 @@ Updater применяет только пути, перечисленные в 
 
 В исходном source repository Web Kit есть файлы, нужные для разработки и выпуска, но не для копирования поверх пользовательского проекта:
 
-- корневые `README.md`, `CHANGELOG.md`, `MIGRATIONS.md`, `PROMPT_KIT_VERSION.md` и `TERMS.md`;
+- корневые `README.md`, `CHANGELOG.md`, `MIGRATIONS.md`, `PROMPT_KIT_VERSION.md` и `LICENSE`;
 - `docs/` с maintainer-документацией;
 - `tools/`, `.github/`, release configuration и tests;
 - `.gitignore`, `.gitattributes`.
 
-При сборке source `CHANGELOG.md`, `MIGRATIONS.md` и `TERMS.md` попадают в package как `.prompt-kit/CHANGELOG.md`, `.prompt-kit/MIGRATIONS.md` и `.prompt-kit/TERMS.md`. Корневые документы сайта пользователя не заменяются.
+При сборке source `CHANGELOG.md`, `MIGRATIONS.md` и `LICENSE` попадают в package как `.prompt-kit/CHANGELOG.md`, `.prompt-kit/MIGRATIONS.md` и `.prompt-kit/TERMS.md`. Последний target сохраняет legacy filename для updater `0.8.x`, но содержит canonical MIT License. Корневые документы сайта пользователя не заменяются.
 
 ## Project-owned
 
@@ -137,8 +137,8 @@ Update reports остаются project-owned:
 
 Prompt Kit не владеет `.git/`. Updater не выполняет `git pull`, merge, rebase, commit или push, не добавляет remote/submodule и не меняет `.git/config`, hooks, index или branches. Обновление появляется как обычный локальный diff в собственном репозитории пользователя.
 
-## Доступ к закрытым релизам
+## Доступ к GitHub Releases
 
 Browser-authenticated GitHub CLI session принадлежит пользователю и живёт вне проекта. Конкретный способ хранения credential выбирает сам `gh` и операционная система. Updater может выполнять через `gh` только read-only проверки repository/release, signed attestation, local asset provenance и скачивание assets. Он принимает только immutable release, не использует raw token variables, не сохраняет token, не вызывает `gh auth token`, не принимает `GH_TOKEN`, `GITHUB_TOKEN`, `GITHUB_PAT` или `PAT` как transport и не копирует credential store в backup либо release.
 
-Payment email, GitHub username, статус подписки и журнал выдачи/отзыва доступа принадлежат системе учёта владельца Web Kit. Они не являются kit payload, project-owned документами сайта или source-файлами repository и не должны попадать в manifest.
+Любые персональные данные и журнал выдачи/отзыва доступа принадлежат внешней системе владельца Web Kit. Они не являются kit payload, project-owned документами сайта или source-файлами repository и не должны попадать в manifest.

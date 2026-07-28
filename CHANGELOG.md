@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.9.0 - 2026-07-28
+
+Added:
+
+- A same-repository migration bridge from `dmandrianov-web-kit/web-kit` to the transferred personal repository `dmandrianov/codex-web-kit-nextjs`.
+- Explicit trust in the unchanged numeric repository ID `1302994489` plus the canonical personal owner `dmandrianov`.
+- Compatibility for the legacy v1 transport marker and the new generic `github-release-gh` marker.
+- Root `LICENSE` with the canonical MIT License and public open-source distribution.
+
+Changed:
+
+- The bundled updater now uses the new personal repository as its bootstrap source and accepts either private or public visibility after verifying the same repository ID and personal owner.
+- Release publication preflight now requires the transferred public personal repository and MIT publication contract.
+- The MIT text is packaged at legacy target `.prompt-kit/TERMS.md` so updater `0.8.x` can validate and install the bridge without keeping closed subscription terms.
+- Existing `0.8.0` installations move through a one-time verified local archive because their shipped updater rejects a personal owner before remote download.
+- Public history and release documentation were anonymized; legacy `v0.6.0`–`v0.8.0` GitHub Releases and tags were retired instead of being modified in place.
+
+Guardrails:
+
+- `kit.id` remains `dmandrianov/web-kit`; it is a stable product identity and is not the mutable GitHub repository slug.
+- The project and release package use MIT License; the legacy `.prompt-kit/TERMS.md` filename contains the same MIT text and is not a separate restrictive agreement.
+- The old Organization must remain in place until the bridge release, post-transfer attestation and downstream migration smoke all pass.
+- No Git remote, tag, branch, release, repository visibility or Organization state is changed by the local migration build.
+
+Migration:
+
+- Follow the `0.9.0` section in `MIGRATIONS.md`. Apply the bridge archive with explicit confirmation, verify the new installed manifest, MIT License and updater, then test remote update discovery against `dmandrianov/codex-web-kit-nextjs`.
+
 ## 0.8.0 - 2026-07-28
 
 Added:

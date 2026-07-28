@@ -24,12 +24,12 @@
 
 Если пользователь пишет `обнови базу`, просит обновить Prompt Kit, перенести новую версию kit или безопасно заменить промпты, не используй website stages. Выбери maintenance flow:
 
-- `prompts/_maintenance/01-update-prompt-kit.md` - через browser-authenticated GitHub CLI проверить закрытый official Release и выполнить безопасную транзакцию;
+- `prompts/_maintenance/01-update-prompt-kit.md` - через browser-authenticated GitHub CLI проверить публичный official Release и выполнить безопасную транзакцию;
 - `prompts/_maintenance/03-migrate-agents-md.md` - если `AGENTS.md` без корректного managed-блока;
 - `prompts/_maintenance/02-check-kit-integrity.md` - обязательная проверка применённого release;
 - `prompts/_maintenance/04-align-project-after-kit-update.md` - обязательный post-update alignment без отката проекта.
 
-Если maintainer исходного private Organization repository Web Kit просит подготовить новую версию, tag, release assets или GitHub Release, используй `prompts/_maintenance/05-release-prompt-kit.md`. Не путай выпуск самого Prompt Kit с production release пользовательского сайта.
+Если maintainer исходного repository Web Kit просит подготовить новую версию, tag, release assets или GitHub Release, используй `prompts/_maintenance/05-release-prompt-kit.md`. Не путай выпуск самого Prompt Kit с production release пользовательского сайта.
 
 После проверки назови:
 
@@ -163,9 +163,9 @@ Update flow не является стадией сайта. Фраза `обн�
 При обновлении:
 
 - считай `.prompt-kit/manifest.json` canonical installed version и baseline; для legacy-проекта без manifest используй conservative migration, а не угадывай ownership;
-- проверь browser-authenticated `gh` session и последний stable immutable release в private Organization repository: bootstrap/last-known slug может пройти GitHub redirect, но canonical source обязан совпасть с embedded numeric ID, быть private и принадлежать Organization;
-- используй локальный package только если пользователь явно передал verified official archive + matching checksum; не используй случайный archive как обход отозванного subscription access;
-- прочитай `.prompt-kit/CHANGELOG.md`, `.prompt-kit/MIGRATIONS.md`, `.prompt-kit/TERMS.md` и `prompts/OWNERSHIP.md`; корневые release metadata относятся к source-репозиторию kit, а не к пользовательскому проекту;
+- проверь browser-authenticated `gh` session и последний stable immutable release в доверенном repository: bootstrap/last-known slug может пройти GitHub redirect, но canonical source обязан совпасть с embedded numeric ID и принадлежать personal owner `dmandrianov`; private/public visibility сама по себе не меняет trust;
+- используй локальный package только если пользователь явно передал verified official archive + matching checksum; не используй случайный archive как обход недоступного trusted source;
+- прочитай `.prompt-kit/CHANGELOG.md`, `.prompt-kit/MIGRATIONS.md`, MIT License по compatibility path `.prompt-kit/TERMS.md` и `prompts/OWNERSHIP.md`; корневые release metadata относятся к source-репозиторию kit, а не к пользовательскому проекту;
 - не проси token/пароль/ключ, не вызывай `gh auth token` и не сохраняй GitHub credentials в проекте или отчётах;
 - до extraction проверь signed release attestation и provenance локальных TAR.GZ/`SHA256SUMS` через `gh release verify-asset`; до записи проверь checksum, incoming manifest, archive paths и полный conflict plan;
 - создай backup в `.prompt-kit/backups/YYYY-MM-DD-HHMM/`;
@@ -173,7 +173,7 @@ Update flow не является стадией сайта. Фраза `обн�
 - сохраняй project-owned файлы и seed-only `prompts/_local/`;
 - в `AGENTS.md` заменяй только один валидный managed-блок и сохраняй всё снаружи байт-в-байт;
 - не выполняй `git pull`, merge, commit, push, remote/submodule setup и не меняй `.git/` пользователя;
-- если access отозван после окончания подписки, остановись до записи: установленная версия остаётся пригодной по TERMS, но future releases недоступны;
+- если repository недоступен, остановись до записи: установленная версия остаётся пригодной по приложенным к ней условиям, но future releases нельзя считать проверенными;
 - выполняй полную транзакцию `01-update → 02-integrity → 04-alignment`;
 - записывай новый `.prompt-kit/manifest.json` последним, только после успешной проверки;
 - при failed integrity check делай rollback и не объявляй новую версию установленной;

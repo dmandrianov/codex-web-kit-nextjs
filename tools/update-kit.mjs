@@ -27,8 +27,12 @@ const execFileAsync = promisify(execFile);
 const OFFICIAL_KIT_ID = "dmandrianov/web-kit";
 // PROMPT_KIT_TRUST_ROOT:BEGIN
 export const OFFICIAL_REPOSITORY_ID = 1302994489;
-export const OFFICIAL_REPOSITORY_FULL_NAME = "dmandrianov-web-kit/web-kit";
+export const OFFICIAL_REPOSITORY_FULL_NAME = "dmandrianov/codex-web-kit-nextjs";
 // PROMPT_KIT_TRUST_ROOT:END
+export const OFFICIAL_REPOSITORY_OWNER_LOGIN = "dmandrianov";
+const LEGACY_ORGANIZATION_TRANSPORT = "private-github-organization-gh";
+const GITHUB_RELEASE_TRANSPORT = "github-release-gh";
+const SUPPORTED_RELEASE_TRANSPORTS = new Set([LEGACY_ORGANIZATION_TRANSPORT, GITHUB_RELEASE_TRANSPORT]);
 const MANIFEST_PATH = ".prompt-kit/manifest.json";
 const MANAGED_BEGIN_PREFIX = "<!-- PROMPT_KIT:BEGIN managed version=";
 const MANAGED_END = "<!-- PROMPT_KIT:END -->";
@@ -194,7 +198,7 @@ export function validateManifestShape(manifest) {
   if (OFFICIAL_REPOSITORY_ID !== null && manifest.source.repositoryFullName === null) {
     throw new Error("Manifest repository ID and full_name must be configured together");
   }
-  if (manifest.source.transport !== "private-github-organization-gh") throw new Error("Unexpected release transport");
+  if (!SUPPORTED_RELEASE_TRANSPORTS.has(manifest.source.transport)) throw new Error("Unexpected release transport");
   parseSemver(manifest.kit.version);
   parseSemver(manifest.compatibility.compatibleFrom);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(manifest.kit.releasedAt ?? "")) throw new Error("Manifest release date must use YYYY-MM-DD");
@@ -715,8 +719,8 @@ async function runGh(args, purpose) {
       env: { ...childEnvironment(), LC_ALL: "C" },
     });
   } catch (error) {
-    if (error?.code === "ENOENT") throw new Error("GitHub CLI (gh) is required for private updates and was not found");
-    throw new Error(`Authenticated GitHub CLI access failed while ${purpose}; run gh auth login and ask the maintainer to confirm your read access`);
+    if (error?.code === "ENOENT") throw new Error("GitHub CLI (gh) is required for verified GitHub Release updates and was not found");
+    throw new Error(`Authenticated GitHub CLI access failed while ${purpose}; run gh auth login and confirm that the repository is accessible`);
   }
 }
 
@@ -755,14 +759,17 @@ async function verifyImmutableReleaseAsset(trust, tag, assetPath) {
   ], `verifying immutable release asset ${path.basename(assetPath)}`);
 }
 
-async function verifyPrivateRepositoryAccess(trust) {
+async function verifyRepositoryAccess(trust) {
   await runGh(["auth", "status", "--hostname", "github.com"], "checking authentication");
-  const repository = await ghJson(["api", "--method", "GET", `repos/${trust.fullName}`], "checking private repository access");
+  const repository = await ghJson(["api", "--method", "GET", `repos/${trust.fullName}`], "checking repository access");
   if (!Number.isSafeInteger(repository.id) || repository.id !== trust.repositoryId) {
     throw new Error("GitHub repository ID does not match the trusted release manifest");
   }
-  if (repository.private !== true || repository.owner?.type !== "Organization") {
-    throw new Error("The trusted update source must be a private GitHub Organization repository");
+  if (repository.owner?.type !== "User" || repository.owner?.login !== OFFICIAL_REPOSITORY_OWNER_LOGIN) {
+    throw new Error(`The trusted update source must remain owned by the GitHub user ${OFFICIAL_REPOSITORY_OWNER_LOGIN}`);
+  }
+  if (repository.private !== true && repository.private !== false) {
+    throw new Error("GitHub returned an invalid repository visibility");
   }
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository.full_name ?? "")) {
     throw new Error("GitHub returned an invalid canonical repository full_name");
@@ -775,8 +782,8 @@ function expectedReleaseAssetNames(version) {
 }
 
 async function fetchLatestRelease(trust) {
-  const canonicalTrust = await verifyPrivateRepositoryAccess(trust);
-  const release = await ghJson(["api", "--method", "GET", `repos/${canonicalTrust.fullName}/releases/latest`], "reading the latest private release");
+  const canonicalTrust = await verifyRepositoryAccess(trust);
+  const release = await ghJson(["api", "--method", "GET", `repos/${canonicalTrust.fullName}/releases/latest`], "reading the latest release");
   if (!Number.isSafeInteger(release.id) || release.id <= 0) throw new Error("Latest GitHub release has an invalid ID");
   if (release.draft || release.prerelease) throw new Error("Latest GitHub release is a draft or prerelease");
   if (release.immutable !== true) throw new Error("Latest GitHub release is not immutable");

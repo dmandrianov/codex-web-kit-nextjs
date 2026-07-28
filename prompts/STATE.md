@@ -39,7 +39,7 @@
 - Update source repository ID:
 - Update source bootstrap/canonical full name:
 - Private access status: not checked / active / revoked / local archive only
-- Terms: `.prompt-kit/TERMS.md`
+- License: MIT at compatibility path `.prompt-kit/TERMS.md`
 - Update channel: stable
 - Last kit update:
 - Last update result: not checked / current / updated / rolled back / blocked
@@ -233,8 +233,8 @@
 - По фразе `обнови базу` запускай транзакцию `prompts/_maintenance/01-update-prompt-kit.md` → `02-check-kit-integrity.md` → `04-align-project-after-kit-update.md`.
 - Ставь `Last update result: updated` только после успешной integrity check, alignment и записи нового manifest. После rollback оставляй прежнюю версию и указывай `rolled back`.
 - Не записывай Git remote, branch или commit пользовательского проекта в `Kit compatibility`: updater не управляет Git проекта.
-- Не записывай payment email, GitHub username, token, credential path или вывод `gh auth token` в project state. Достаточно безопасного access status.
+- Не записывай персональные данные доступа, token, credential path или вывод `gh auth token` в project state. Достаточно безопасного access status.
 - Numeric repository ID должен совпадать с embedded updater trust anchor. Rename/transfer сохраняет ID; новый ID отмечай как blocked pending trusted migration.
 - Remote update source отмечай как verified только после `immutable: true`, valid signed release attestation и local asset provenance до extraction.
-- После отзыва подписки сохраняй installed version и status `revoked`: старая скачанная версия остаётся пригодной по TERMS, но future updates недоступны.
+- Если public repository временно недоступен, сохраняй installed version и status `repository access unavailable`: скачанная версия остаётся пригодной по MIT, но remote updates временно недоступны.
 - Если новая версия kit добавила улучшенный этап, записывай его в `Optional refresh offers`, а не запускай автоматически.
