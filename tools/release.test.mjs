@@ -10,6 +10,7 @@ import test from "node:test";
 import {
   assertGitHubReleaseAssets,
   buildRelease,
+  canonicalMitLicense,
   collectLocalReleaseAssets,
   findReleaseByTag,
   findSecretKind,
@@ -21,6 +22,7 @@ import {
   extractUpdaterTrustRoot,
   OFFICIAL_REPOSITORY_FULL_NAME,
   OFFICIAL_REPOSITORY_ID,
+  OFFICIAL_REPOSITORY_OWNER_LOGIN,
   verifyIncomingUpdaterTrustRoot,
 } from "./update-kit.mjs";
 
@@ -59,7 +61,14 @@ function fixturePayload(options = {}) {
       requiresExplicitConfirmation: false,
       minimumUpdaterSchemaVersion: 1,
     },
-    publication: { termsRequired: true, accessModel: "private-subscription", immutableReleaseRequired: true },
+    publication: {
+      licenseRequired: true,
+      licenseSpdx: "MIT",
+      licenseSource: "LICENSE",
+      licensePackageTarget: ".prompt-kit/TERMS.md",
+      accessModel: "public-open-source",
+      immutableReleaseRequired: true,
+    },
     assets: {
       archiveRootPattern: "web-kit-v{version}",
       zipPattern: "web-kit-v{version}.zip",
@@ -74,7 +83,7 @@ function fixturePayload(options = {}) {
       { source: "release/manifest.schema.json", target: ".prompt-kit/manifest.schema.json", ownership: "kit", policy: "replace-if-unmodified", required: true },
       { source: "release/prompt-kit.gitignore", target: ".prompt-kit/.gitignore", ownership: "kit", policy: "replace-if-unmodified", required: true },
       { source: "tools/update-kit.mjs", target: ".prompt-kit/update.mjs", ownership: "kit", policy: "replace-if-unmodified", required: true },
-      { source: "TERMS.md", target: ".prompt-kit/TERMS.md", ownership: "kit", policy: "replace-if-unmodified", required: true },
+      { source: "LICENSE", target: ".prompt-kit/TERMS.md", ownership: "kit", policy: "replace-if-unmodified", required: true },
     ],
     promptFiles: ["prompts/README.md", "prompts/_local/README.md"],
     removed: [],
@@ -137,7 +146,7 @@ async function createSourceFixture(options = {}) {
   const repository = options.repository ?? productionRepository;
   const configured = configureUpdaterRepository(updater, repository);
   await writeFile(updaterPath, configured, { mode: 0o644 });
-  if (options.terms !== false) await writeText(root, "TERMS.md", "Private fixture terms\n");
+  if (options.license !== false) await writeText(root, "LICENSE", options.licenseText ?? canonicalMitLicense());
   return root;
 }
 
@@ -180,7 +189,12 @@ if (args[0] === "auth" && args[1] === "status" && args[2] === "--hostname" && ar
 if (args[0] === "api") {
   const endpoint = args.at(-1);
   if (endpoint === "repos/" + config.bootstrapFullName) {
-    output({ id: config.returnedRepositoryId, full_name: config.canonicalFullName, private: true, owner: { type: "Organization" } });
+    output({
+      id: config.returnedRepositoryId,
+      full_name: config.canonicalFullName,
+      private: config.private !== false,
+      owner: { type: "User", login: config.ownerLogin || "dmandrianov" },
+    });
     process.exit(0);
   }
   if (endpoint === "repos/" + config.canonicalFullName + "/releases/latest") {
@@ -225,10 +239,16 @@ test("high-confidence secret signatures are detected without flagging ordinary p
 });
 
 test("official GitHub origin normalization rejects forks and accepts HTTPS or SSH", () => {
-  assert.equal(normalizeGitHubRepository("https://github.com/dmandrianov/web-kit.git"), "dmandrianov/web-kit");
-  assert.equal(normalizeGitHubRepository("git@github.com:dmandrianov/web-kit.git"), "dmandrianov/web-kit");
+  assert.equal(normalizeGitHubRepository("https://github.com/dmandrianov/codex-web-kit-nextjs.git"), "dmandrianov/codex-web-kit-nextjs");
+  assert.equal(normalizeGitHubRepository("git@github.com:dmandrianov/codex-web-kit-nextjs.git"), "dmandrianov/codex-web-kit-nextjs");
   assert.equal(normalizeGitHubRepository("https://github.com/someone/web-kit.git"), "someone/web-kit");
   assert.equal(normalizeGitHubRepository("file:///tmp/web-kit"), null);
+});
+
+test("the shipped trust root points to the transferred personal repository without changing its numeric ID", () => {
+  assert.equal(OFFICIAL_REPOSITORY_ID, 1302994489);
+  assert.equal(OFFICIAL_REPOSITORY_FULL_NAME, "dmandrianov/codex-web-kit-nextjs");
+  assert.equal(OFFICIAL_REPOSITORY_OWNER_LOGIN, "dmandrianov");
 });
 
 test("release workflow validates env-only tags and scopes the GitHub App token", async () => {
@@ -254,10 +274,19 @@ test("source verification rejects unlisted prompts and executable payload files"
   }
 });
 
-test("release source requires private TERMS", async () => {
-  const root = await createSourceFixture({ terms: false });
+test("release source requires the MIT LICENSE", async () => {
+  const root = await createSourceFixture({ license: false });
   try {
-    await assert.rejects(() => verifySource(root), /Required release source is missing: TERMS\.md/);
+    await assert.rejects(() => verifySource(root), /Required release source is missing: LICENSE/);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("release source rejects a modified or incomplete MIT license", async () => {
+  const root = await createSourceFixture({ licenseText: "MIT License\n\nIncomplete grant.\n" });
+  try {
+    await assert.rejects(() => verifySource(root), /LICENSE must match the canonical MIT text/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -474,10 +503,10 @@ test("release archives are reproducible and install without changing the user's 
   }
 });
 
-test("private gh updates survive a repository rename, scrub token variables, and reject an ID mismatch before writes", async () => {
+test("verified gh updates survive the same-ID transfer to the personal owner, scrub token variables, and reject an ID mismatch before writes", async () => {
   const repositoryId = 424242;
-  const oldFullName = "subscriber-tools/web-kit";
-  const canonicalFullName = "paid-tools/web-kit";
+  const oldFullName = "dmandrianov-web-kit/web-kit";
+  const canonicalFullName = "dmandrianov/codex-web-kit-nextjs";
   const oldSource = await createSourceFixture({ version: "1.2.2", repository: { id: repositoryId, fullName: oldFullName } });
   const newSource = await createSourceFixture({ version: "1.2.3", repository: { id: repositoryId, fullName: canonicalFullName } });
   const workspace = await mkdtemp(path.join(tmpdir(), "web-kit-private-gh-"));
@@ -582,6 +611,12 @@ test("private gh updates survive a repository rename, scrub token variables, and
     await writeFile(fake.configPath, `${JSON.stringify(fakeConfig, null, 2)}\n`);
     const currentResult = await run(process.execPath, [installedUpdater, "update", "--project", project], { env: privateEnvironment });
     assert.equal(JSON.parse(currentResult.stdout).status, "current");
+    fakeConfig.private = false;
+    await writeFile(fake.configPath, `${JSON.stringify(fakeConfig, null, 2)}\n`);
+    const publicVisibilityResult = await run(process.execPath, [installedUpdater, "update", "--project", project], { env: privateEnvironment });
+    assert.equal(JSON.parse(publicVisibilityResult.stdout).status, "current");
+    fakeConfig.private = true;
+    await writeFile(fake.configPath, `${JSON.stringify(fakeConfig, null, 2)}\n`);
     const validManifestBytes = await readFile(path.join(project, ".prompt-kit", "manifest.json"));
     const wrongRevisionManifest = JSON.parse(validManifestBytes.toString("utf8"));
     wrongRevisionManifest.source.revision = "0".repeat(40);
@@ -616,8 +651,23 @@ test("private gh updates survive a repository rename, scrub token variables, and
     assert.deepEqual(await readFile(path.join(project, "AGENTS.md")), beforeMismatch.get("AGENTS.md"));
     assert.deepEqual(await readFile(path.join(project, ".prompt-kit", "manifest.json")), beforeMismatch.get("manifest.json"));
     assert.deepEqual(await readFile(path.join(project, ".prompt-kit", "update.mjs")), beforeMismatch.get("update.mjs"));
-    const allCalls = (await readFile(fake.logPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
-    assert.ok(allCalls.slice(callsBeforeMismatch).every((call) => call.args[0] !== "release"), "assets were downloaded after repository trust failed");
+    let allCalls = (await readFile(fake.logPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+    assert.ok(allCalls.slice(callsBeforeMismatch).every((call) => call.args[0] !== "release"), "assets were downloaded after repository ID trust failed");
+
+    fakeConfig.returnedRepositoryId = repositoryId;
+    fakeConfig.ownerLogin = "different-owner";
+    await writeFile(fake.configPath, `${JSON.stringify(fakeConfig, null, 2)}\n`);
+    const callsBeforeOwnerMismatch = allCalls.length;
+    let ownerMismatchError;
+    try {
+      await run(process.execPath, [installedUpdater, "update", "--project", project], { env: privateEnvironment });
+    } catch (error) {
+      ownerMismatchError = error;
+    }
+    assert.ok(ownerMismatchError, "repository owner mismatch unexpectedly succeeded");
+    assert.match(String(ownerMismatchError.stderr), /must remain owned by the GitHub user dmandrianov/);
+    allCalls = (await readFile(fake.logPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+    assert.ok(allCalls.slice(callsBeforeOwnerMismatch).every((call) => call.args[0] !== "release"), "assets were downloaded after repository owner trust failed");
     assert.ok(allCalls.every((call) => call.tokenKeys.length === 0), "a token environment variable reached gh during the failure path");
   } finally {
     await rm(oldSource, { recursive: true, force: true });

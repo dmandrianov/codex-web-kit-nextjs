@@ -16,13 +16,13 @@
 
 ## Что устанавливать в проект
 
-Используй подготовленный package из закрытого official GitHub Release, доступного подписчику с ролью `Read`, а не clone репозитория внутрь сайта. Установленный набор содержит:
+Используй подготовленный package из публичного доверенного GitHub Release, а не clone репозитория внутрь сайта. Web Kit распространяется по MIT License. Установленный набор содержит:
 
 - `AGENTS.md` с управляемым router-блоком;
 - распространяемую папку `prompts/`;
 - `.prompt-kit/manifest.json` с установленной версией и baseline hashes;
 - `.prompt-kit/VERSION.md`, `CHANGELOG.md` и `MIGRATIONS.md`;
-- `.prompt-kit/TERMS.md` с закрытыми условиями использования;
+- `.prompt-kit/TERMS.md` с MIT License; legacy filename сохранён для совместимости updater `0.8.x`;
 - schema manifest и `.prompt-kit/update.mjs` для безопасного update preflight/apply.
 
 Корневые `README.md`, `CHANGELOG.md` и `MIGRATIONS.md` принадлежат самому сайту пользователя. Source-версии этих файлов из репозитория kit не копируются поверх проекта.
@@ -74,7 +74,7 @@
 
 В рабочем проекте достаточно написать: `обнови базу`.
 
-До первого remote update подписчик принимает private repository invitation и один раз выполняет `gh auth login --hostname github.com --web`. Payment email служит для учёта подписки, а подтверждённый GitHub username определяет фактическую границу доступа. Токен, пароль или ключ нельзя передавать Codex либо сохранять в проекте.
+До первого remote update пользователь один раз выполняет `gh auth login --hostname github.com --web`. Приглашение к публичному repository не требуется. Токен, пароль или ключ нельзя передавать Codex либо сохранять в проекте.
 
 Codex читает `.prompt-kit/manifest.json`, проверяет последний stable private Release через browser-authenticated GitHub CLI, требует `immutable: true`, валидирует signed release/asset attestation, сверяет canonical repository с embedded numeric ID и затем выполняет транзакцию:
 
@@ -88,7 +88,7 @@ Codex читает `.prompt-kit/manifest.json`, проверяет послед�
 
 Updater не взаимодействует с Git пользователя: не делает `git pull`, commit или push, не меняет remote и не создаёт вложенный репозиторий. Обновление остаётся обычным локальным diff.
 
-Rename/transfer того же repository поддерживается через GitHub redirect и проверку неизменного numeric ID. Новый repository ID требует trusted migration. После отмены подписки remote access и future updates прекращаются, но законно скачанные версии остаются пригодными для собственных и клиентских проектов по `.prompt-kit/TERMS.md`; передавать standalone kit, archives или credentials нельзя.
+Rename/transfer того же repository поддерживается через GitHub redirect и проверку неизменного numeric ID. Мостовой release `0.9.0` переводит bootstrap source на `dmandrianov/codex-web-kit-nextjs` и сохраняет совместимые legacy transport/path values, чтобы updater `0.8.x` мог принять проверенный локальный архив. Новый repository ID требует trusted migration. Код и документацию можно использовать, изменять и распространять по MIT License.
 
 ## Служебные файлы
 

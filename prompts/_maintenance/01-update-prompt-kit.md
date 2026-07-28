@@ -1,10 +1,10 @@
-# Обновить Prompt Kit из закрытого GitHub Release безопасно
+# Обновить Prompt Kit из доверенного GitHub Release безопасно
 
 ## Когда использовать
 
 Когда в рабочем проекте пользователь говорит `обнови базу`, `обнови kit`, `обнови Prompt Kit`, просит проверить новую версию или указывает конкретный release Prompt Kit. Если из контекста ясно, что речь идёт о базе данных, этот промпт не используй.
 
-Команда `обнови базу` является явным разрешением на обычное совместимое обновление до последнего стабильного GitHub Release и на обязательную цепочку update -> integrity -> alignment. Repository закрытый: перед remote update подписчик должен принять `Read`-приглашение и один раз войти в GitHub CLI через browser-based flow. Дополнительное подтверждение нужно только для legacy-перехода без установленного manifest, breaking migration, downgrade или конфликта локальных изменений. Смена trusted numeric repository ID и prerelease не поддерживаются manifest/updater schema v1 и не включаются простым подтверждением.
+Команда `обнови базу` является явным разрешением на обычное совместимое обновление до последнего стабильного GitHub Release и на обязательную цепочку update -> integrity -> alignment. Repository публичный; приглашение не требуется. Для проверки GitHub Release пользователь один раз входит в GitHub CLI через browser-based flow. Дополнительное подтверждение нужно только для legacy-перехода без установленного manifest, breaking migration, downgrade или конфликта локальных изменений. Смена trusted numeric repository ID и prerelease не поддерживаются manifest/updater schema v1 и не включаются простым подтверждением.
 
 ## Роль Codex
 
@@ -12,7 +12,7 @@
 
 ## Цель
 
-Через browser-authenticated GitHub CLI найти immutable stable release в доверенном private Organization repository, проверить repository identity, подписанную release/asset attestation, архив и manifest, обнаружить конфликты до записи, сделать backup, обновить только управляемые файлы Prompt Kit, сохранить Git и проектные файлы пользователя, затем пройти integrity check и workflow alignment.
+Через browser-authenticated GitHub CLI найти immutable stable release в доверенном repository `dmandrianov/codex-web-kit-nextjs`, проверить неизменный numeric repository ID, личного владельца, подписанную release/asset attestation, архив и manifest, обнаружить конфликты до записи, сделать backup, обновить только управляемые файлы Prompt Kit, сохранить Git и проектные файлы пользователя, затем пройти integrity check и workflow alignment.
 
 ## Контекст, который нужно дать
 
@@ -26,7 +26,7 @@
 - Встроенный в shipped updater numeric repository ID как trust anchor.
 - Last-known `repositoryFullName` и matching `repositoryId` из установленного manifest.
 - Read-only evidence `gh auth status --hostname github.com`, без вывода токена.
-- Для legacy bootstrap: verified initial release package, полученный активным подписчиком из закрытого official repository.
+- Для перехода `0.8.x -> 0.9.0`: отдельно скачанные и проверенные `web-kit-v0.9.0.tar.gz` и `SHA256SUMS`; переход запускается локально с `--allow-breaking`, не обращается к GitHub и сохраняет прежний numeric repository ID.
 
 ## Ограничения
 
@@ -43,9 +43,8 @@
 - При любом unresolved conflict не делай частичное обновление.
 - Не выполняй `git init`, `clone`, `fetch`, `pull`, `merge`, `rebase`, `checkout`, `reset`, `clean`, `remote add/set-url`, `submodule`, `add`, `commit`, `tag`, `push` или создание GitHub Release.
 - Не меняй `.git/`, remotes, ветки, hooks, credentials или настройки Git пользователя. Разрешены только read-only проверки вроде `git status` и `git diff` для отчёта.
-- Не проси пользователя вставлять access token или другой секрет в чат, команду, `.env` или документацию. Для private repository используй browser-authenticated GitHub CLI session и read-only repository role. Не читай и не печатай token, не вызывай `gh auth token`, не передавай дочерним процессам `GH_TOKEN`, `GITHUB_TOKEN`, `GITHUB_PAT` или `PAT`.
-- Если `gh` отсутствует или сессия не активна, остановись до записи и попроси один раз выполнить browser-based `gh auth login`. Если repository access отозван, сообщи, что текущая скачанная версия остаётся доступной локально, но future update недоступен.
-- Не считай payment email GitHub credential. Email используется владельцем для учёта оплаты, а фактический repository access привязан к отдельно подтверждённому GitHub username.
+- Не проси пользователя вставлять access token или другой секрет в чат, команду, `.env` или документацию. Используй browser-authenticated GitHub CLI session. Не читай и не печатай token, не вызывай `gh auth token`, не передавай дочерним процессам `GH_TOKEN`, `GITHUB_TOKEN`, `GITHUB_PAT` или `PAT`.
+- Если `gh` отсутствует или сессия не активна, остановись до записи и попроси один раз выполнить browser-based `gh auth login`. Если trusted public repository недоступен, текущая скачанная версия остаётся доступной локально по MIT, но remote update временно недоступен.
 - Не запускай сайт, scaffold, formatter или dependency install, если задача только про обновление Prompt Kit.
 - Сообщения пользователю оформляй по `prompts/_knowledge/codex-user-response-quality.md`.
 
@@ -60,11 +59,11 @@
    - canonical: прочитай `.prompt-kit/manifest.json`;
    - legacy: если manifest отсутствует, осторожно определи версию по managed marker и старому `PROMPT_KIT_VERSION.md`;
    - blocked: если источники версии противоречат друг другу или manifest повреждён.
-3. Для remote intent проверь private source access и identity до любых project writes:
+3. Для remote intent проверь source access и identity до любых project writes:
    - `gh` установлен;
    - `gh auth status --hostname github.com` подтверждает browser-authenticated session;
    - numeric `source.repositoryId` установленного manifest является положительным числом и совпадает с ID, встроенным в updater;
-   - запрос через documented `repos/{owner}/{repo}` endpoint использует bootstrap/last-known `repositoryFullName`, следует штатному GitHub redirect и возвращает numeric ID, равный embedded trust anchor, `private: true` и `owner.type: Organization`;
+   - запрос через documented `repos/{owner}/{repo}` endpoint использует bootstrap/last-known `repositoryFullName`, следует штатному GitHub redirect и возвращает numeric ID, равный embedded trust anchor, `owner.login: dmandrianov`, `owner.type: User` и корректное boolean-поле `private`;
    - canonical `full_name` из ответа используется для дальнейших release/tag/download calls; bootstrap name помогает найти endpoint, но не заменяет ID trust anchor.
    Если любой пункт не выполнен, остановись до staging и project writes. Не предлагай token как обходной путь. Для `local verified archive` пропусти только `gh` access checks; source identity, checksum и manifest gates остаются обязательными после staging.
 4. Через read-only `gh api` найди последний release в verified canonical repository:
@@ -88,7 +87,7 @@
    - поддерживаемый `schemaVersion`;
    - `kit.id`, `kit.name`, stable channel, release date, version и tag согласованы с выбранным release;
    - `source.repositoryId` совпадает со встроенным trusted ID, а `source.repositoryFullName` совпадает с canonical full name после documented endpoint/redirect и проверки numeric ID;
-   - `source.transport` равен поддерживаемому private GitHub Organization transport через `gh`;
+   - `source.transport` равен `github-release-gh` или совместимому legacy-значению `private-github-organization-gh`, оставленному только для мостового release `0.9.0`;
    - `release.archiveRoot`, `release.zipAsset`, `release.tarAsset` и `release.checksumAsset` согласованы с version и скачанными assets;
    - `source.tag` и `source.revision` совпадают с зафиксированным release/tag/target commit evidence, а не только имеют похожий формат;
    - `compatibility.compatibleFrom`, `breaking`, `requiresExplicitConfirmation` и `minimumUpdaterSchemaVersion` поддерживаются updater;
@@ -97,7 +96,7 @@
    - каждый payload file имеет ожидаемые SHA-256, bytes, mode, ownership и policy;
    - `protectedPaths` защищает Git, project-owned зоны и `prompts/_local/**`;
    - manifest не пытается управлять project-owned путями, `.git/` или содержимым `prompts/_local/`, кроме разрешённого seed;
-   - required `.prompt-kit/TERMS.md` присутствует, хэширован и не заменён optional open-source `LICENSE` gate.
+   - required `.prompt-kit/TERMS.md` присутствует, хэширован и содержит MIT License, скопированную из root `LICENSE` в этот legacy path для совместимости updater `0.8.x`.
    - incoming `.prompt-kit/update.mjs` содержит ровно один canonical trust marker: его embedded repository ID совпадает с текущим shipped updater, а embedded full name совпадает с canonical `source.repositoryFullName` incoming manifest; редактируемый manifest не может незаметно подменить trust anchor следующего обновления.
 10. Прочитай incoming `.prompt-kit/MIGRATIONS.md`, current/incoming ownership rules и release notes для диапазона from -> to.
 11. До plan проверь каждый существующий компонент всех target/backup/manifest/rollback путей через filesystem metadata/realpath и запрети symlink parent, который может вывести запись за реальный корень проекта. Затем построй полный preflight plan до записи. Для каждого path используй installed manifest как baseline:
@@ -121,7 +120,7 @@
     - есть local conflict, collision, ambiguous removal или повреждённые markers;
     - запрошен downgrade.
     Покажи последствия и точный список затрагиваемых путей. Фраза `обнови базу` уже достаточна для обычного clean non-breaking update с валидным installed manifest.
-    Prerelease, отсутствующий/неактивный `gh`, отозванный repository access, несовпадение embedded/manifest/remote numeric ID, public/non-Organization repository и другой source repository под schema v1 не являются confirmation cases: это unsupported или access blockers. При обычной отмене подписки уже скачанная версия остаётся пригодной локально; updater просто не получает future release.
+    Prerelease, отсутствующий/неактивный `gh`, недоступный trusted repository, несовпадение embedded/manifest/remote numeric ID, неверный owner или unsupported transport под schema v1 не являются confirmation cases: это unsupported или access blockers. Уже скачанная версия остаётся пригодной локально по MIT; updater просто не получает remote release.
 14. После чистого preflight и всех нужных подтверждений создай transaction backup в `.prompt-kit/backups/<timestamp>/` до первого target write. Сохрани:
     - полный текущий `AGENTS.md`;
     - текущий `.prompt-kit/manifest.json` и namespaced history/migrations;
@@ -163,7 +162,7 @@
 - Repository ID:
 - Repository bootstrap full name:
 - Repository canonical full name:
-- Repository private/Organization check:
+- Repository ID/owner/visibility check:
 - Release tag:
 - Release URL:
 - Asset:
@@ -257,11 +256,11 @@
 
 ## Done when
 
-- Remote release найден только через browser-authenticated `gh` в private Organization repository, чей numeric ID совпадает с embedded trust anchor и manifests; local archive mode не вызывает `gh`.
+- Remote release найден только через browser-authenticated `gh` в доверенном repository, чей numeric ID и личный owner совпадают с embedded trust anchor; local archive mode не вызывает `gh`.
 - Canonical full name получен через documented slug endpoint и GitHub redirect, затем подтверждён embedded numeric ID; rename/transfer того же ID принят, новый ID заблокирован до trusted migration.
 - Stable-only schema v1 и downgrade policy соблюдены; prerelease не установлен.
 - Archive checksum и manifest проверены до записи.
-- Required `.prompt-kit/TERMS.md` проверен как kit-owned payload.
+- MIT License по compatibility path `.prompt-kit/TERMS.md` проверена как kit-owned payload.
 - Полный conflict plan построен по installed manifest до изменений.
 - Первый legacy transition и breaking update не выполнены без подтверждения.
 - Backup создан до target writes.
@@ -282,7 +281,7 @@
 
 Если обновление заблокировано конфликтом, legacy transition или breaking migration, дождись одного точного решения пользователя и повтори preflight. Не продолжай обычный website workflow, пока maintenance-транзакция не завершена или честно не отменена.
 
-Если отсутствует GitHub CLI session, попроси пользователя один раз выполнить `gh auth login --hostname github.com --web` и повтори remote preflight. Если доступ отозван после окончания подписки, не проси секрет и не удаляй установленный kit: объясни, что старые скачанные версии можно продолжать использовать по `.prompt-kit/TERMS.md`, но новые releases недоступны.
+Если отсутствует GitHub CLI session, попроси пользователя один раз выполнить `gh auth login --hostname github.com --web` и повтори remote preflight. Если public repository временно недоступен, не проси секрет и не удаляй установленный kit: объясни, что скачанную версию можно продолжать использовать по MIT, но remote releases временно недоступны.
 
 Если repository получил новый numeric ID, ordinary update не продолжай. Нужна maintainer-prepared trusted migration с явной сменой embedded trust anchor и отдельным подтверждением пользователя.
 

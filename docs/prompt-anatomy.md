@@ -77,7 +77,7 @@ Maintenance prompt сохраняет ту же базовую анатомию,
 Для update prompt укажи:
 
 - installed baseline `.prompt-kit/manifest.json` и incoming release manifest;
-- установленный numeric repository ID из shipped updater/manifest, browser-authenticated private GitHub Organization source с immutable release/asset attestation или явный verified local fallback;
+- установленный numeric repository ID из shipped updater/manifest, browser-authenticated trusted GitHub source с immutable release/asset attestation или явный verified local fallback;
 - точный ownership allowlist;
 - preflight до записи, backup, conflict policy и rollback;
 - обязательную цепочку `01-update → 02-integrity → 04-alignment`;
@@ -90,7 +90,7 @@ Maintenance prompt сохраняет ту же базовую анатомию,
 - source version, changelog и migrations;
 - deterministic payload и exact manifest inventory;
 - validation assets/checksums до tag, immutable-releases configuration, draft asset verification и post-publish signed attestation;
-- required `TERMS.md`, positive repository ID и canonical full name private Organization repository;
+- действующие terms/license, positive repository ID и canonical full name trusted repository;
 - явное подтверждение перед публикацией;
 - запрет смешивать release самого kit с deployment пользовательского сайта.
 

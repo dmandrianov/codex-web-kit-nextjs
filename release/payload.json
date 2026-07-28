@@ -4,19 +4,22 @@
     "id": "dmandrianov/web-kit",
     "name": "Web Kit",
     "repositoryId": 1302994489,
-    "repositoryFullName": "dmandrianov-web-kit/web-kit",
+    "repositoryFullName": "dmandrianov/codex-web-kit-nextjs",
     "transport": "private-github-organization-gh",
     "channel": "stable"
   },
   "compatibility": {
     "compatibleFrom": "0.4.22",
     "breaking": false,
-    "requiresExplicitConfirmation": false,
+    "requiresExplicitConfirmation": true,
     "minimumUpdaterSchemaVersion": 1
   },
   "publication": {
-    "termsRequired": true,
-    "accessModel": "private-subscription",
+    "licenseRequired": true,
+    "licenseSpdx": "MIT",
+    "licenseSource": "LICENSE",
+    "licensePackageTarget": ".prompt-kit/TERMS.md",
+    "accessModel": "public-open-source",
     "immutableReleaseRequired": true
   },
   "assets": {
@@ -76,7 +79,7 @@
       "required": true
     },
     {
-      "source": "TERMS.md",
+      "source": "LICENSE",
       "target": ".prompt-kit/TERMS.md",
       "ownership": "kit",
       "policy": "replace-if-unmodified",

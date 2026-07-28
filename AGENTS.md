@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-<!-- PROMPT_KIT:BEGIN managed version=0.8.0 -->
+<!-- PROMPT_KIT:BEGIN managed version=0.9.0 -->
 
 ## Назначение
 
@@ -118,12 +118,12 @@
 - Если пользователь просит настроить сервер, SSH, VPS, домен, SSL, production env или деплой, используй `prompts/12-deployment/` вместе с двумя SEO gates из `prompts/13-technical-seo/`. Не смешивай деплой с версткой, quality fixes или обычным handoff.
 - SSL certificate остаётся deployment concern: SEO-проход проверяет HTTPS, redirects и согласованность production URLs, но не подменяет выпуск и renewal сертификата.
 - Если пользователь передал root-пароль для первичного доступа, не сохраняй его в docs и после действий обязательно напомни: `Обязательно смените root-пароль после этих действий`.
-- Если в проекте есть `PROMPT_KIT` managed-блок и пользователь пишет `обнови базу`, `обнови кит` или `обнови Prompt Kit` без контекста базы данных, считай это явным запросом обновить Prompt Kit из последнего стабильного immutable Release в private GitHub Organization repository, закреплённом embedded numeric ID updater.
+- Если в проекте есть `PROMPT_KIT` managed-блок и пользователь пишет `обнови базу`, `обнови кит` или `обнови Prompt Kit` без контекста базы данных, считай это явным запросом обновить Prompt Kit из последнего стабильного immutable Release в доверенном GitHub repository, закреплённом embedded numeric ID updater.
 - Для такого запроса используй `prompts/_maintenance/01-update-prompt-kit.md`. Фраза пользователя уже разрешает полную безопасную maintenance-транзакцию `01 update -> 02 integrity -> 04 alignment`; не проси повторное подтверждение между этими проверками.
 - Remote update использует browser-authenticated GitHub CLI. Если `gh` не авторизован, попроси один раз выполнить browser-based login; никогда не проси token, пароль, ключ или вывод `gh auth token` и не сохраняй их в проекте.
-- Bootstrap/last-known repository full name может пройти официальный GitHub redirect после rename/transfer, но canonical source принимается только при совпадении с embedded numeric ID, `private: true` и owner типа `Organization`. Новый numeric ID требует отдельной trusted migration и явного подтверждения.
+- Bootstrap/last-known repository full name может пройти официальный GitHub redirect после rename/transfer, но canonical source принимается только при совпадении с embedded numeric ID и владельце `dmandrianov` типа `User`. Видимость может быть private или public; новый numeric ID требует отдельной trusted migration и явного подтверждения.
 - Остановись до записи при breaking migration, downgrade/prerelease, неверном repository или kit ID, release без `immutable: true` и валидной signed attestation, локальном asset без подтверждённого provenance, первом переходе legacy-install без проверяемого manifest, локально изменённых kit-owned файлах, повреждённой checksum, неактивной GitHub CLI session или недоступности read-only GitHub access.
-- После отмены подписки не удаляй установленный kit: версии, законно скачанные во время активной подписки, можно продолжать использовать по `.prompt-kit/TERMS.md`, но repository и future updates становятся недоступны.
+- Не удаляй установленный kit при недоступности repository: ранее полученная версия остаётся локально пригодной по условиям, приложенным к этому release, а remote update останавливается до восстановления проверяемого источника.
 - Если `AGENTS.md` не содержит `PROMPT_KIT` managed-блок, используй `prompts/_maintenance/03-migrate-agents-md.md`, затем вернись к preflight обновления. Новую версию считай установленной только после успешной integrity check и записи manifest.
 - После реального изменения версии и успешной integrity check используй `prompts/_maintenance/04-align-project-after-kit-update.md`, чтобы сопоставить новый workflow с текущим проектом, не откатить completed stages и предложить optional refresh пользователю.
 - Если пользователь просит подготовить, проверить или опубликовать релиз самого Prompt Kit, используй maintainer-only `prompts/_maintenance/05-release-prompt-kit.md`. Локальная подготовка не разрешает автоматически создавать Git-репозиторий, commit, tag, push или GitHub Release.
@@ -144,7 +144,7 @@
 - Не используй deep-проверки для каждого простого блока по умолчанию. Экономь время и токены: fast lane является стандартом, deep mode - исключением по риску.
 - Не обновляй Prompt Kit простым удалением, полной заменой папки проекта или через Git-операции. Сначала прочитай `prompts/OWNERSHIP.md`, проверь immutable release, signed release/asset attestation, manifest и checksum, сделай backup в `.prompt-kit/backups/` и обновляй только allowlisted kit-owned файлы.
 - При обновлении Prompt Kit не выполняй `git clone`, `fetch`, `pull`, `merge`, `remote add`, `remote set-url`, `submodule`, `commit`, `push`, `checkout`, `reset` или `clean`; не меняй `.git/config`, `origin`, branches, hooks, index и credentials пользовательского проекта. Разрешены только read-only `git status` и `git diff` для итоговой проверки.
-- Git не является транспортом обновления Prompt Kit: скачивай versioned private GitHub Release assets во временную папку через browser-authenticated `gh`, а изменения оставляй обычными локальными файлами в собственном репозитории пользователя.
+- Git не является транспортом обновления Prompt Kit: скачивай versioned GitHub Release assets во временную папку через browser-authenticated `gh`, а изменения оставляй обычными локальными файлами в собственном репозитории пользователя.
 - При remote update не используй raw token environment как fallback: не запрашивай и не выводи secrets, не вызывай `gh auth token`, не передавай `GH_TOKEN`, `GITHUB_TOKEN`, `GITHUB_PAT` или `PAT` дочерним процессам. Local verified `--archive` mode не вызывает GitHub CLI.
 - Не возвращай проект на более раннюю стадию после обновления kit только из-за отсутствия нового артефакта. Сначала выполни workflow alignment и проверь более поздние подтвержденные документы.
 - Не запускай optional refresh автоматически: предложи пользователю, что можно перепройти или улучшить, и дождись выбора.

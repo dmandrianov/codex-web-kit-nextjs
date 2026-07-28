@@ -2,6 +2,48 @@
 
 This file describes changes that may require special handling when updating Prompt Kit inside an existing project.
 
+## 0.9.0
+
+Compatibility: explicit one-time source migration from `0.4.22+`.
+
+### Required
+
+- Update only the managed block in `AGENTS.md` to version `0.9.0`; preserve everything outside it.
+- Keep the stable kit identity `dmandrianov/web-kit`.
+- Keep the numeric repository trust anchor `1302994489`.
+- Replace the bootstrap repository full name with `dmandrianov/codex-web-kit-nextjs`.
+- Install the new updater that verifies:
+  - numeric repository ID `1302994489`;
+  - canonical owner login `dmandrianov`;
+  - owner type `User`;
+  - immutable stable release and signed release/asset attestations.
+- Retain the legacy `private-github-organization-gh` manifest transport marker in this bridge release so the updater shipped in `0.8.0` can validate the archive before replacing itself.
+- Replace the closed root `TERMS.md` with canonical root `LICENSE` under MIT.
+- Map root `LICENSE` to required package target `.prompt-kit/TERMS.md`. The legacy filename is required by updater `0.8.x`; its contents are MIT and impose no subscription restriction.
+
+### Existing projects
+
+- The normal remote command cannot discover this bridge from `0.8.0`, because that updater rejects the transferred personal owner before downloading a release.
+- Download and verify the official `0.9.0` assets outside the project, then apply the local archive with the installed updater:
+
+  ```bash
+  node .prompt-kit/update.mjs update \
+    --project /path/to/project \
+    --archive /path/to/web-kit-v0.9.0.tar.gz \
+    --checksum-file /path/to/SHA256SUMS \
+    --allow-breaking
+  ```
+
+- The local archive path does not call GitHub, change project Git or trust a new repository ID.
+- After installation, run the bundled `verify` command and the full integrity/alignment flow before using remote updates again.
+- Existing website stage, design, content, code and project-specific `AGENTS.md` content remain valid.
+
+### Breaking changes
+
+- No website code or project-document breaking change.
+- Explicit confirmation is required because the canonical GitHub owner and repository full name change.
+- Public distribution is enabled under MIT License. Users must retain the copyright notice and license text in copies or substantial portions.
+
 ## 0.8.0
 
 Compatibility: non-breaking from `0.4.22+`.

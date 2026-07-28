@@ -28,6 +28,7 @@ import {
   isSafeRelativePath,
   OFFICIAL_REPOSITORY_FULL_NAME,
   OFFICIAL_REPOSITORY_ID,
+  OFFICIAL_REPOSITORY_OWNER_LOGIN,
   parseSemver,
   sha256Buffer,
   sha256File,
@@ -37,6 +38,9 @@ import {
 
 const execFileAsync = promisify(execFile);
 const KIT_ID = "dmandrianov/web-kit";
+const TRANSITION_TRANSPORT = "private-github-organization-gh";
+const GITHUB_RELEASE_TRANSPORT = "github-release-gh";
+const SUPPORTED_RELEASE_TRANSPORTS = new Set([TRANSITION_TRANSPORT, GITHUB_RELEASE_TRANSPORT]);
 const MANIFEST_PATH = ".prompt-kit/manifest.json";
 const BEGIN_PREFIX = "<!-- PROMPT_KIT:BEGIN managed version=";
 const END_MARKER = "<!-- PROMPT_KIT:END -->";
@@ -60,6 +64,31 @@ function comparePaths(left, right) {
 function ensureObject(value, label) {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`${label} must be an object`);
   return value;
+}
+
+export function canonicalMitLicense() {
+  return `MIT License
+
+Copyright (c) 2026 dmandrianov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+`;
 }
 
 async function exists(filePath) {
@@ -264,10 +293,16 @@ function validateConfig(config) {
   if ((config.kit.repositoryId === null) !== (config.kit.repositoryFullName === null)) {
     throw new Error("Payload repository ID and full_name must be configured together");
   }
-  if (config.kit.transport !== "private-github-organization-gh") throw new Error("Payload release transport is invalid");
+  if (!SUPPORTED_RELEASE_TRANSPORTS.has(config.kit.transport)) throw new Error("Payload release transport is invalid");
   if (config.kit.channel !== "stable") throw new Error("Only the stable release channel is supported");
-  if (config.publication.termsRequired !== true || config.publication.accessModel !== "private-subscription") {
-    throw new Error("Publication contract must require TERMS.md and private subscription access");
+  if (
+    config.publication.licenseRequired !== true
+    || config.publication.licenseSpdx !== "MIT"
+    || config.publication.licenseSource !== "LICENSE"
+    || config.publication.licensePackageTarget !== ".prompt-kit/TERMS.md"
+    || config.publication.accessModel !== "public-open-source"
+  ) {
+    throw new Error("Publication contract must require the MIT LICENSE and public open-source access");
   }
   if (config.publication.immutableReleaseRequired !== true) throw new Error("Publication contract must require immutable GitHub releases");
   if (config.assets.archiveRootPattern !== "web-kit-v{version}" || config.assets.zipPattern !== "web-kit-v{version}.zip" || config.assets.tarPattern !== "web-kit-v{version}.tar.gz" || config.assets.checksum !== "SHA256SUMS") {
@@ -301,8 +336,10 @@ function validateConfig(config) {
   for (const required of REQUIRED_MAPPED_TARGETS) {
     if (!targetPolicies.has(required)) throw new Error(`Required mapped target is missing: ${required}`);
   }
-  const terms = targetPolicies.get(".prompt-kit/TERMS.md");
-  if (terms?.source !== "TERMS.md" || terms.required !== true) throw new Error("TERMS.md must be a required mapped release source");
+  const packagedLicense = targetPolicies.get(".prompt-kit/TERMS.md");
+  if (packagedLicense?.source !== "LICENSE" || packagedLicense.required !== true) {
+    throw new Error("LICENSE must be packaged at the legacy .prompt-kit/TERMS.md compatibility path");
+  }
   const allowedMappedTargets = new Set(REQUIRED_MAPPED_TARGETS);
   for (const target of mappedTargets) {
     if (!allowedMappedTargets.has(target)) throw new Error(`Unexpected mapped target: ${target}`);
@@ -387,14 +424,17 @@ function requirePublishRepositoryIdentity(config) {
   return { repositoryId, fullName };
 }
 
-async function verifyPrivatePublishRepository(config) {
+async function verifyPublishRepository(config) {
   const trust = requirePublishRepositoryIdentity(config);
   await runGh(["auth", "status", "--hostname", "github.com"], "checking publication authentication");
   const repository = await ghJson(["api", "--method", "GET", `repos/${trust.fullName}`], "checking publication repository access");
   if (repository.id !== trust.repositoryId) throw new Error("GitHub repository ID does not match the configured publication trust root");
   if (repository.full_name !== trust.fullName) throw new Error("Configured repository full_name is stale; update it to GitHub's current canonical full_name before publishing");
-  if (repository.private !== true || repository.owner?.type !== "Organization") {
-    throw new Error("Publishing requires a private GitHub Organization repository");
+  if (repository.owner?.type !== "User" || repository.owner?.login !== OFFICIAL_REPOSITORY_OWNER_LOGIN) {
+    throw new Error(`Publishing requires the trusted personal GitHub repository owned by ${OFFICIAL_REPOSITORY_OWNER_LOGIN}`);
+  }
+  if (config.publication.accessModel === "public-open-source" && repository.private !== false) {
+    throw new Error("The MIT open-source release requires a public repository");
   }
   const immutableReleases = await ghJson([
     "api", "--method", "GET", `repos/${trust.fullName}/immutable-releases`,
@@ -425,12 +465,12 @@ async function resolveMainCommit(root) {
 }
 
 async function verifyGitPublication(root, tag, sourcePaths, config) {
-  const trust = await verifyPrivatePublishRepository(config);
+  const trust = await verifyPublishRepository(config);
   const repository = await repositoryInfo(root);
   if (!repository) throw new Error("Publishing requires this folder to be the root of a Git repository with a commit");
   if (repository.status.trim()) throw new Error("Publishing requires a clean Git worktree");
   const origin = (await run("git", ["-C", root, "remote", "get-url", "origin"])).stdout.trim();
-  if (normalizeGitHubRepository(origin) !== trust.fullName.toLowerCase()) throw new Error(`Publishing origin must be the configured private repository ${trust.fullName}`);
+  if (normalizeGitHubRepository(origin) !== trust.fullName.toLowerCase()) throw new Error(`Publishing origin must be the configured repository ${trust.fullName}`);
   const tagCommit = (await run("git", ["-C", root, "rev-parse", `refs/tags/${tag}^{commit}`])).stdout.trim();
   if (tagCommit !== repository.head) throw new Error(`Tag ${tag} does not point to HEAD`);
   const remoteTagCommit = await resolveRemoteTagCommit(trust, tag);
@@ -547,6 +587,10 @@ export async function verifySource(root = process.cwd(), options = {}) {
   }
 
   const entries = await resolveSourceEntries(sourceRoot, config);
+  const licenseEntry = entries.find((entry) => entry.source === "LICENSE");
+  if (!licenseEntry || licenseEntry.text !== canonicalMitLicense()) {
+    throw new Error("LICENSE must match the canonical MIT text for Copyright (c) 2026 dmandrianov");
+  }
   const notes = await readReleaseNotes(sourceRoot, metadata);
   const sourcePaths = [...new Set(["release/payload.json", notes.sourcePath, ...entries.map((entry) => entry.source)])];
   let repository = await repositoryInfo(sourceRoot);

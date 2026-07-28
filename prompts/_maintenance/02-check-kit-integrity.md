@@ -69,16 +69,16 @@
    - поддерживаемый `schemaVersion`;
    - `kit.id` равен `dmandrianov/web-kit`, `kit.name` равен `Web Kit`, channel равен `stable`, а `releasedAt` является реальной датой `YYYY-MM-DD`;
    - `kit.version`, `source.tag` и release asset version согласованы;
-   - `source.transport` задаёт private GitHub Organization transport через browser-authenticated `gh`;
+   - `source.transport` задаёт transport `github-release-gh` через browser-authenticated `gh` или совместимое legacy-значение `private-github-organization-gh`, оставленное для мостового release `0.9.0`;
    - `source.repositoryId` является положительным числом и совпадает с embedded updater trust anchor для publishable/installed release; `null` допустим только для явно помеченного local diagnostic candidate и блокирует публикацию/remote update;
-   - `source.repositoryFullName` задан для publishable/installed release и соответствует canonical private Organization repository; bootstrap name помогает пройти documented GitHub rename/transfer redirect, но numeric ID остаётся trust anchor;
+   - `source.repositoryFullName` задан для publishable/installed release и соответствует canonical repository `dmandrianov/codex-web-kit-nextjs`; bootstrap name помогает пройти documented GitHub rename/transfer redirect, но numeric ID остаётся trust anchor;
    - `source.tag` и `source.revision` имеют ожидаемый формат;
    - `release.archiveRoot`, `release.zipAsset`, `release.tarAsset` и `release.checksumAsset` имеют ожидаемый формат;
    - `compatibility.compatibleFrom`, `breaking`, `requiresExplicitConfirmation` и `minimumUpdaterSchemaVersion` присутствуют и допустимы;
    - `managedBlocks.agents.beginPrefix` и `managedBlocks.agents.endMarker` являются canonical;
    - `protectedPaths` присутствует и защищает Git, project-owned зоны и `prompts/_local/**`;
    - manifest не хэшует сам себя и не заявляет собственный path как обычный managed payload.
-   - required `.prompt-kit/TERMS.md` присутствует в inventory; optional open-source `LICENSE` не является publication gate.
+   - required `.prompt-kit/TERMS.md` присутствует в inventory как compatibility target, содержит canonical MIT License из root `LICENSE` и является publication gate для bridge release.
 4. Проверь безопасность `files[]` и `removed[]`:
    - paths отсортированы, относительные, нормализованные, без `..`, absolute prefix, backslash traversal, exact дублей и case-fold collisions;
    - один path не встречается одновременно в active files и removed;
@@ -163,10 +163,10 @@
    - `.git/` и Git metadata не находятся в payload/manifest;
    - root Git config/remotes/hooks не менялись текущей maintenance operation, если есть before/after evidence;
    - nested repository отсутствует.
-16. Проверь private distribution contract:
+16. Проверь trusted distribution contract:
    - bundled updater содержит embedded numeric repository ID и bootstrap full name для published build;
    - installed/incoming manifest ID совпадает с embedded trust anchor;
-   - rename/transfer допускается только через documented GitHub redirect с последующей проверкой прежнего ID, `private: true` и Organization owner;
+   - rename/transfer допускается только через documented GitHub redirect с последующей проверкой прежнего ID, `owner.login: dmandrianov`, `owner.type: User` и корректного boolean-поля `private`;
    - новый numeric ID блокируется до trusted migration;
    - remote path использует `gh api`/`gh release download`, не raw unauthenticated HTTPS;
    - remote release обязан иметь `immutable: true`, валидную signed release attestation, а скачанные TAR.GZ и `SHA256SUMS` — проходить `gh release verify-asset` до extraction;
@@ -174,7 +174,7 @@
    - incoming updater содержит ровно один canonical trust marker и не меняет embedded repository ID через один только incoming manifest;
    - target, backup, manifest и rollback paths не могут выйти из реального project root через symlinked parent;
    - local `--archive` mode не требует и не вызывает `gh`;
-   - `.prompt-kit/TERMS.md` разрешает дальнейшее использование скачанных во время подписки версий, но запрещает standalone redistribution, resale, credential и archive sharing.
+   - `.prompt-kit/TERMS.md` содержит MIT License без закрытых подписочных ограничений; legacy filename сохранён только потому, что updater `0.8.x` требует этот target до установки bridge release.
 17. Сформируй counts, issues, warnings и однозначный verdict.
 
 ## Output
@@ -198,7 +198,7 @@
 - Repository ID:
 - Embedded trust anchor:
 - Repository bootstrap/canonical full name:
-- Private Organization transport:
+- Trusted GitHub transport:
 - Identity status: passed/failed
 
 ## Result
@@ -275,9 +275,9 @@
 - Nested `.git` absent: yes/no
 - Git metadata untouched: yes/no/not applicable
 
-## Closed distribution
+## Public distribution and trusted update
 
-- `.prompt-kit/TERMS.md` required/hash:
+- MIT License at `.prompt-kit/TERMS.md` compatibility path required/hash:
 - Browser-authenticated `gh` transport:
 - Raw token handling absent:
 - Rename/transfer keeps numeric ID:
@@ -305,9 +305,9 @@
 ## Done when
 
 - Manifest schema, identity, paths, policies и compatibility проверены.
-- Embedded numeric repository trust anchor, private Organization `gh` transport, rename/transfer и new-ID migration boundaries проверены.
+- Embedded numeric repository trust anchor, trusted owner, `gh` transport, rename/transfer и new-ID migration boundaries проверены.
 - Required payload hashes, sizes и modes проверены.
-- Required `.prompt-kit/TERMS.md` проверен; raw token/credential transport отсутствует.
+- MIT License at required compatibility path проверена; raw token/credential transport отсутствует.
 - Release archive checksum/structure проверены, если применимо.
 - Managed fragment `AGENTS.md` проверен без захвата project-specific content.
 - Prompt links и anatomy проверены.

@@ -8,14 +8,15 @@
   <img alt="Создано для Codex" src="https://img.shields.io/badge/для-Codex-111827?style=flat-square&logo=openai&logoColor=white">
   <img alt="Next.js App Router" src="https://img.shields.io/badge/Next.js-App_Router-000000?style=flat-square&logo=nextdotjs&logoColor=white">
   <img alt="Версия 0.9.0" src="https://img.shields.io/badge/версия-0.9.0-7C6CF2?style=flat-square">
-  <img alt="Закрытый доступ" src="https://img.shields.io/badge/доступ-по_подписке-E8A94B?style=flat-square">
+  <img alt="Лицензия MIT" src="https://img.shields.io/badge/лицензия-MIT-2EA44F?style=flat-square">
 </p>
 
 <p align="center">
   <a href="#установка-через-codex">Установка</a> ·
   <a href="#как-с-этим-работать">Как работать</a> ·
   <a href="#примеры-первых-сообщений">Примеры</a> ·
-  <a href="#частые-вопросы">Вопросы</a>
+  <a href="#частые-вопросы">Вопросы</a> ·
+  <a href="#лицензия">Лицензия</a>
 </p>
 
 ![Как Web Kit превращает обычное сообщение в следующий проверяемый шаг](docs/assets/readme/web-kit-flow.svg)
@@ -36,7 +37,7 @@ Web Kit не является готовой темой, библиотекой 
 
 ## Установка через Codex
 
-Перед началом нужен доступ к закрытому репозиторию, выданный вашему GitHub-аккаунту.
+Репозиторий открыт: приглашение или отдельный доступ не нужны.
 
 ### 1. Откройте свой проект
 
@@ -64,9 +65,9 @@ Codex сам проверит релиз, установит нужные фай
 После установки специальная команда для запуска не нужна. Напишите задачу своими словами — Web Kit поможет Codex определить, с чего начать.
 
 <details>
-<summary><strong>Codex не видит закрытый репозиторий?</strong></summary>
+<summary><strong>GitHub CLI ещё не авторизован?</strong></summary>
 
-Убедитесь, что доступ выдан именно вашему GitHub-аккаунту. Codex может попросить один раз войти через браузер:
+Для проверки подписанных GitHub Releases и последующих обновлений Codex может попросить один раз войти через браузер:
 
 ```bash
 gh auth login --hostname github.com --web
@@ -175,12 +176,23 @@ gh auth login --hostname github.com --web
 
 </details>
 
+<details>
+<summary><strong>Может ли кто-то изменить этот репозиторий без разрешения владельца?</strong></summary>
+
+Нет. Публичный доступ позволяет читать, скачивать и делать собственную копию репозитория. Другие пользователи могут предложить правки через fork и Pull Request, но они не попадут в основной репозиторий, пока владелец или добавленный им участник с правом записи не примет их.
+
+</details>
+
+## Лицензия
+
+Web Kit распространяется по лицензии [MIT](LICENSE). Можно использовать, копировать, изменять и распространять проект, в том числе в коммерческих целях, при сохранении текста лицензии и copyright notice.
+
 ## Подробнее
 
 - [Полный рабочий процесс](docs/workflow.md)
 - [Как устроены релизы и обновления](docs/release-and-update.md)
 - [Этапы создания сайта](docs/website-stages.md)
-- [Условия использования](TERMS.md)
+- [Лицензия MIT](LICENSE)
 
 ---
 
