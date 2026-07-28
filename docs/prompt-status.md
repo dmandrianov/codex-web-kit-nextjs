@@ -11,7 +11,7 @@
 
 ## Что точно готово
 
-- Создана полная структура папок `prompts/00...13`.
+- Создана полная структура папок `prompts/00...13` и cross-cutting content route в `prompts/_content/`.
 - `AGENTS.md` переписан как router-инструкция для рабочих Next.js проектов.
 - Внутри `prompts/` добавлены служебные файлы: `README.md`, `INDEX.md`, `ROUTER.md`, `STATE.md`.
 - Внутри `prompts/_templates/` лежат шаблоны, а release payload добавляет installed manifest и namespaced metadata, поэтому kit не требует source-репозиторий внутри сайта.
@@ -26,7 +26,7 @@
 - Block content preview утверждает meaning, facts, claims, voice и CTA intent, но не замораживает exact wording, line breaks или layout; formula и alternatives используются только при реальном диагностическом выборе.
 - Усилен copy preview: добавлен pain-first human check, voice/person и проверка CTA support lines.
 - Добавлен page composition/rhythm guideline: page story, visual pattern budget, neighbor check, token/color lock и iconography lock без новой тяжёлой стадии.
-- Добавлен собственный редакторский стандарт `prompts/_knowledge/site-copy-quality.md` и `Site copy check` для любого user-facing copy: лендинговый текст, CTA, UI labels, form states, product/e-commerce copy, checkout microcopy, metadata и SEO snippets.
+- Добавлен собственный редакторский стандарт `prompts/_knowledge/site-copy-quality.md`: короткий обязательный контракт и `Site copy fast pass` работают для обычного user-facing copy, а полный `Site copy check` остаётся длинным, критичным и рискованным текстам.
 - UI design quality сохранён как большая reference-base: creator выбирает из неё `4–6` правил, critic читает релевантные разделы после render, а полный `UI quality check` выполняется на quality stage.
 - Добавлен Unified Design Canvas: concept/fast sanity использует mobile + `1440` + wide `>=2560 CSS px`; полный design-system/quality/handoff gate использует `1440 / 1920 / 2560`, а `3840` — только по применимости.
 - Добавлен Native Responsive First Paint: CSS выбирает initial geometry до первого кадра, hydration не исправляет canvas, media/measured surfaces резервируют место, а browser QA сравнивает fresh-load early frame с settled state и проверяет responsive resource.
@@ -42,6 +42,8 @@
 - Design system использует Sol-friendly loop: project-derived hypotheses -> до трёх дешёвых low-fi probes -> один public high-fidelity concept -> screenshot critic -> one self-fix -> approved stable/provisional direction -> calibration после `2–3` live blocks.
 - Канонический `prompts/_guidelines/creator-critic-design-workflow.md` отделяет creator, critic и full quality; marketing rhythm можно проверять chapter из `2–4` блоков, не расширяя product/business scope.
 - Оригинальный gpt-taste подключён как pinned external creator engine без изменения `SKILL.md`: explicit modes `page / block / component`, continuity profile и correction loop через `$gpt-taste`.
+- Оригинальный seo-content-writer подключён как pinned external article writer без изменения `SKILL.md`: preserved `v9.9.12`, отдельный article route, четыре проверяемых reference-файла и truth/source gates.
+- Автоматический trigger полного seo-content-writer ограничен новыми статьями, blog posts и длинными SEO-материалами. Hero, CTA, cards, forms и обычный block content preview сохраняют native route, но используют лёгкий слой: direct answer, heading promise, claim support, concrete entities, decision-state CTA и semantic closure.
 - Добавлен общий anti-AI-slop/copy-density guideline для дизайна, контента, page planning, block build и quality.
 - Есть отдельный e-commerce слой: e-commerce brief, product data model, каталог, PLP, product card, PDP, фильтры, commercial rules, cart, checkout, account/orders, analytics и review.
 - Есть отдельный deployment слой: SSH/server access, baseline security, runtime, env/secrets, domain/DNS/SSL, deploy, process/proxy, post-deploy checks, monitoring/rollback и handoff.
@@ -64,6 +66,8 @@
 | gpt-taste block/component | `07/05` -> `07/07` -> `08/00-gpt-taste` -> `09/00` | Block не разрастается в page shell; component имеет specimen/states; profile locks сохраняются, visual findings исправляет skill |
 | standalone gpt-taste component | `07/00-gpt-taste-component-spec` -> `08/00-gpt-taste` -> `08/07 profile approval` | Прямая component-задача не требует page spec; run delta меняет canonical profile только после user approval |
 | gpt-taste non-trigger | dashboard / checkout / forms / local fix / quality / SEO / deployment | Router сохраняет native/профильный маршрут, если пользователь явно не выбрал gpt-taste |
+| SEO-статья через external skill | `_content/01-write-seo-article` -> explicit `$seo-content-writer` | Pinned skill и четыре references читаются полностью; черновик отвечает intent, не выдумывает sources и не меняет website stage |
+| seo-content-writer non-trigger | hero / CTA / cards / forms / ordinary block preview | Router использует `Site copy fast pass` без полного skill preflight; полный skill включается только по explicit user request |
 | Итерация дизайна | `05/04` -> `05/05` или `05/03` -> `05/04` -> `05/06` | Фидбек "почти, но..." уточняет один active concept, а полный reject переводит к следующей гипотезе |
 | Верстка одного блока | `07-page-planning` -> `07/07` -> `08/00` -> optional `09/00` | Content approval не замораживает layout; creator render получает 4–6 правил, critic возвращает до трёх findings и делает один self-fix |
 | Ритм страницы | `07/05` -> `07/06` -> `08/00` -> calibration | Marketing chapter держит continuity `2–4` блоков; product/business scope остаётся узким; provisional vocabulary получает `promote / refine / remove` |
@@ -71,7 +75,7 @@
 | Единый дизайнерский холст | `05/03` -> `05/09` -> `06/04` -> `08/00` -> `09/02` | Reference viewport и ограниченный inner design canvas сохраняют hierarchy/density от 1440 до wide/4K; extra width уходит только в gutters, stage/background или объявленные expansion zones |
 | Responsive с первого кадра | `05/09` -> `06/03` -> `06/04` -> `08/04` -> `09/05` | CSS выбирает core geometry до hydration; fresh-load early frame совпадает с settled state, media резервирует место и получает resource под rendered width |
 | Современная визуальная подача | `05/02` -> `05/03` -> `08/00` -> `09/02` | Creator выбирает expressive lever и реальные assets; critic после render проверяет фактический media/icon/motion treatment, currentness и anti-2020 smell |
-| Качество пользовательского текста | `02/02` -> `07/04` -> `07/07` -> `08/00` -> `09/00` | Editorial rules, section copy plan, block preview, build и smoke-check проходят site copy quality principles для headings, CTA, labels, errors, states, product/checkout text, metadata и SEO snippets |
+| Качество пользовательского текста | `02/02` -> `07/04` -> `07/07` -> `08/00` -> `09/00` | H1/H2 дают связный outline; обычный block preview и smoke проходят fast pass: direct answer, heading promise, claim support, concrete wording, decision-state CTA и semantic closure |
 | Понятность ответов Codex | диагностика -> выполнение -> итог или блокер | Человек без технического опыта понимает, что произошло, зачем это нужно, требуется ли его действие и какой следующий шаг можно запустить обычной фразой |
 | Интернет-магазин | `00-intake-brief` -> `11-ecommerce` -> `07-page-planning` | Product data, каталог, PLP, PDP, cart и checkout описаны до кода |
 | Проверка качества | `09-quality` -> `10-handoff` | Проверки дают verdict по одному блоку, конкретные fixes и не расширяют скоуп |

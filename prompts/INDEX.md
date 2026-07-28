@@ -7,16 +7,21 @@
 - `prompts/_knowledge/codex-user-response-quality.md` - обязательный стандарт для всех сообщений Codex человеку: результат сначала, простое объяснение, польза, нужное действие и только затем служебные технические детали.
 - `prompts/_guidelines/creator-critic-design-workflow.md` - главный workflow для новой композиции и заметного redesign: короткий positive creator brief, Design context diet, live render, critic до трёх findings, один self-fix и полный compliance позже.
 - `prompts/_guidelines/gpt-taste-integration.md` - внешняя рамка для неизменённого upstream `$gpt-taste`: pinned identity, explicit routing, modes `page / block / component`, continuity profile и возврат visual fixes skill.
+- `prompts/_guidelines/seo-content-writer-integration.md` - внешняя рамка для неизменённого upstream `$seo-content-writer`: preserved `v9.9.12`, pinned identity, article-only full routing и лёгкий нативный page-copy layer без полного skill preflight.
 - `prompts/_guidelines/anti-ai-slop-design-and-copy.md` - reference для critic и quality; до первого render creator выбирает из него только применимые критерии, а не читает весь avoid-list.
 - `prompts/_guidelines/landing-copy-formulas.md` - diagnostic fallback для заголовков, CTA и секций, когда прямой fact-backed текст не складывается.
 - `prompts/_guidelines/page-composition-rhythm.md` - reference для page rhythm и соседних блоков; creator активирует только критерии, нужные текущему visual chapter.
-- `prompts/_knowledge/site-copy-quality.md` - полный редакторский стандарт для copy-only и quality; UI creator получает только утверждённые факты, copy и 4–6 общих релевантных критериев без полной загрузки базы.
+- `prompts/_knowledge/site-copy-quality.md` - редакторский стандарт с коротким обязательным контрактом и `Site copy fast pass` для обычных текстов страниц; полный чек остаётся длинному, критичному или рискованному copy.
 - `prompts/_knowledge/ui-design-quality.md` - большая visual reference base, включая Unified Design Canvas и Native Responsive First Paint. До render это меню для выбора 4–6 правил; после render — reference critic; полная таблица `UI quality check` относится к quality stage.
 - `prompts/_knowledge/contemporary-visual-direction.md` - reference для concept critic: first-viewport visual event, media/icon/motion treatment, currentness и anti-2020 smell check; creator заранее получает только выбранные критерии и реальные assets.
 - `prompts/_knowledge/technical-seo-baseline.md` - базовый technical SEO standard: route indexability, metadata, heading hierarchy, canonical, robots/noindex, sitemap, JSON-LD, crawlability, status codes, redirects и production verification без keyword strategy.
 - `prompts/_templates/visual-north-star-template.md` - компактный перенос approved visual direction в page planning, block build и screenshot eyes-check: positive continuity anchors, creative freedom, approved evidence и только настоящие hard boundaries.
 - `prompts/_templates/gpt-taste-profile-template.md` - память проекта для gpt-taste: locked identity/seed, used and available architectures, open RNG choices, motion и asset truth.
 - `prompts/_templates/gpt-taste-component-spec-template.md` - standalone component contract: content/actions, real states, specimen matrix, profile continuity and runtime scope.
+
+## Cross-cutting content
+
+- `prompts/_content/01-write-seo-article.md` - написать новую SEO-статью, blog post, guide, comparison, listicle, review, pillar article или FAQ-материал через полный original `$seo-content-writer`; основная website stage не меняется.
 
 ## Как загружается дизайн-контекст
 

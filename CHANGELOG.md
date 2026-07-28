@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.8.0 - 2026-07-28
+
+Added:
+
+- Pinned external `seo-content-writer` integration for new SEO articles, blog posts and long-form search content without copying or modifying upstream files.
+- Cross-cutting `prompts/_content/01-write-seo-article.md` route that preserves the current website stage.
+- Preserved `v9.9.12` source identity, `SKILL.md` checksum and four required reference checksums.
+- Lightweight native page-copy contract inspired by the useful transferable principles: direct answer before persuasion, heading-to-body promise, claim-to-evidence support, concrete entities, decision-state CTA and semantic closure.
+- `Site copy fast pass` inside existing content preview and smoke-check, plus a headings-only page outline check.
+
+Changed:
+
+- Ordinary page copy now uses a two-tier review: a short required pass for normal blocks and the full check only for long, critical or risky text.
+- Default output is one recommended draft; alternatives are created only for a real semantic choice.
+
+Guardrails:
+
+- Short hero, CTA, card, form and ordinary block copy continues to use the native site copy standard; the full external skill and article workflow are not invoked.
+- Missing or mismatched `seo-content-writer` blocks the article route instead of silently falling back.
+- External claims, statistics, dates, quotes and links require sources or `[needs source]`.
+
+Migration:
+
+- Follow the `0.8.0` section in `MIGRATIONS.md`. Existing website stages, approved copy and production UI remain valid. Ordinary page copy receives the fast native check on the next relevant task; the external article skill remains a separately installed pinned dependency.
+
 ## 0.7.0 - 2026-07-27
 
 Added:

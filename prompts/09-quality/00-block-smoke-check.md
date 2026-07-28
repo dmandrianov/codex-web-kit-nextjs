@@ -54,7 +54,7 @@
 4. Проверь visual smoke: нет явных overlap, сломанной сетки, обрезанного текста, пустого блока.
 5. Проведи короткий screenshot critic и выбери максимум три проблемы с самым большим влиянием. Полный UI checklist оставь deep quality.
 6. Проверь contemporary visual smoke, если блок использует media/icons/motion или отвечает за современное первое впечатление: visual event есть, media не пустая декорация, иконки не случайные, motion имеет задачу, нет явного "2020 SaaS kit" ощущения.
-7. Проверь Site copy smoke, если есть user-facing copy: CTA называет действие, errors/states помогают исправить ситуацию, нет пустых фраз, неподтверждённых claims и text overload.
+7. Проверь Site copy smoke, если есть user-facing copy: opening даёт прямой ответ, body выполняет обещание heading, material claims имеют опору, сущности и действия названы конкретно, CTA соответствует готовности человека, а блок заканчивается выводом или следующим шагом. Одновременно проверь errors/states, пустые фразы и text overload.
 8. Проверь anti-slop smoke: текст не раздут, декор не случайный, композиция не выглядит как generic AI-template.
 9. Проверь continuity + rhythm: общий стиль сохранён; повтор или новая форма имеют смысл, а не следуют квоте.
 10. Проверь truth/accessibility/semantic token/iconography hard gates и provisional pattern, если он есть.
@@ -115,6 +115,9 @@
 
 - User-facing copy present/changed:
 - `prompts/_knowledge/site-copy-quality.md` used:
+- Direct answer / heading promise:
+- Claim-to-evidence support:
+- Concrete entities / semantic closure / next step:
 - Notes:
 
 ## Hard gates and provisional pattern

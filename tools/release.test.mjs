@@ -655,7 +655,7 @@ test("shipped prompts preserve the Sol-friendly creator-critic contract", async 
   for (const reference of references) assert.ok(promptTexts.has(reference), `Broken prompt reference: ${reference}`);
 
   const anatomy = ["Когда использовать", "Роль Codex", "Цель", "Контекст, который нужно дать", "Ограничения", "Процесс", "Output", "Done when", "Follow-up"];
-  const staged = [...promptTexts.keys()].filter((relative) => /^prompts\/(?:0[0-9]|1[0-3])-[^/]+\/[^_][^/]*\.md$/.test(relative) || /^prompts\/_maintenance\/[^_][^/]*\.md$/.test(relative));
+  const staged = [...promptTexts.keys()].filter((relative) => /^prompts\/(?:0[0-9]|1[0-3])-[^/]+\/[^_][^/]*\.md$/.test(relative) || /^prompts\/_(?:content|maintenance)\/[^_][^/]*\.md$/.test(relative));
   for (const relative of staged) {
     for (const section of anatomy) assert.ok(promptTexts.get(relative).includes(`## ${section}`), `${relative} is missing ${section}`);
   }
@@ -757,4 +757,85 @@ test("shipped prompts route the full external gpt-taste skill in three scoped mo
   ];
   for (const relative of requiredPromptFiles) assert.ok(payload.promptFiles.includes(relative), `payload is missing ${relative}`);
   assert.ok(!payload.promptFiles.some((relative) => /gpt-tasteskill\/SKILL\.md$/i.test(relative)), "upstream gpt-taste SKILL.md must remain external");
+});
+
+test("shipped prompts route the pinned external seo-content-writer only for article work", async () => {
+  const sourceRoot = path.resolve(toolsDirectory, "..");
+  const read = (relative) => readFile(path.join(sourceRoot, ...relative.split("/")), "utf8");
+  const expectedCommit = "1608176f6c18de6aec62a9abf6a2074bf82c9f67";
+  const expectedSkillHash = "8014ae5cb74e117415283dd27f2a86946a0df4cc0988f60be0a0b94f55204452";
+  const expectedReferenceHashes = [
+    "24605115a253effc44386066b559370b680433ddc908f68b3ba8e54da91700e1",
+    "2444caf310b03243501af872e5e087854f79a935d289b185dd1e6fc9a06cb0eb",
+    "e9d0d47c2c93dce7e8a04622c7cf7f26dc63116795b4a0feb167e7271fe43f29",
+    "f37dfd001669a2c35a44fa6be5b34b99c4eb4c38fe71a471a990cf88252f8bd6",
+  ];
+
+  const [agents, router, integration, articlePrompt, payloadText] = await Promise.all([
+    read("AGENTS.md"),
+    read("prompts/ROUTER.md"),
+    read("prompts/_guidelines/seo-content-writer-integration.md"),
+    read("prompts/_content/01-write-seo-article.md"),
+    read("release/payload.json"),
+  ]);
+  const payload = JSON.parse(payloadText);
+
+  assert.ok(integration.includes("`v9.9.12`"), "preserved seo-content-writer version drifted");
+  assert.ok(integration.includes(expectedCommit), "seo-content-writer pinned commit drifted");
+  assert.ok(integration.includes(expectedSkillHash), "seo-content-writer pinned SKILL SHA-256 drifted");
+  for (const hash of expectedReferenceHashes) assert.ok(integration.includes(hash), `seo-content-writer reference hash drifted: ${hash}`);
+
+  for (const content of [agents, router]) {
+    assert.ok(content.includes("prompts/_content/01-write-seo-article.md"), "article route is missing");
+    assert.ok(content.includes("$seo-content-writer"), "explicit seo-content-writer invocation is missing");
+  }
+  assert.ok(articlePrompt.includes("Явно вызови `$seo-content-writer`"));
+  assert.ok(articlePrompt.includes("Основная стадия проекта не изменилась"));
+  assert.ok(router.includes("текущая стадия сохраняется"));
+
+  for (const nonTrigger of ["hero", "CTA", "карточ", "форм", "content preview"]) {
+    assert.ok(integration.toLowerCase().includes(nonTrigger.toLowerCase()), `seo-content-writer non-trigger is missing: ${nonTrigger}`);
+  }
+
+  for (const relative of [
+    "prompts/_content/01-write-seo-article.md",
+    "prompts/_guidelines/seo-content-writer-integration.md",
+  ]) {
+    assert.ok(payload.promptFiles.includes(relative), `payload is missing ${relative}`);
+  }
+  assert.ok(!payload.promptFiles.some((relative) => /seo-content-writer\/(?:SKILL|references\/.+)\.md$/i.test(relative)), "upstream seo-content-writer files must remain external");
+});
+
+test("ordinary page copy uses the lightweight fast pass without the article workflow", async () => {
+  const sourceRoot = path.resolve(toolsDirectory, "..");
+  const read = (relative) => readFile(path.join(sourceRoot, ...relative.split("/")), "utf8");
+  const [agents, router, integration, standard, preview, contentPlan, smoke] = await Promise.all([
+    read("AGENTS.md"),
+    read("prompts/ROUTER.md"),
+    read("prompts/_guidelines/seo-content-writer-integration.md"),
+    read("prompts/_knowledge/site-copy-quality.md"),
+    read("prompts/07-page-planning/07-block-content-preview.md"),
+    read("prompts/07-page-planning/04-content-and-seo-plan.md"),
+    read("prompts/09-quality/00-block-smoke-check.md"),
+  ]);
+
+  for (const marker of [
+    "## Короткий обязательный контракт",
+    "## Site copy fast pass",
+    "Ответ идёт до убеждения",
+    "Обещание заголовка выполнено",
+    "Сильный тезис имеет опору",
+    "Блок смыслово завершён",
+  ]) {
+    assert.ok(standard.includes(marker), `lightweight page-copy marker is missing: ${marker}`);
+  }
+
+  for (const content of [agents, router, integration, preview]) {
+    assert.ok(content.includes("Site copy fast pass"), "page-copy fast pass routing is missing");
+  }
+  assert.ok(preview.includes("Полный `Site copy check` используй только"));
+  assert.ok(contentPlan.includes("Headings-only outline verdict"));
+  assert.ok(smoke.includes("Claim-to-evidence support"));
+  assert.ok(router.includes("не требует чтения skill/references"));
+  assert.ok(integration.includes("не требует чтения skill/references"));
 });

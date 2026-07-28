@@ -17,6 +17,7 @@
 - есть ли `docs/design-system/iconography.md`;
 - есть ли в `docs/design-system/layout-rules.md` Desktop Canvas Contract и First-render Responsive Delivery Contract: reference CSS viewport, canvas roles/caps, stable invariants, expansion zones, CSS-first initial geometry, hydration invariant и wide-screen matrix;
 - есть ли `package.json`, `next.config.*`, `src/app`;
+- просит ли пользователь новую SEO-статью, пост в блог, guide, comparison, listicle, review, pillar article или FAQ-материал под поисковый запрос;
 - есть ли признаки интернет-магазина: товары, каталог, корзина, checkout, оплата, доставка;
 - есть ли deployment intent: сервер, VPS, SSH, IP, root-доступ, домен, DNS, SSL, production deploy.
 - есть ли `docs/seo/pre-deploy-technical-seo.md` и `docs/seo/production-seo-verification.md`, если сайт готовится к production или уже задеплоен.
@@ -51,7 +52,7 @@
 7. Для creator собери Design context diet: outcome, real copy/data, Visual North Star, approved screenshots/live concept, реальные assets, применимые design-system contracts и 4–6 релевантных правил. Полные UI/copy/anti-slop/contemporary/page-rhythm базы до первого render не загружай.
 8. После live render перейди в режим `critic`: сначала оцени screenshots, затем используй полные релевантные базы как reference. Верни максимум три главных visual findings. Для native сделай один связный self-fix; для gpt-taste передай findings обратно `$gpt-taste` и примени его correction. Затем повторно посмотри render.
 9. Полные `UI quality check`, `Site copy check`, accessibility, responsive matrix и technical checks запускай на quality stage или когда пользователь явно запросил полный audit.
-10. Для чистой copy-задачи без UI-creator pass сразу используй `prompts/_knowledge/site-copy-quality.md`. Для hero/offer/CTA используй `prompts/_guidelines/landing-copy-formulas.md` как diagnostic fallback, если прямой fact-backed текст не складывается. Ответы самого Codex регулирует `codex-user-response-quality.md`.
+10. Для новой SEO-статьи или другого длинного материала под поисковый запрос используй `prompts/_content/01-write-seo-article.md`: полностью прочитай `prompts/_guidelines/seo-content-writer-integration.md`, установленный `seo-content-writer/SKILL.md` и четыре локальных reference-файла, проверь pinned SHA-256 и явно вызови `$seo-content-writer`. Этот cross-cutting route сохраняет текущую website stage. Для остальных чистых copy-задач без UI-creator pass используй короткий обязательный контракт и `Site copy fast pass` из `prompts/_knowledge/site-copy-quality.md`; полный check оставляй длинному, критичному или рискованному тексту. Для hero/offer/CTA используй `prompts/_guidelines/landing-copy-formulas.md` как diagnostic fallback, если прямой fact-backed текст не складывается. Ответы самого Codex регулирует `codex-user-response-quality.md`.
 11. Для локальной UI-правки без новой композиции выбери релевантные разделы `prompts/_knowledge/ui-design-quality.md`, сохрани существующий visual direction и проверь затронутый render.
 12. Для visible UI извлеки из `layout-rules.md` применимые части Desktop Canvas Contract и First-render Responsive Delivery Contract. Concept и fast build делают sanity pass на mobile + `1440` + wide guard `>=2560 CSS px`; viewport задаётся до navigation/reload, а первый кадр сравнивается с settled state. Полная design-system/quality/handoff проверка использует `1440 / 1920 / 2560 CSS px`, а `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с reasoned skip. `window.innerWidth` разрешён как QA evidence, но не как источник initial layout.
 13. Technical SEO trigger не меняется: для metadata, heading hierarchy, canonical, index/noindex, `robots.txt`, `sitemap.xml`, structured data, crawlability, status codes, redirects и webmaster verification прочитай `prompts/_knowledge/technical-seo-baseline.md` полностью.
@@ -93,6 +94,21 @@ Creator brief остаётся коротким и outcome-first. В него в
 Во всех трёх режимах original `SKILL.md` читается полностью и не изменяется. Scope ограничивает deliverable, поэтому block/component не синтезируют page shell. Approved `docs/design-system/gpt-taste-profile.md` удерживает identity и seed между проходами; RNG остаётся только для open choices.
 
 Автоматически не выбирай gpt-taste для product/business UI, dashboard, checkout, forms, data, local fix, copy-only, quality, SEO, deployment или maintenance. Явная просьба пользователя может выбрать skill, но не отменяет truth/accessibility/security/business-logic gates.
+
+## SEO-статьи через seo-content-writer
+
+`seo-content-writer` — pinned external writing skill для новой статьи, а не новый website stage.
+
+- Автоматический trigger: новая SEO-статья, blog post, how-to guide, comparison, listicle, review, pillar article или FAQ-материал под поисковый запрос.
+- Route: `prompts/_content/01-write-seo-article.md`.
+- Preflight: integration guideline, полный installed `SKILL.md`, четыре локальных reference-файла и checksum match.
+- Upstream skill владеет article structure, keyword placement, snippet/FAQ/link recommendations и CORE-EEAT self-check.
+- Prompt Kit владеет project facts, claims, source truth, permissions и местом сохранения результата.
+- Main website stage не меняется; в `docs/project-state.md` добавляется только короткая cross-cutting запись.
+
+Не вызывай полный skill автоматически для hero, offer, CTA, cards, labels, forms и обычного block content preview. Page copy использует лёгкий нативный слой полезных принципов через короткий контракт и `Site copy fast pass` в `site-copy-quality.md`; это не требует чтения skill/references, checksum preflight, article research или отдельного approval. Явная просьба пользователя применить `$seo-content-writer` к landing page или product description может переопределить default, но не truth/source gates.
+
+Если skill missing/mismatched, остановись до черновика и предложи установить preserved `v9.9.12` через `$skill-installer`; не делай silent fallback.
 
 ## Режимы скорости для блоков
 
@@ -190,6 +206,7 @@ Source release flow выполняется отдельно через `prompts/
 | Пользователь пишет `обнови базу` или просит проверить новую версию Prompt Kit | `maintenance` | `prompts/_maintenance/01-update-prompt-kit.md` |
 | Maintainer source-репозитория просит подготовить version/tag/assets/GitHub Release самого Prompt Kit | `maintenance` | `prompts/_maintenance/05-release-prompt-kit.md` |
 | Kit обновлен, integrity passed, но нет свежего `docs/prompt-kit-workflow-alignment.md` | `maintenance` | `prompts/_maintenance/04-align-project-after-kit-update.md` |
+| Пользователь просит новую SEO-статью, blog post, guide, comparison, listicle, review, pillar article или FAQ-материал под поисковый запрос | текущая стадия сохраняется | `prompts/_content/01-write-seo-article.md` |
 | Нет понятных вводных, файлов или brief | `unknown` | `prompts/00-intake-brief/04-run-project-interview.md` |
 | Есть видео или аудио, но нет транскрипта | `intake` | `prompts/00-intake-brief/02-transcribe-media.md` |
 | Есть материалы, но нет `project-brief.md` | `intake` | `prompts/00-intake-brief/03-extract-project-facts.md` |

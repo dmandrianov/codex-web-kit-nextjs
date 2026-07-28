@@ -151,11 +151,19 @@
     - approved gpt-taste profile отделяет locked identity/seed от used/available/open choices;
     - first block/component candidate становится approved только через explicit user approval route;
     - block/component scope не синтезирует page shell, а visual findings возвращаются `$gpt-taste`.
-14. Проверь Git isolation:
+14. Проверь external seo-content-writer integration:
+   - `prompts/_guidelines/seo-content-writer-integration.md` и `prompts/_content/01-write-seo-article.md` присутствуют в payload;
+   - repository, preserved `v9.9.12`, pinned commit, `SKILL.md` SHA-256 и четыре reference checksums согласованы;
+   - original upstream skill и reference-файлы не входят в Prompt Kit payload и не переписаны;
+   - новая SEO-статья маршрутизируется явно через `$seo-content-writer`, а основная website stage сохраняется;
+   - missing/mismatched skill блокирует article draft без silent fallback;
+   - hero, CTA, cards, forms и обычный block content preview не получают skill автоматически;
+   - truth/source gates не разрешают invented claims, citations, dates или ranking promises.
+15. Проверь Git isolation:
    - `.git/` и Git metadata не находятся в payload/manifest;
    - root Git config/remotes/hooks не менялись текущей maintenance operation, если есть before/after evidence;
    - nested repository отсутствует.
-15. Проверь private distribution contract:
+16. Проверь private distribution contract:
    - bundled updater содержит embedded numeric repository ID и bootstrap full name для published build;
    - installed/incoming manifest ID совпадает с embedded trust anchor;
    - rename/transfer допускается только через documented GitHub redirect с последующей проверкой прежнего ID, `private: true` и Organization owner;
@@ -167,7 +175,7 @@
    - target, backup, manifest и rollback paths не могут выйти из реального project root через symlinked parent;
    - local `--archive` mode не требует и не вызывает `gh`;
    - `.prompt-kit/TERMS.md` разрешает дальнейшее использование скачанных во время подписки версий, но запрещает standalone redistribution, resale, credential и archive sharing.
-16. Сформируй counts, issues, warnings и однозначный verdict.
+17. Сформируй counts, issues, warnings и однозначный verdict.
 
 ## Output
 

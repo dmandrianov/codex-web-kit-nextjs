@@ -67,7 +67,7 @@ Content approval не фиксирует exact wording, line breaks, оконч�
 3. Зафиксируй допустимые claims: что можно сказать, что нельзя обещать и какие ограничения нельзя потерять.
 4. Выбери voice/person: first person, brand voice или neutral product.
 5. Подготовь один рекомендуемый draft: heading, короткий answer/lead, key points, CTA, microcopy и proof placeholders.
-6. Проведи `Site copy check` по релевантным разделам базы. Исправь generic wording, внутреннюю терминологию и неподтверждённые claims.
+6. Примени короткий обязательный контракт и `Site copy fast pass` из базы. Проверь прямой ответ до убеждения, совпадение обещания heading с body, опору material claims, конкретность сущностей и смысловое завершение блока. Полный `Site copy check` используй только для длинного, критичного, юридически или коммерчески чувствительного текста либо когда fast pass нашёл риск.
 7. Если текст всё ещё не держится, возьми одну формулу из `landing-copy-formulas.md` как диагностический каркас и после переписывания убери ощущение шаблона. Если формула не нужна, напиши `Formula used: no`.
 8. Дай 1–2 альтернативы только там, где у пользователя действительно есть смысловой выбор. Не создавай варианты ради количества.
 9. Сверь смысл с соседними блоками: что этот блок сообщает впервые и что не должен повторять.
@@ -146,10 +146,16 @@ Content approval не фиксирует exact wording, line breaks, оконч�
 
 ## Site copy check
 
+- Review depth: fast / full, with reason:
+- Direct answer before persuasion:
+- Heading promise delivered by body:
+- Material claims mapped to fact/source/example/condition/limitation:
 - Truth and fair selection:
 - User benefit / removed risk:
-- Generic or internal wording removed:
+- Concrete entities/actions used; generic or internal wording removed:
 - CTA names a real action:
+- CTA matches the user's decision state:
+- Semantic closure / next step:
 - Voice consistent:
 - Open facts marked:
 - Formula used: no / [formula and diagnosed problem]
@@ -194,6 +200,9 @@ Content approval не фиксирует exact wording, line breaks, оконч�
 - Main meaning, facts, claims, voice и CTA intent понятны.
 - Неподтверждённые данные отмечены `needs confirmation`.
 - Нет fake proof или выдуманных обещаний.
+- Обычный блок прошёл `Site copy fast pass`; полный check запускался только при обоснованном риске.
+- Heading и opening дают прямой ответ, body выполняет обещание heading, а material claims имеют опору или честно отмеченный gap.
+- У блока есть смысловое завершение или следующий шаг, соответствующий текущей готовности пользователя.
 - Exact copy, line breaks и final length не заморожены без реальной причины.
 - Формула использована только при диагностированной проблеме или явно пропущена.
 - Creator handoff содержит 4–6 релевантных направлений, а не полный UI checklist.

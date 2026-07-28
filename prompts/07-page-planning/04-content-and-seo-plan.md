@@ -47,7 +47,7 @@
 3. Добавь UI notes там, где content shape влияет на дизайн: hero, pricing, offer, forms, tables, product cards, dashboard snippets, checkout, CTA bands.
 4. Отметь, где можно использовать placeholder-safe copy, а где нужны подтверждённые факты.
 5. Составь metadata plan: title, description, OG notes.
-6. Составь heading plan: H1/H2/H3 без финального copy overload.
+6. Составь heading plan: H1/H2/H3 без финального copy overload. Затем прочитай только H1/H2 по порядку: они должны образовать связную, неповторяющуюся историю страницы и покрывать приоритетные вопросы выбора, а не набор похожих обещаний.
 7. Добавь internal links и structured data notes, если уместно.
 8. Для e-commerce добавь product/category SEO, availability/price/review constraints без выдуманных данных.
 9. Создай или обнови `docs/pages/[page-slug]/content-seo-plan.md`.
@@ -74,6 +74,9 @@
 ## Metadata plan
 
 ## Heading structure
+
+- Headings-only outline verdict: coherent / needs revision
+- Repetitions or missing decision questions:
 
 ## Internal links
 
@@ -102,6 +105,7 @@
 - Для каждой секции есть site copy notes: польза/снятие риска, claims, мусорные и слабые формулировки, proof/data gaps.
 - Для hero, pricing, forms, tables, product/dense UI и CTA blocks есть UI notes, чтобы текст не ломал hierarchy, spacing и responsive.
 - SEO план не конфликтует с IA и page spec.
+- H1/H2 без body образуют связный, неповторяющийся outline и не обещают то, чего соответствующие блоки не раскрывают.
 - Рискованные claims отмечены.
 - Понятно, какие тексты можно писать в block build, а какие требуют подтверждения.
 - План различает content locks (meaning/facts/claims/voice/action) и гибкие до render exact wording/line breaks/final length.

@@ -153,6 +153,8 @@ Maintainer исходного репозитория использует `promp
 
 Для выразительных marketing-задач можно явно выбрать оригинальный `gpt-taste` без изменения его `SKILL.md`. Есть три режима: `page` для полноценного disposable concept, `block` для одной секции и `component` для самостоятельного компонента со specimen. Style hypothesis или spec фиксирует engine/mode, поэтому page идёт через `05-design-system/03`, page-bound block/component — через planning и `08-block-build/00-gpt-taste-creative-build.md`, а прямой standalone component сначала получает компактный `07-page-planning/00-gpt-taste-component-spec.md` без фиктивной страницы. После approval continuity profile сохраняет утверждённую идентичность и оставляет случайность только для открытых решений.
 
+Для новой SEO-статьи, поста в блог, guide, comparison, listicle, review, pillar article или FAQ-материала есть отдельный cross-cutting route `prompts/_content/01-write-seo-article.md`. Он явно вызывает неизменённый внешний `$seo-content-writer`, закреплённый на самостоятельной версии `v9.9.12`, и не меняет текущую стадию сайта. Короткие тексты hero, CTA, карточек, форм и обычных блоков получают лёгкий слой его полезных принципов через собственный `site-copy-quality.md`, без полного article workflow и нового этапа.
+
 Чтобы поблочная разработка не превращала страницу в набор разных сайтов или одинаковых секций, используй `prompts/_guidelines/page-composition-rhythm.md`. Marketing-композицию можно смотреть главой из `2–4` соседних блоков, не расширяя scope product data, forms, checkout и business logic. После первых `2–3` живых блоков provisional приёмы получают решение `promote / refine / remove`; затем остаются короткие page-level rhythm checks.
 
 Для практического качества UI используй `prompts/_knowledge/ui-design-quality.md`. Это большая reference-base, а не обязательный учебник перед первым рисунком. Creator просматривает карту разделов и активирует только `4–6` правил для текущей задачи. После live render critic может использовать полную базу, а полный `UI quality check` относится к quality stage. Так знания сохраняются, но не заставляют первый вариант одновременно удовлетворять сотням пожеланий.
@@ -198,7 +200,7 @@ Design-system review выполняет полный строгий pass уже 
 
 В стратегии создаётся `docs/content/editorial-rules.md`, а перед реализацией смыслового блока Codex показывает `block-content-preview`: смысл, факты, claims, voice, CTA intent, рабочий текст и короткий visual intent. Формулы — diagnostic fallback, альтернативы — только при настоящем выборе. Перед approval текст проходит pain-first human check; точные line breaks и композиция остаются свободными до live render.
 
-Для качества текста используется собственный стандарт `prompts/_knowledge/site-copy-quality.md`: один главный смысл на блок, честные факты, польза или снятие риска, пустые фразы заменяются фактами, CTA называет действие, а текст проходит короткий `Site copy check` перед утверждением. Trigger срабатывает для любого user-facing copy: headings, leads, CTA, button labels, nav labels, form labels/placeholders/errors, empty/success/loading states, product text, checkout microcopy, metadata и SEO snippets.
+Для качества текста используется собственный стандарт `prompts/_knowledge/site-copy-quality.md`: прямой ответ идёт до убеждения, body выполняет обещание heading, material claims получают опору, конкретные сущности заменяют общие слова, CTA соответствует готовности человека, а блок получает смысловое завершение. Обычный текст проходит короткий `Site copy fast pass` внутри текущего шага; полный чек остаётся длинному, критичному или рискованному copy.
 
 Для базового technical SEO используется `prompts/_knowledge/technical-seo-baseline.md`. Это не keyword research и не продвижение: стандарт проверяет indexability routes, title/description, H1-H6, canonical, robots/noindex, `robots.txt`, `sitemap.xml`, JSON-LD, crawlable links, alt, status codes, redirects и production host. Он применяется дважды: перед deploy и после запуска на реальном домене.
 
@@ -234,7 +236,7 @@ Design-system review выполняет полный строгий pass уже 
 - `prompts/ROUTER.md` - правила автоматического выбора стадии и промпта.
 - `prompts/INDEX.md` - индекс всех стадий и промптов.
 - `prompts/STATE.md` - шаблон `docs/project-state.md`.
-- `prompts/_knowledge/site-copy-quality.md` - стандарт качества пользовательского текста, включая лендинговый copy, UI labels, form states, product/e-commerce copy и SEO snippets.
+- `prompts/_knowledge/site-copy-quality.md` - стандарт качества пользовательского текста с быстрым обязательным контрактом для лендингового copy, UI labels, form states, product/e-commerce copy и SEO snippets.
 - `prompts/_guidelines/creator-critic-design-workflow.md` - короткий Sol-friendly цикл, Design context diet и граница между творческим проходом и строгой проверкой.
 - `prompts/_knowledge/ui-design-quality.md` - выборочная creator-reference и полная critic/quality база с Unified Design Canvas, Native Responsive First Paint и before/after examples.
 - `prompts/_knowledge/contemporary-visual-direction.md` - visual event, expressive levers, asset truth и post-render media/icon/motion/currentness review.

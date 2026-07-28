@@ -2,6 +2,39 @@
 
 This file describes changes that may require special handling when updating Prompt Kit inside an existing project.
 
+## 0.8.0
+
+Compatibility: non-breaking from `0.4.22+`.
+
+### Required
+
+- Update only the managed block in `AGENTS.md` to version `0.8.0`; preserve everything outside it.
+- Add:
+  - `prompts/_content/01-write-seo-article.md`;
+  - `prompts/_guidelines/seo-content-writer-integration.md`.
+- Update router/index, site-copy quality, page content planning, block content preview, smoke-check, integrity rules and public documentation.
+- Keep the original `seo-content-writer` outside the Prompt Kit payload. The article route expects the preserved external dependency:
+  - repository `aaron-he-zhu/seo-geo-claude-skills`;
+  - tag `v9.9.12`;
+  - commit `1608176f6c18de6aec62a9abf6a2074bf82c9f67`;
+  - `SKILL.md` SHA-256 `8014ae5cb74e117415283dd27f2a86946a0df4cc0988f60be0a0b94f55204452`;
+  - four reference checksums recorded in `prompts/_guidelines/seo-content-writer-integration.md`.
+
+### Existing projects
+
+- Existing stage, approved copy, page specs, block specs, design and production code remain valid.
+- Do not rerun or rewrite existing pages automatically.
+- Ordinary hero, CTA, cards, forms and block content preview use the lightweight native contract and `Site copy fast pass` on the next relevant copy task.
+- The full `Site copy check` remains for long, critical or risky text.
+- New SEO articles use the explicit `prompts/_content/01-write-seo-article.md` route. If the pinned external skill is missing or mismatched, stop before drafting and install/repair it separately; do not vendor it into the project.
+- A controlled comparison on the existing `reference-project` Tension block showed better directness, claim support and entity precision without adding a new workflow stage.
+
+### Breaking changes
+
+- No production-code, project-document or website-stage breaking changes.
+- No existing content preview is invalidated.
+- No explicit update confirmation is required beyond the normal manifest conflict and integrity gates.
+
 ## 0.7.0
 
 Compatibility: non-breaking from `0.4.22+`.

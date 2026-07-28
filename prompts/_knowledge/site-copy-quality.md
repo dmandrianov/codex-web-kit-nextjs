@@ -13,6 +13,21 @@
 
 Главная цель: текст должен помогать человеку понять предложение, принять решение и не ошибиться в ожиданиях. Он не должен звучать как универсальная AI-заготовка, раздувать блок или маскировать слабый оффер красивыми словами.
 
+## Короткий обязательный контракт
+
+Для обычного текста страницы применяй этот контракт внутри уже существующего content preview, copy-only прохода или smoke-check. Это не отдельная стадия, не новый пользовательский approval и не повод автоматически запускать полный article workflow.
+
+1. **Ситуация человека ясна.** Сначала назови реальный вопрос, сомнение или критерий выбора, на который отвечает блок.
+2. **Ответ идёт до убеждения.** Heading и первые 1–2 предложения дают прямой содержательный ответ; аргументы, детали и эмоция идут после него.
+3. **Один блок выполняет одну работу.** После чтения понятно, что человек должен понять, сравнить или сделать; соседние задачи не свалены в один текст.
+4. **Обещание заголовка выполнено.** Body раскрывает именно тот ответ, который обещал heading, а не уходит в общие преимущества или другую тему.
+5. **Сильный тезис имеет опору.** Для material claim есть подтверждённый факт, источник, пример, понятное условие или честное ограничение. Если опоры нет, ослабь claim или отметь gap.
+6. **Слова называют предметы и действия.** Предпочитай конкретные сущности, шаги, сроки, экраны, документы и условия вместо неопределённых `решение`, `подход`, `возможности`, `качество`.
+7. **CTA соответствует готовности человека.** Действие продолжает логику блока и не требует большего решения, чем текст помог принять.
+8. **Блок смыслово завершён.** Последняя фраза, CTA или переход даёт вывод, условие выбора или следующий шаг; текст не обрывается после списка свойств.
+
+Рабочий порядок быстрый: сначала собери смысл из facts и claims, затем одним коротким проходом убери повторы, шаблонные связки и слова без новой информации.
+
 ## Общие правила сайта
 
 ### 1. Один блок - один главный смысл
@@ -334,9 +349,30 @@ About-блок нужен не для самопрезентации, а для 
 | Prompt Kit маршрутизирует проект по стадиям и артефактам. | Представьте папку проекта. В ней есть бриф, дизайн-система, page spec и текущий блок. Kit смотрит на эти файлы и предлагает следующий prompt. |
 | Система обеспечивает комплексный подход к разработке. | Сначала фиксируем задачу страницы, потом согласуем текст блока, затем верстаем и делаем smoke-check. |
 
-## Editorial review checklist
+## Быстрый редакторский проход
 
-Используй в content preview и editorial review.
+Используй его для обычного hero, CTA, карточки, формы, pricing-блока и другого короткого текста страницы. Проход выполняется внутри текущего шага и не создаёт отдельный артефакт, если текущий prompt этого не требует.
+
+```md
+## Site copy fast pass
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Real user question or choice criterion is explicit | pass / fix | |
+| Heading and opening give the direct answer before persuasion | pass / fix | |
+| Block has one job and adds a new meaning on the page | pass / fix | |
+| Body delivers the heading promise | pass / fix | |
+| Material claims have fact, source, example, condition or limitation | pass / fix | |
+| Concrete entities and actions replace vague wording | pass / fix | |
+| CTA matches the user's current decision state | pass / fix | |
+| Block ends with a conclusion, choice condition or next step | pass / fix | |
+```
+
+## Полный редакторский чек
+
+Используй полный чек для длинного, критичного, юридически или коммерчески чувствительного текста, а также когда быстрый проход нашёл риск. Не запускай его по обязанности для каждого короткого блока.
+
+Используй в content preview и editorial review, когда глубина проверки оправдана.
 
 ```md
 ## Site copy check
@@ -346,16 +382,23 @@ About-блок нужен не для самопрезентации, а для 
 | Block has one main meaning | pass / fix | |
 | Text goal and 2-4 block tasks are explicit | pass / fix | |
 | Text answers a real user question/objection/choice criterion | pass / fix | |
+| Heading and opening give a direct answer before persuasion | pass / fix | |
+| Body delivers the heading promise without changing the subject | pass / fix | |
 | No unsupported promises or invented facts | pass / fix | |
+| Every material claim maps to a fact, source, example, condition or limitation | pass / fix | |
 | Facts are fairly selected and do not imply a false conclusion | pass / fix | |
 | Empty phrases are replaced with facts, examples or limits | pass / fix | |
+| Concrete entities, actions and conditions replace vague category words | pass / fix | |
 | User benefit or removed risk is clear | pass / fix | |
 | Text does not compensate for weak product/proof | pass / fix | |
 | One new thought per sentence | pass / fix | |
 | Lists and commas are not hiding overloaded structure | pass / fix | |
 | Heading is honest outside context | pass / fix | |
+| Page headings alone form a coherent, non-repetitive outline | pass / fix / n/a | |
 | CTA names a real action | pass / fix | |
+| CTA matches the user's current decision state | pass / fix | |
 | CTA support line removes a real doubt | pass / fix | |
+| Block has semantic closure: conclusion, choice condition or next step | pass / fix | |
 | Text fits the block density budget | pass / fix | |
 | Voice/person is consistent | pass / fix | |
 | Open facts marked as `needs confirmation` | pass / fix | |
@@ -368,11 +411,11 @@ About-блок нужен не для самопрезентации, а для 
 
 1. Назови тип блока и вопрос пользователя.
 2. Назови цель блока и 2-4 задачи текста.
-3. Напиши короткий черновик.
-4. Проведи `Site copy check`.
-5. Замени пустые фразы фактами, примерами или ограничениями.
-6. Если не хватает proof, состава продукта или ясного offer, отметь gap.
-7. Покажи пользователю 1 рекомендуемый вариант и 2 альтернативы по акценту.
+3. Собери смысловой черновик: прямой ответ, facts, claims с опорой, ограничение и следующий шаг.
+4. Сделай один проход на сжатие: убери повторы, шаблонные связки и слова без новой информации.
+5. Для обычного блока проведи `Site copy fast pass`; полный `Site copy check` оставь длинному, критичному или рискованному тексту.
+6. Если не хватает proof, состава продукта или ясного offer, отметь gap вместо декоративной формулировки.
+7. Покажи один рекомендуемый вариант. Дай альтернативы только тогда, когда у пользователя есть реальный смысловой выбор, и объясни, что между ними меняется.
 
 Когда редактируешь готовый текст:
 
