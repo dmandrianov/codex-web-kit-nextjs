@@ -11,9 +11,19 @@ Compatibility: non-breaking from `0.4.22+`.
 - Update only the managed block in `AGENTS.md` to version `0.10.0`; preserve everything outside it.
 - Add:
   - `prompts/_knowledge/nextjs-technical-baseline.md`;
+  - `prompts/_knowledge/site-copy-quality-full.md`;
+  - `prompts/_knowledge/ui-quality/`;
   - `prompts/06-nextjs-setup/02-technical-architecture.md`;
   - `prompts/09-quality/07-application-flow-check.md`;
   - `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md`.
+- Use the four request lanes from the managed block:
+  - `status` reads only the current project snapshot;
+  - `direct` uses the affected files and a lightweight relevant standard;
+  - `staged` reads the snapshot, compact Router and one current prompt;
+  - `cross-cutting` enters the exact maintenance, CMS/architecture, commerce, article, SEO or deployment route.
+- Keep `prompts/INDEX.md` as an ambiguity fallback rather than mandatory startup context.
+- Keep the existing `ui-design-quality.md` and `site-copy-quality.md` paths as compact dispatchers. Load only the relevant UI modules before render and reserve the full copy/UI checks for critic, quality, long, critical or risky work.
+- Keep `docs/project-state.md` at or below 8192 bytes. Before compacting an existing larger state, save a backup and preserve its older text losslessly in website-local `docs/project-history.md`; never ship that history in Prompt Kit.
 - Update intake, project rules, Next.js setup, handoff, e-commerce, deployment, technical SEO, routing, state, templates, integrity/alignment prompts and release regression coverage.
 - Use the generic `github-release-gh` manifest transport. The legacy `private-github-organization-gh` transport remains historical compatibility for release `0.9.0`, not the default for new releases.
 - Keep the stable kit identity `dmandrianov/web-kit`, numeric repository trust anchor `1302994489` and canonical repository `dmandrianov/codex-web-kit-nextjs`.
@@ -22,6 +32,9 @@ Compatibility: non-breaking from `0.4.22+`.
 ### Existing projects
 
 - Existing stage, approved design/content, page and block specifications, production code and project-specific `AGENTS.md` content remain valid.
+- Existing local rules after the managed block remain authoritative and must be preserved byte-for-byte by the updater.
+- Do not delete an oversized historical state. During workflow alignment, back it up, move older chronology to `docs/project-history.md` without loss and leave a short current snapshot with one recommended prompt.
+- Do not open `docs/project-history.md` for normal routing; use it only to recover an older decision.
 - Do not add a CMS automatically. If the owner continues changing the site through Codex/AI and normal deploys are acceptable, record `CMS status: not needed`. If editors or content managers need a non-code interface, first define roles, preview/approval/publish flow, locales, redirects, media, revalidation, export/backup and downtime expectations, then choose a CMS.
 - Do not rebuild the Next.js foundation only to create the new architecture document. On the next relevant setup, integration, e-commerce, handoff or deployment task, capture the missing decisions and verify the affected full scenarios.
 - Static sites do not gain auth, a database, a server runtime or a heavy test stack without a real requirement.
@@ -32,6 +45,7 @@ Compatibility: non-breaking from `0.4.22+`.
 
 - No production-code, project-document or website-stage breaking changes.
 - No prompt path is removed or renamed.
+- The new UI modules and full copy reference are additive; existing dispatcher paths continue to work.
 - No explicit update confirmation is required beyond normal manifest conflict and integrity gates.
 
 ## 0.9.0

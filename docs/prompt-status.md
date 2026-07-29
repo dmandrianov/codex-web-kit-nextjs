@@ -27,7 +27,8 @@
 - Усилен copy preview: добавлен pain-first human check, voice/person и проверка CTA support lines.
 - Добавлен page composition/rhythm guideline: page story, visual pattern budget, neighbor check, token/color lock и iconography lock без новой тяжёлой стадии.
 - Добавлен собственный редакторский стандарт `prompts/_knowledge/site-copy-quality.md`: короткий обязательный контракт и `Site copy fast pass` работают для обычного user-facing copy, а полный `Site copy check` остаётся длинным, критичным и рискованным текстам.
-- UI design quality сохранён как большая reference-base: creator выбирает из неё `4–6` правил, critic читает релевантные разделы после render, а полный `UI quality check` выполняется на quality stage.
+- UI design quality сохранён полностью, но разделён на компактный диспетчер и восемь тематических модулей. Creator загружает максимум два релевантных модуля до render, critic подключает нужные модули после него, а полный `UI quality check` выполняется на quality stage.
+- Обязательный контекст облегчён через четыре маршрута: `status`, `direct`, `staged`, `cross-cutting`. `INDEX.md` больше не читается на каждый запрос, а `docs/project-state.md` хранит только короткий текущий снимок; длинная история остаётся внутри конкретного сайта.
 - Добавлен Unified Design Canvas: concept/fast sanity использует mobile + `1440` + wide `>=2560 CSS px`; полный design-system/quality/handoff gate использует `1440 / 1920 / 2560`, а `3840` — только по применимости.
 - Добавлен Native Responsive First Paint: CSS выбирает initial geometry до первого кадра, hydration не исправляет canvas, media/measured surfaces резервируют место, а browser QA сравнивает fresh-load early frame с settled state и проверяет responsive resource.
 - Contemporary visual direction до render задаёт primary expressive lever, optional secondary и asset truth; фактический media/icon/motion treatment и currentness фиксируются после render.

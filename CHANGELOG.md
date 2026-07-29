@@ -8,10 +8,18 @@ Added:
 - A required technical architecture gate between preflight and scaffold.
 - An application-wide flow check before dynamic project handoff or production deployment.
 - A commerce operations and payment safety gate before the final e-commerce verdict.
+- A four-lane context-loading model: `status`, `direct`, `staged` and `cross-cutting`.
+- A compact project-state contract with lossless website-local history archival.
+- Routed UI quality modules and a separate full copy-review reference, while the existing dispatcher paths remain valid.
+- Deterministic context-budget tests and a ten-scenario fresh-session evaluation harness.
 
 Changed:
 
 - CMS selection now starts with the post-launch editing workflow. An owner who continues editing through Codex/AI defaults to repository-owned content without a CMS; a non-technical editorial team triggers a separate CMS requirements decision.
+- The managed `AGENTS.md` block now contains only durable routing, safety, local-rule precedence and response rules. It no longer loads the full Router, INDEX or large reference bases for every request.
+- `prompts/ROUTER.md` now classifies only staged and cross-cutting transitions; `prompts/INDEX.md` is opened only when the choice remains ambiguous.
+- `docs/project-state.md` is a current snapshot capped at 8192 bytes. Older chronology moves to website-local `docs/project-history.md` only after a backup and without losing the original text.
+- UI and copy quality rules are loaded by task: creator work receives at most two relevant UI modules before render, while full critic and compliance checks remain available at quality time.
 - `Next ready` now requires framework/runtime versions, hosting shape, sources of truth, freshness/cache rules, public endpoint boundaries and critical scenario planning.
 - E-commerce readiness now requires server-side order recalculation, signed webhooks, idempotent effects, order transitions and recovery/reconciliation.
 - Deployment runtime now validates the early hosting decision and covers multi-instance/serverless constraints instead of choosing the architecture for the first time.
@@ -22,12 +30,14 @@ Guardrails:
 
 - Simple static or AI-maintained sites do not receive CMS, auth, database, server runtime or a heavy test stack without a real need.
 - A payment return page is not treated as proof of payment.
+- Project-local rules remain after the managed block and are tested inside the standard 32 KiB Codex instruction limit.
+- Context reduction changes when rules are loaded, not whether truth, safety, accessibility, commerce, SEO, release or quality gates exist.
 - Existing anti-premature-abstraction, server-first responsive delivery, design, accessibility, SEO and release-safety contracts remain in force.
 - The package still maps the canonical root MIT `LICENSE` to `.prompt-kit/TERMS.md` solely as a compatibility path for updater `0.8.x`; it does not add separate restrictions.
 
 Migration:
 
-- Follow the `0.10.0` section in `MIGRATIONS.md`. Existing project stages, approved design/content and production code remain valid; apply the new architecture and application-flow gates on the next relevant technical task instead of rebuilding the site.
+- Follow the `0.10.0` section in `MIGRATIONS.md`. Existing project stages, approved design/content and production code remain valid. Compact an oversized state only with a backup and lossless local history; apply new architecture and application-flow gates on the next relevant technical task instead of rebuilding the site.
 
 ## 0.9.0 - 2026-07-28
 

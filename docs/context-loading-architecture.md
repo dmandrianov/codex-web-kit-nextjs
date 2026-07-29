@@ -4,7 +4,7 @@
 
 - Target version: `0.10.0`
 - Initiative: context diet without quality loss
-- Current phase: compact bootstrap, Router, state, reference split and deterministic gates implemented; disposable-project smoke pending
+- Current phase: all five implementation checkpoints complete; candidate remains local pending a separate publication decision
 - Public runtime/API impact: none
 - Distribution: source-repository documentation only; this file is not part of the copied Prompt Kit payload
 
@@ -117,7 +117,7 @@ No group may be removed before its destination and preservation evidence are rec
 
 ## Compact project-state contract
 
-The distributed `prompts/STATE.md` template will have an `8192`-byte hard budget and contain only:
+The distributed `prompts/STATE.md` template has an `8192`-byte hard budget and contains only:
 
 - current stage, confidence and important flags;
 - active page/block/task;
@@ -162,7 +162,7 @@ Existing paths remain valid, and new modules are additive. This keeps the `0.10.
 - ten golden requests with expected lane, primary prompt, relevant references and critical safety/quality gates;
 - at least `60%` mandatory-context reduction for every ordinary golden route.
 
-Both validation and release workflows run the context tests together with the existing release/security/updater suite. The deterministic harness does not replace the final fresh read-only Codex sessions or disposable-project smoke; those remain checkpoint 5 evidence.
+Both validation and release workflows run the context tests together with the existing release/security/updater suite. The deterministic harness is supplemented by final fresh read-only Codex sessions and disposable-project smoke.
 
 ## Release gates
 
@@ -177,6 +177,16 @@ The context-diet candidate is ready only when:
 - ten fresh-session scenarios choose the correct lane and preserve their critical gates;
 - ordinary candidate routes use at least `60%` less mandatory context than the current baseline;
 - disposable Bootini and Abgdeyka copies preserve local rules, project sources and update integrity.
+
+## Final verification evidence
+
+- All ten candidate fresh-session scenarios selected the expected lane, primary prompt and critical gates without an irrelevant full reference; the baseline satisfied none of the complete lean-release verdicts.
+- Deterministic mandatory-context reduction is `77.2–92.6%` across ordinary routes.
+- Total live-session input fell from `1,077,586` to `730,091` tokens across the ten paired sessions, a `32.3%` reduction including system, tool and model overhead outside the kit-owned text.
+- The real local-rule conflict selected the website's `pnpm` rule, while safety exceptions remained protected.
+- Disposable Bootini and Abgdeyka copies completed `0.8.0 → 0.9.0 → 0.10.0` with zero installed-manifest drift.
+- Both disposable projects preserved project-owned files and the full local `AGENTS.md` tail. Their original `150864`-byte and `68570`-byte states were copied byte-for-byte to backup and local history before compact `2335`-byte and `2167`-byte snapshots were created.
+- A final Bootini status session opened only `docs/project-state.md`, not Router or INDEX. A final Abgdeyka direct session obeyed the project-local permission rule without opening another file.
 
 ## Implementation checkpoints
 

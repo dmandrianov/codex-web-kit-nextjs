@@ -8,70 +8,80 @@
       "request": "Что сейчас с проектом и что дальше?",
       "projectFixture": "Current stage and recommended next prompt are present in the short project-state snapshot.",
       "expectedLane": "status",
-      "expectedPrimaryPrompt": null
+      "expectedPrimaryPrompt": null,
+      "expectedGateCodes": ["state-snapshot-only"]
     },
     {
       "id": "small-copy",
       "request": "Замени короткий текст в готовом блоке, не меняя его смысл.",
       "projectFixture": "The target block exists and the change does not alter facts, claims, layout or project stage.",
       "expectedLane": "direct",
-      "expectedPrimaryPrompt": null
+      "expectedPrimaryPrompt": null,
+      "expectedGateCodes": ["truth-claims", "minimal-local-scope"]
     },
     {
       "id": "approved-hero",
       "request": "Реализуй утверждённый hero-блок.",
       "projectFixture": "Page planning, hero block spec and content preview are approved; creator engine is native.",
       "expectedLane": "staged",
-      "expectedPrimaryPrompt": "prompts/08-block-build/00-build-block-fast-lane.md"
+      "expectedPrimaryPrompt": "prompts/08-block-build/00-build-block-fast-lane.md",
+      "expectedGateCodes": ["one-block-at-a-time", "creator-render-critic", "responsive-evidence"]
     },
     {
       "id": "whole-page",
       "request": "Сверстай сразу всю страницу, хотя page scope и block specs ещё не готовы.",
       "projectFixture": "Next foundation is ready, but page scope, page spec and block specs are absent.",
       "expectedLane": "staged",
-      "expectedPrimaryPrompt": "prompts/07-page-planning/01-select-page-and-scope.md"
+      "expectedPrimaryPrompt": "prompts/07-page-planning/01-select-page-and-scope.md",
+      "expectedGateCodes": ["page-planning-first", "one-block-at-a-time"]
     },
     {
       "id": "cms",
       "request": "Нужна ли проекту CMS?",
       "projectFixture": "The future content owner and publishing workflow have not been recorded.",
       "expectedLane": "cross-cutting",
-      "expectedPrimaryPrompt": "prompts/06-nextjs-setup/02-technical-architecture.md"
+      "expectedPrimaryPrompt": "prompts/06-nextjs-setup/02-technical-architecture.md",
+      "expectedGateCodes": ["content-owner-before-cms", "ai-owner-no-cms-default"]
     },
     {
       "id": "checkout",
       "request": "Реализуй checkout, но e-commerce review ещё не проводился.",
       "projectFixture": "No e-commerce brief, operations/payment safety contract or e-commerce review exists.",
       "expectedLane": "cross-cutting",
-      "expectedPrimaryPrompt": "prompts/11-ecommerce/01-ecommerce-brief.md"
+      "expectedPrimaryPrompt": "prompts/11-ecommerce/01-ecommerce-brief.md",
+      "expectedGateCodes": ["commerce-readiness-first"]
     },
     {
       "id": "kit-update",
       "request": "Обнови кит.",
       "projectFixture": "A managed Prompt Kit install and installed manifest are present.",
       "expectedLane": "cross-cutting",
-      "expectedPrimaryPrompt": "prompts/_maintenance/01-update-prompt-kit.md"
+      "expectedPrimaryPrompt": "prompts/_maintenance/01-update-prompt-kit.md",
+      "expectedGateCodes": ["no-project-git"]
     },
     {
       "id": "production-seo-deploy",
       "request": "Подготовь готовый сайт к production deploy и проверь technical SEO.",
       "projectFixture": "Quality passed and production host planning exists, but the pre-deploy technical SEO gate is absent.",
       "expectedLane": "cross-cutting",
-      "expectedPrimaryPrompt": "prompts/13-technical-seo/01-pre-deploy-technical-seo.md"
+      "expectedPrimaryPrompt": "prompts/13-technical-seo/01-pre-deploy-technical-seo.md",
+      "expectedGateCodes": ["quality-and-predeploy-seo-first"]
     },
     {
       "id": "local-rule-conflict",
       "request": "Общий шаблон говорит npm, а локальное правило сайта требует pnpm.",
       "projectFixture": "The project-local rule is safe, more specific and appears after the managed block.",
       "expectedLane": "direct",
-      "expectedPrimaryPrompt": null
+      "expectedPrimaryPrompt": null,
+      "expectedGateCodes": ["local-rule-priority", "safety-exceptions-win"]
     },
     {
       "id": "small-code-fix",
       "request": "Исправь небольшую ошибку в существующем компоненте.",
       "projectFixture": "The component and its local validation command are known; no stage transition is required.",
       "expectedLane": "direct",
-      "expectedPrimaryPrompt": null
+      "expectedPrimaryPrompt": null,
+      "expectedGateCodes": ["minimal-local-scope", "proportional-checks"]
     }
   ]
 }

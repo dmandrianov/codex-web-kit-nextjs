@@ -85,7 +85,8 @@ Cross-cutting задача не обязана менять основную web
 | Research ready, IA не завершена | `strategy-ready` | Первый незакрытый prompt из `prompts/04-information-architecture/` |
 | IA ready, design direction/system не готовы | `ia-ready` | Выбрать design route ниже |
 | Design review passed, Next foundation не готов | `design-ready` | Выбрать Next.js route ниже |
-| Next review passed, page scope/spec не готовы | `next-ready` | Первый незакрытый prompt из `prompts/07-page-planning/` |
+| Next review passed, page scope отсутствует | `next-ready` | `prompts/07-page-planning/01-select-page-and-scope.md` |
+| Page scope есть, остальные page artifacts не готовы | `page-planning` | Первый незакрытый prompt из `prompts/07-page-planning/` |
 | Page planning ready, строится один block/component | `block-build` | Выбрать build route ниже |
 | Блок или страница требуют проверки | `quality` | Smoke или первый незакрытый quality prompt |
 | Quality passed, нужна передача результата | `handoff` | `prompts/10-handoff/01-handoff-scope.md` |
