@@ -4,7 +4,7 @@
 
 - Target version: `0.10.0`
 - Initiative: context diet without quality loss
-- Current phase: compact bootstrap, Router, state and reference split implemented; deterministic gates pending
+- Current phase: compact bootstrap, Router, state, reference split and deterministic gates implemented; disposable-project smoke pending
 - Public runtime/API impact: none
 - Distribution: source-repository documentation only; this file is not part of the copied Prompt Kit payload
 
@@ -146,9 +146,23 @@ The existing `ui-design-quality.md` path remains as a compact dispatcher. Its cu
 
 The original foundation category is split into two physical modules, `foundation-hierarchy.md` and `layout-spacing.md`, because their combined source exceeds the per-file budget. Each module has a `40960`-byte hard budget. The dispatcher names the minimum modules for creator, critic, local-fix and quality work.
 
-The existing `site-copy-quality.md` path keeps the truth contract and fast pass. Long-form and full quality checks move to a separate reference loaded only for long, critical, risky or explicit quality work.
+The existing `site-copy-quality.md` path keeps the truth contract and fast pass within an `8192`-byte budget. Long-form and full quality checks move to a separate reference with a `40960`-byte budget, loaded only for long, critical, risky or explicit quality work.
 
 Existing paths remain valid, and new modules are additive. This keeps the `0.10.0` migration non-breaking.
+
+## Deterministic enforcement
+
+`tools/context-diet.test.mjs` enforces the architecture without invoking a model:
+
+- byte budgets for the managed block, Router, state, dispatchers and reference modules;
+- both managed markers and a `12288`-byte local-rule fixture inside the documented default `32768`-byte instruction limit;
+- route-specific loading with no mandatory INDEX or full reference bases;
+- complete prompt payload coverage and concrete prompt-link resolution;
+- exactly one destination for every former numbered UI section and copy rule group;
+- ten golden requests with expected lane, primary prompt, relevant references and critical safety/quality gates;
+- at least `60%` mandatory-context reduction for every ordinary golden route.
+
+Both validation and release workflows run the context tests together with the existing release/security/updater suite. The deterministic harness does not replace the final fresh read-only Codex sessions or disposable-project smoke; those remain checkpoint 5 evidence.
 
 ## Release gates
 

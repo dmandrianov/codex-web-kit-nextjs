@@ -99,7 +99,7 @@ Source-only tooling, `.git/`, `dist/`, backups, secrets, project code и пол�
 node tools/release.mjs verify-source
 node tools/release.mjs build
 node tools/release.mjs verify-artifacts
-node --test tools/release.test.mjs
+node --test tools/release.test.mjs tools/context-diet.test.mjs
 ```
 
 Обычная просьба `подготовь релиз` разрешает только локальную сборку и проверку. Она не разрешает менять remote, создавать commit/tag, выполнять push или создавать GitHub Release.

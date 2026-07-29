@@ -2,6 +2,14 @@
 
 Загружай этот модуль для responsive behavior, viewport-проверок и поведения медиа. Остальные UI-модули не открывай без связи с текущей задачей.
 
+## First-render Responsive Delivery Contract
+
+- Сервер отдаёт устойчивую структуру, а CSS media/container queries выбирают основную геометрию до первого видимого кадра.
+- `window.innerWidth` и JavaScript допустимы как QA evidence или для поведения, которое нельзя выразить CSS, но не как источник canvas/layout, исправляющий страницу после mount.
+- SSR, первый client render и settled state сохраняют одну смысловую структуру без hydration-driven layout snap.
+- Перед browser verification установи viewport до navigation/fresh reload и сравни early frame с settled state.
+- Для media заранее резервируй геометрию, задавай честный aspect ratio/crop/fallback и выбирай responsive resource по фактической rendered width.
+
 ## 18. Responsive behavior
 
 ### Правило 18.1. Responsive is hierarchy preservation, not only stacking

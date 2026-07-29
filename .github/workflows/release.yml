@@ -37,7 +37,7 @@ jobs:
           node-version: 22
 
       - name: Run dependency-free tests
-        run: node --test tools/release.test.mjs
+        run: node --test tools/release.test.mjs tools/context-diet.test.mjs
 
       - name: Mint least-privilege release token
         id: release-app-token
