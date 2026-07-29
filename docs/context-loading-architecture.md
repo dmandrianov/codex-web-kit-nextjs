@@ -4,7 +4,7 @@
 
 - Target version: `0.10.0`
 - Initiative: context diet without quality loss
-- Current phase: rule inventory and baseline
+- Current phase: compact bootstrap and Router implemented; compact state/reference split pending
 - Public runtime/API impact: none
 - Distribution: source-repository documentation only; this file is not part of the copied Prompt Kit payload
 
