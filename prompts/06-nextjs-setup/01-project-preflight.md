@@ -88,6 +88,6 @@
 
 ## Follow-up
 
-Следующий промпт: `prompts/06-nextjs-setup/02-project-scaffold.md`.
+Следующий промпт: `prompts/06-nextjs-setup/02-technical-architecture.md`.
 
 Перед следующим шагом сверься с `prompts/ROUTER.md`: если preflight выявил конфликт, сначала согласуй безопасную стратегию с пользователем.

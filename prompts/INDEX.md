@@ -86,11 +86,12 @@
 ## 06. Next.js setup
 
 - `prompts/06-nextjs-setup/01-project-preflight.md` - проверить текущую папку и стратегию scaffold.
-- `prompts/06-nextjs-setup/02-project-scaffold.md` - безопасно создать или адаптировать Next.js каркас.
-- `prompts/06-nextjs-setup/03-app-router-structure.md` - настроить структуру App Router по sitemap.
+- `prompts/06-nextjs-setup/02-technical-architecture.md` - до кода решить CMS need, версии, runtime, источники данных, кеш, безопасность и hosting shape.
+- `prompts/06-nextjs-setup/02-project-scaffold.md` - безопасно создать или адаптировать Next.js каркас по подтверждённому technical contract.
+- `prompts/06-nextjs-setup/03-app-router-structure.md` - настроить App Router, server/client boundaries и module ownership.
 - `prompts/06-nextjs-setup/04-styling-and-design-system-integration.md` - подключить styling foundation, design tokens и CSS-first responsive delivery без post-mount canvas correction.
-- `prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md` - настроить scripts, TypeScript, lint и tooling.
-- `prompts/06-nextjs-setup/06-next-ready-review.md` - проверить готовность Next.js и перевести проект в `next-ready`.
+- `prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md` - настроить version-aware scripts, TypeScript, lint, tests и tooling.
+- `prompts/06-nextjs-setup/06-next-ready-review.md` - проверить архитектурную и техническую готовность и перевести проект в `next-ready`.
 
 ## 07. Page planning
 
@@ -124,6 +125,7 @@
 - `prompts/09-quality/04-technical-checks.md` - запустить lint/type/build/tests для текущего scope.
 - `prompts/09-quality/05-browser-runtime-verification.md` - проверить runtime, hydration и стабильность первого responsive кадра в браузере.
 - `prompts/09-quality/06-quality-summary.md` - собрать verdict `Quality passed` / `needs fixes`.
+- `prompts/09-quality/07-application-flow-check.md` - перед project handoff/deploy проверить полные сценарии форм, CMS, auth, commerce и интеграций по применимости.
 
 ## 10. Handoff
 
@@ -147,7 +149,8 @@
 - `prompts/11-ecommerce/09-cart-spec.md` - спроектировать корзину.
 - `prompts/11-ecommerce/10-checkout-flow-spec.md` - спроектировать checkout flow.
 - `prompts/11-ecommerce/11-account-orders-analytics.md` - спланировать аккаунт, заказы, уведомления, аналитику и consent.
-- `prompts/11-ecommerce/12-ecommerce-review.md` - проверить e-commerce слой и вернуть конкретные страницы в `07-page-planning`.
+- `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md` - определить источники истины, server-side пересчёт, order states, webhook, idempotency и recovery.
+- `prompts/11-ecommerce/12-ecommerce-review.md` - проверить UX и technical commerce safety и вернуть конкретные страницы в `07-page-planning`.
 
 ## 12. Deployment
 

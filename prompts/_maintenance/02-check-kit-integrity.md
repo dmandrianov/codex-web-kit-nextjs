@@ -62,6 +62,7 @@
    - `prompts/_knowledge/site-copy-quality.md`;
    - `prompts/_knowledge/ui-design-quality.md`;
    - `prompts/_knowledge/contemporary-visual-direction.md`;
+   - `prompts/_knowledge/nextjs-technical-baseline.md`;
    - `prompts/_knowledge/technical-seo-baseline.md`;
    - `prompts/_guidelines/creator-critic-design-workflow.md`;
    - `prompts/_templates/visual-north-star-template.md`.
@@ -159,11 +160,21 @@
    - missing/mismatched skill блокирует article draft без silent fallback;
    - hero, CTA, cards, forms и обычный block content preview не получают skill автоматически;
    - truth/source gates не разрешают invented claims, citations, dates или ranking promises.
-15. Проверь Git isolation:
+15. Проверь Next.js technical architecture coverage:
+   - `prompts/_knowledge/nextjs-technical-baseline.md` присутствует в payload и имеет дату последней сверки/major-version boundary;
+   - intake и brief template сначала спрашивают, кто меняет сайт после запуска;
+   - owner + Codex/ИИ workflow получает default `CMS not needed`, а editorial team — conditional CMS requirements до выбора платформы;
+   - `06-nextjs-setup/02-technical-architecture.md` стоит между preflight и scaffold и создаёт CMS status, version/runtime/hosting contract, sources of truth, data/render/cache matrix, locales/markets по применимости, public endpoint/security boundaries и critical scenarios;
+   - scaffold/App Router/tooling/Next ready проверяют architecture contract, server/client/module ownership и version-specific commands;
+   - `09-quality/07-application-flow-check.md` маршрутизируется перед page/project handoff или deploy динамического сайта;
+   - `11-ecommerce/12-commerce-operations-and-payment-safety.md` блокирует ecommerce verdict без server-side recalculation, signed webhook, idempotency, concurrency/out-of-order handling и recovery/reconciliation;
+   - deployment runtime подтверждает ранний hosting shape и покрывает multi-instance/serverless topology;
+   - release tests закрепляют новые prompt paths и эти coverage markers.
+16. Проверь Git isolation:
    - `.git/` и Git metadata не находятся в payload/manifest;
    - root Git config/remotes/hooks не менялись текущей maintenance operation, если есть before/after evidence;
    - nested repository отсутствует.
-16. Проверь trusted distribution contract:
+17. Проверь trusted distribution contract:
    - bundled updater содержит embedded numeric repository ID и bootstrap full name для published build;
    - installed/incoming manifest ID совпадает с embedded trust anchor;
    - rename/transfer допускается только через documented GitHub redirect с последующей проверкой прежнего ID, `owner.login: dmandrianov`, `owner.type: User` и корректного boolean-поля `private`;
@@ -175,7 +186,7 @@
    - target, backup, manifest и rollback paths не могут выйти из реального project root через symlinked parent;
    - local `--archive` mode не требует и не вызывает `gh`;
    - `.prompt-kit/TERMS.md` содержит MIT License без закрытых подписочных ограничений; legacy filename сохранён только потому, что updater `0.8.x` требует этот target до установки bridge release.
-17. Сформируй counts, issues, warnings и однозначный verdict.
+18. Сформируй counts, issues, warnings и однозначный verdict.
 
 ## Output
 
@@ -267,6 +278,17 @@
 - Page/block carryover:
 - Fresh-load browser evidence gate:
 
+## Next.js technical architecture
+
+- Living version baseline:
+- CMS workflow-first decision:
+- Technical architecture before scaffold:
+- Data/render/cache/security contract:
+- App-wide flow gate:
+- Ecommerce operations/payment safety:
+- Deployment topology:
+- Automated regression coverage:
+
 ## Local and Git safety
 
 - `_local` unmanaged except seed: yes/no
@@ -314,6 +336,7 @@
 - Creator-Critic Design Loop проверен от routing и concept до content preview, fast build, critic и quality.
 - Response-quality coverage проверено.
 - First-render Responsive Delivery coverage проверено от design system до browser QA.
+- Next.js technical architecture coverage проверено от intake/CMS decision до scaffold, application flow, ecommerce и deployment.
 - Project-owned, `_local` и Git safety проверены.
 - Есть counts, issue list и честный verdict `passed` / `needs fixes`.
 

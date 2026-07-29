@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.10.0 - 2026-07-29
+
+Added:
+
+- A living Next.js technical baseline with version-aware App Router, data/cache, security, testing and deployment topology rules.
+- A required technical architecture gate between preflight and scaffold.
+- An application-wide flow check before dynamic project handoff or production deployment.
+- A commerce operations and payment safety gate before the final e-commerce verdict.
+
+Changed:
+
+- CMS selection now starts with the post-launch editing workflow. An owner who continues editing through Codex/AI defaults to repository-owned content without a CMS; a non-technical editorial team triggers a separate CMS requirements decision.
+- `Next ready` now requires framework/runtime versions, hosting shape, sources of truth, freshness/cache rules, public endpoint boundaries and critical scenario planning.
+- E-commerce readiness now requires server-side order recalculation, signed webhooks, idempotent effects, order transitions and recovery/reconciliation.
+- Deployment runtime now validates the early hosting decision and covers multi-instance/serverless constraints instead of choosing the architecture for the first time.
+- Project-level handoff no longer infers application readiness from isolated block checks.
+- New release manifests use the generic `github-release-gh` transport. The `private-github-organization-gh` value remains valid only in the historical `0.9.0` bridge.
+
+Guardrails:
+
+- Simple static or AI-maintained sites do not receive CMS, auth, database, server runtime or a heavy test stack without a real need.
+- A payment return page is not treated as proof of payment.
+- Existing anti-premature-abstraction, server-first responsive delivery, design, accessibility, SEO and release-safety contracts remain in force.
+- The package still maps the canonical root MIT `LICENSE` to `.prompt-kit/TERMS.md` solely as a compatibility path for updater `0.8.x`; it does not add separate restrictions.
+
+Migration:
+
+- Follow the `0.10.0` section in `MIGRATIONS.md`. Existing project stages, approved design/content and production code remain valid; apply the new architecture and application-flow gates on the next relevant technical task instead of rebuilding the site.
+
 ## 0.9.0 - 2026-07-28
 
 Added:

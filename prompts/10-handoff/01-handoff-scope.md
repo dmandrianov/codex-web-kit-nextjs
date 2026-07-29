@@ -19,6 +19,7 @@
 - `docs/project-state.md`.
 - Changed files.
 - Последние проверки.
+- `docs/quality/application-flow-check.md`, если сдаётся страница/проект с формами, CMS, auth, commerce или интеграциями.
 - Open questions, risks, TODO.
 - Запрос пользователя: нужен итог блока, страницы, итерации или проекта.
 
@@ -34,7 +35,7 @@
 
 1. Определи handoff type: `block`, `page`, `iteration`, `project`.
 2. Определи scope boundaries: что входит в итог, что не входит.
-3. Собери подтверждающие артефакты: specs, build review, quality summary, checks.
+3. Собери подтверждающие артефакты: specs, build review, quality summary, checks. Для page/project scope определи, нужен ли `prompts/09-quality/07-application-flow-check.md`.
 4. Проверь, есть ли blockers, open questions, follow-ups.
 5. Определи, нужен ли следующий block spec, следующая страница или project-level handoff.
 6. Создай или обнови `docs/handoff/[scope]-handoff-scope.md`.
@@ -80,6 +81,7 @@
 ## Done when
 
 - Handoff scope явно выбран.
+- Для page/project scope с динамическими сценариями application flow check присутствует или назначен обязательным следующим шагом.
 - Нет путаницы между готовым блоком, страницей и проектом.
 - Есть список evidence.
 - Следующий шаг понятен.
@@ -87,6 +89,8 @@
 
 ## Follow-up
 
-Следующий промпт: `prompts/10-handoff/02-final-review.md`.
+Если page/project scope требует application-wide проверки и её ещё нет, следующий промпт: `prompts/09-quality/07-application-flow-check.md`.
+
+Иначе следующий промпт: `prompts/10-handoff/02-final-review.md`.
 
 Если scope не готов к handoff, вернись к `prompts/09-quality/06-quality-summary.md` или нужному prompt из `08/09`.

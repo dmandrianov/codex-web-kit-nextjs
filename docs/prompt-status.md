@@ -95,12 +95,12 @@
 | --- | --- | --- | --- |
 | `prompts/00-intake-brief/01-scan-source-materials.md` | Каркас готов | Сканирование проекта с файлами и без файлов | Правила для video/audio/text/design/links |
 | `prompts/00-intake-brief/02-transcribe-media.md` | Каркас готов | Извлечение текста из видео/аудио | Инструменты транскрибации, таймкоды, формат цитат |
-| `prompts/00-intake-brief/03-extract-project-facts.md` | Каркас готов | Факты из транскриптов и текстов | Таблица fact/hypothesis/question/source |
-| `prompts/00-intake-brief/04-run-project-interview.md` | Каркас готов | Голосовая надиктовка без материалов | Итерации вопросов по 3-5 штук |
+| `prompts/00-intake-brief/03-extract-project-facts.md` | Каркас готов | Факты из транскриптов и текстов | Fact/hypothesis/question/source и будущий content owner без выбора CMS наугад |
+| `prompts/00-intake-brief/04-run-project-interview.md` | Каркас готов | Голосовая надиктовка без материалов | Вопрос owner + Codex/ИИ vs editorial team перед CMS discussion, затем итерации по 3-5 вопросов |
 | `prompts/00-intake-brief/05-competitor-discovery.md` | Каркас готов | Поиск и отбор конкурентов | Правила источников и регионов |
 | `prompts/00-intake-brief/06-competitor-feature-loop.md` | Каркас готов | Цикл "2-3 фишки за раз" | Backlog решений: взять/адаптировать/отложить/не брать |
-| `prompts/00-intake-brief/07-finalize-project-brief.md` | Каркас готов | Финализация project brief | Формат `project-brief.md` как source of truth |
-| `prompts/01-project-rules/01-create-agents-md.md` | Каркас готов | Сохранение router + добавление `Project-specific context` | Примеры хорошего project-specific слоя с правилами docs/comments |
+| `prompts/00-intake-brief/07-finalize-project-brief.md` | Каркас готов | Финализация project brief | Source of truth с content operations/CMS need |
+| `prompts/01-project-rules/01-create-agents-md.md` | Каркас готов | Сохранение router + добавление `Project-specific context` | Content ownership, CMS need, docs/comments rules |
 | `prompts/01-project-rules/02-create-project-docs.md` | Каркас готов | Создание минимальной документации и `docs/project-state.md` | Минимальные docs и documentation discipline для разных типов сайтов |
 | `prompts/02-project-strategy/01-client-brief.md` | Каркас готов | Создание `docs/strategic-audit.md` после intake/project rules | Не дублировать `00-intake-brief`, задавать только 3-5 критичных вопросов |
 | `prompts/02-project-strategy/02-goals-audience-offer.md` | Каркас готов | Создание `docs/strategy.md`, `docs/messaging.md` и `docs/content/editorial-rules.md` | Stop condition при незакрытых critical gaps, качество editorial/site copy rules |
@@ -126,11 +126,12 @@
 | `prompts/05-design-system/11-accessibility-rules.md` | Каркас готов | Чеклист доступности для UI и блоков | WCAG-oriented проверки, icon-only controls |
 | `prompts/05-design-system/12-design-system-review.md` | Каркас готов | Verdict `Design ready` / `needs fixes` перед Next.js | Проверка approved concept, contemporary visual readiness, media/icon/motion carryover, iconography, UI quality readiness, before/after examples, anti-AI-slop, reference screenshots и e-commerce |
 | `prompts/06-nextjs-setup/01-project-preflight.md` | Каркас готов | Диагностика пустой, непустой и существующей Next.js папки | Защита Prompt Kit и пользовательских материалов |
-| `prompts/06-nextjs-setup/02-project-scaffold.md` | Каркас готов | Безопасный scaffold нового Next.js проекта | Сценарий временной папки и перенос без перезаписи |
-| `prompts/06-nextjs-setup/03-app-router-structure.md` | Каркас готов | Структура `src/app` по sitemap | Route groups, metadata, layouts, server/client boundaries, placeholders |
+| `prompts/06-nextjs-setup/02-technical-architecture.md` | Каркас готов | Раннее решение CMS need, versions, runtime, data/cache, security и hosting shape | Owner + Codex/ИИ без CMS по умолчанию; editorial workflow включает CMS discussion |
+| `prompts/06-nextjs-setup/02-project-scaffold.md` | Каркас готов | Безопасный scaffold нового Next.js проекта | Версии из architecture contract, временная папка и перенос без перезаписи |
+| `prompts/06-nextjs-setup/03-app-router-structure.md` | Каркас готов | Структура `src/app` по sitemap | Route groups, server/client/module ownership, DAL/adapters, Actions/Handlers |
 | `prompts/06-nextjs-setup/04-styling-and-design-system-integration.md` | Каркас готов | Подключение tokens/layout к CSS foundation | CSS variables/Tailwind mapping, shared canvas/container primitives, CSS-first initial geometry, media/font stability |
-| `prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md` | Каркас готов | Настройка lint/type/build/scripts | Политика добавления зависимостей и formatting |
-| `prompts/06-nextjs-setup/06-next-ready-review.md` | Каркас готов | Verdict `Next ready` / `needs fixes` перед page planning | Проверка структуры, scripts, styling foundation |
+| `prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md` | Каркас готов | Version-aware lint/type/build/test scripts | Next 16 direct lint, risk-based tests и dependency policy |
+| `prompts/06-nextjs-setup/06-next-ready-review.md` | Каркас готов | Verdict `Next ready` / `needs fixes` перед page planning | Architecture contract, CMS decision, data/cache/security, structure, scripts и styling foundation |
 | `prompts/07-page-planning/01-select-page-and-scope.md` | Каркас готов | Выбор одной страницы из sitemap | Scope boundaries, route, e-commerce dependencies |
 | `prompts/07-page-planning/00-gpt-taste-component-spec.md` | Каркас готов | Прямой standalone component contract | Content/actions, real states, specimen, explicit override and skill preflight without fictional page planning |
 | `prompts/07-page-planning/02-page-spec.md` | Каркас готов | Page spec для главной/каталога/PDP | Связь IA/design-system/Next.js route |
@@ -155,6 +156,7 @@
 | `prompts/09-quality/04-technical-checks.md` | Каркас готов | Технические проверки текущего scope | Lint/type/build/tests и out-of-scope failures |
 | `prompts/09-quality/05-browser-runtime-verification.md` | Каркас готов | Проверка runtime в браузере | Fresh-load early/settled frame, hydration, responsive media/font evidence, network и route/click/form behavior |
 | `prompts/09-quality/06-quality-summary.md` | Каркас готов | Verdict `Quality passed` / `needs fixes` | Owner prompt для каждой failed check, включая UI quality и Site copy findings |
+| `prompts/09-quality/07-application-flow-check.md` | Каркас готов | App-wide gate перед page/project handoff и deploy | Формы, CMS, auth, commerce, integrations, duplicate/recovery и production-like runtime по применимости |
 | `prompts/10-handoff/01-handoff-scope.md` | Каркас готов | Определение scope: block/page/iteration/project | Не объявлять проект готовым после одного блока |
 | `prompts/10-handoff/02-final-review.md` | Каркас готов | Scoped final review | Приоритеты P0/P1/P2 и owner prompt |
 | `prompts/10-handoff/03-change-summary.md` | Каркас готов | Summary после scope/итерации | Форматы для пользователя и technical summary |
@@ -170,7 +172,8 @@
 | `prompts/11-ecommerce/09-cart-spec.md` | Каркас готов | Cart UX и states | Price changes, promo errors, stock changes, UI quality notes и Site copy notes |
 | `prompts/11-ecommerce/10-checkout-flow-spec.md` | Каркас готов | Checkout flow | Guest checkout, errors, payment failure, UI quality notes и Site copy notes |
 | `prompts/11-ecommerce/11-account-orders-analytics.md` | Каркас готов | Account/orders/notifications/analytics | Consent, event naming, privacy-safe tracking |
-| `prompts/11-ecommerce/12-ecommerce-review.md` | Каркас готов | Verdict перед page planning | Blockers, recommended first ecommerce page |
+| `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md` | Каркас готов | Technical commerce contract | Sources of truth, server recalculation, order state, signed webhook, idempotency, reconciliation и sandbox tests |
+| `prompts/11-ecommerce/12-ecommerce-review.md` | Каркас готов | Verdict перед page planning | UX + technical safety blockers, recommended first ecommerce page |
 | `prompts/12-deployment/01-deployment-brief.md` | Каркас готов | Target/readiness для deploy | Managed platforms vs VPS decision |
 | `prompts/12-deployment/02-server-access-and-ssh.md` | Каркас готов | IP/root-password -> SSH key setup | Edge cases Windows SSH, key permissions, root password warning |
 | `prompts/12-deployment/03-server-baseline-security.md` | Каркас готов | Базовая server security без lockout | Firewall/SSH policy rollback |

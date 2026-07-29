@@ -22,6 +22,7 @@
 - `docs/pages/` и page specs/content SEO plans для публичных routes.
 - `docs/ecommerce/`, если проект является интернет-магазином.
 - Последний quality summary со статусом `Quality passed`.
+- `docs/quality/application-flow-check.md`, если сайт содержит формы, CMS, auth, commerce или другие integrations.
 - `docs/deployment/deployment-brief.md`.
 - `docs/deployment/domain-dns-ssl.md` с выбранным production host.
 - Текущие `src/app`, metadata files, layouts, pages, redirects и config.
@@ -46,7 +47,7 @@
 ## Процесс
 
 1. Прочитай `prompts/_knowledge/technical-seo-baseline.md` полностью.
-2. Проверь readiness: `Quality passed`, production host известен, site scope и routes понятны.
+2. Проверь readiness: `Quality passed`, применимый application flow check не имеет P0/P1, production host известен, site scope и routes понятны.
 3. Сопоставь IA sitemap, App Router и фактические routes. Создай route indexability matrix со статусами `index`, `noindex`, `private/blocked`, `redirect`, `not found`.
 4. Для каждого indexable route проверь или реализуй:
    - unique descriptive title;
@@ -137,6 +138,7 @@
 ## Done when
 
 - `prompts/_knowledge/technical-seo-baseline.md` применён полностью.
+- Применимый application flow check пройден либо честно помечен `not applicable` для статического сайта без динамических сценариев.
 - Route indexability matrix покрывает весь current site scope.
 - Все indexable routes имеют проверенные title, description, canonical и robots decision.
 - Heading hierarchy проверена на фактических страницах.

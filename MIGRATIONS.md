@@ -2,6 +2,38 @@
 
 This file describes changes that may require special handling when updating Prompt Kit inside an existing project.
 
+## 0.10.0
+
+Compatibility: non-breaking from `0.4.22+`.
+
+### Required
+
+- Update only the managed block in `AGENTS.md` to version `0.10.0`; preserve everything outside it.
+- Add:
+  - `prompts/_knowledge/nextjs-technical-baseline.md`;
+  - `prompts/06-nextjs-setup/02-technical-architecture.md`;
+  - `prompts/09-quality/07-application-flow-check.md`;
+  - `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md`.
+- Update intake, project rules, Next.js setup, handoff, e-commerce, deployment, technical SEO, routing, state, templates, integrity/alignment prompts and release regression coverage.
+- Use the generic `github-release-gh` manifest transport. The legacy `private-github-organization-gh` transport remains historical compatibility for release `0.9.0`, not the default for new releases.
+- Keep the stable kit identity `dmandrianov/web-kit`, numeric repository trust anchor `1302994489` and canonical repository `dmandrianov/codex-web-kit-nextjs`.
+- Keep root `LICENSE` as canonical MIT License and map the same text to `.prompt-kit/TERMS.md`. The legacy target filename remains only so updater `0.8.x` can validate the package; it adds no subscription or closed-use restrictions.
+
+### Existing projects
+
+- Existing stage, approved design/content, page and block specifications, production code and project-specific `AGENTS.md` content remain valid.
+- Do not add a CMS automatically. If the owner continues changing the site through Codex/AI and normal deploys are acceptable, record `CMS status: not needed`. If editors or content managers need a non-code interface, first define roles, preview/approval/publish flow, locales, redirects, media, revalidation, export/backup and downtime expectations, then choose a CMS.
+- Do not rebuild the Next.js foundation only to create the new architecture document. On the next relevant setup, integration, e-commerce, handoff or deployment task, capture the missing decisions and verify the affected full scenarios.
+- Static sites do not gain auth, a database, a server runtime or a heavy test stack without a real requirement.
+- Dynamic sites should pass the application-wide flow check before project handoff or production deployment.
+- E-commerce should pass the commerce operations/payment safety gate before the final e-commerce verdict; a browser return page is not proof of payment.
+
+### Breaking changes
+
+- No production-code, project-document or website-stage breaking changes.
+- No prompt path is removed or renamed.
+- No explicit update confirmation is required beyond normal manifest conflict and integrity gates.
+
 ## 0.9.0
 
 Compatibility: explicit one-time source migration from `0.4.22+`.

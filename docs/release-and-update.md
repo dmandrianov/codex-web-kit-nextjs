@@ -11,10 +11,12 @@
 
 GitHub сохранил numeric ID после transfer/rename. Поэтому источник доверия не менялся.
 
-Версия `0.9.0` объединяет два перехода:
+Версия `0.9.0` объединила два перехода:
 
 1. перенос bootstrap source с Organization на personal repository;
 2. переход от закрытых подписочных условий к MIT License.
+
+Начиная с `0.10.0` новые manifests используют generic transport `github-release-gh`. Bridge-значение `private-github-organization-gh` сохраняется только в историческом release `0.9.0`, чтобы установленный updater `0.8.x` мог принять переходный архив.
 
 ## Модель доверия
 

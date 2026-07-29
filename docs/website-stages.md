@@ -19,7 +19,7 @@ Maintenance не делает `git pull`, commit или push в репозито
 
 Папка: `prompts/00-intake-brief/`
 
-Назначение: собрать исходные материалы, транскрибировать видео/аудио, извлечь факты, провести интервью, посмотреть конкурентов и финализировать project brief.
+Назначение: собрать исходные материалы, транскрибировать видео/аудио, извлечь факты, провести интервью, определить будущий workflow изменения контента до обсуждения CMS, посмотреть конкурентов и финализировать project brief.
 
 Когда переходить дальше: пользователь подтвердил, что суть проекта отражена верно, а `project-brief.md` можно использовать как источник правды.
 
@@ -67,9 +67,9 @@ Maintenance не делает `git pull`, commit или push в репозито
 
 Папка: `prompts/06-nextjs-setup/`
 
-Назначение: безопасно подготовить технический фундамент проекта: preflight, scaffold, server-first App Router, CSS-first responsive styling без post-mount canvas correction, tooling и финальный review.
+Назначение: безопасно подготовить технический фундамент проекта: preflight, ранняя technical architecture, CMS need от реального workflow людей, version/runtime/hosting contract, sources of truth, data/cache/security, scaffold, server-first App Router, CSS-first responsive styling, tooling и финальный review.
 
-Когда переходить дальше: созданы `docs/nextjs/preflight.md`, `docs/nextjs/scaffold.md`, `docs/nextjs/app-router-structure.md`, `docs/nextjs/styling-integration.md`, `docs/nextjs/tooling.md`, `docs/nextjs/next-ready-review.md`, а review даёт verdict `Next ready`.
+Когда переходить дальше: созданы `docs/nextjs/preflight.md`, `docs/nextjs/technical-architecture.md`, `docs/nextjs/scaffold.md`, `docs/nextjs/app-router-structure.md`, `docs/nextjs/styling-integration.md`, `docs/nextjs/tooling.md`, `docs/nextjs/next-ready-review.md`, а review даёт verdict `Next ready`.
 
 ## 07. Page planning
 
@@ -91,7 +91,7 @@ Maintenance не делает `git pull`, commit или push в репозито
 
 Папка: `prompts/09-quality/`
 
-Назначение: проверить один блок или узкий scope. По умолчанию используется быстрый smoke-check, но visible UI всегда проверяют fresh load: viewport задаётся до navigation, early frame сравнивается с settled state, hydration и media resources инспектируются, а screenshots сверяются с Visual North Star/обоими canvas contracts/approved evidence. Deep review обязательно проверяет `1440 / 1920 / 2560 CSS px`; `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с reasoned skip.
+Назначение: проверить один блок или узкий scope. По умолчанию используется быстрый smoke-check, но visible UI всегда проверяют fresh load: viewport задаётся до navigation, early frame сравнивается с settled state, hydration и media resources инспектируются, а screenshots сверяются с Visual North Star/обоими canvas contracts/approved evidence. Deep review обязательно проверяет `1440 / 1920 / 2560 CSS px`; `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с reasoned skip. Перед page/project handoff или deploy динамического сайта отдельный application-flow gate проверяет полные сценарии форм, CMS, auth, commerce и интеграций.
 
 Когда переходить дальше: создан quality summary со статусом `Quality passed` или все fixes отправлены в конкретный `08/09` prompt.
 
@@ -107,11 +107,11 @@ Maintenance не делает `git pull`, commit или push в репозито
 
 Папка: `prompts/11-ecommerce/`
 
-Назначение: добавить специализированный слой для интернет-магазинов: e-commerce brief, product data model, каталог, PLP, product card, PDP, фильтры, поиск, сортировка, коммерческие правила, корзина, checkout, аккаунт, заказы и аналитика.
+Назначение: добавить специализированный слой для интернет-магазинов: e-commerce brief, product data model, каталог, PLP, product card, PDP, фильтры, поиск, сортировка, коммерческие правила, корзина, checkout, аккаунт, заказы, аналитика и technical commerce safety.
 
 Когда использовать: после базового брифа, IA и дизайн-системы, до page planning и реализации e-commerce страниц и блоков.
 
-Когда переходить дальше: создан `docs/ecommerce/ecommerce-review.md`, verdict `Ecommerce ready for page planning`, риски интеграций и юридические требования зафиксированы, первая e-commerce страница возвращена в `07-page-planning`.
+Когда переходить дальше: созданы `docs/ecommerce/commerce-operations-and-payment-safety.md` и `docs/ecommerce/ecommerce-review.md`, verdict `Ecommerce ready for page planning`, authoritative systems, server recalculation, signed webhook/idempotency/recovery, риски интеграций и юридические требования зафиксированы, первая e-commerce страница возвращена в `07-page-planning`.
 
 ## 12. Deployment
 

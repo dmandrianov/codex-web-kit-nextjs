@@ -35,9 +35,18 @@
 - Промокоды:
 - Минимальный заказ:
 
-## Интеграции
+## Работа с контентом
 
-- CMS/PIM:
+- Кто меняет описания, статьи и подборки:
+- Owner + Codex/ИИ workflow:
+- CMS status: not needed / discuss / selected / unknown
+- Причина:
+
+## Операционные системы и интеграции
+
+- Commerce engine:
+- PIM/catalog:
+- Price/stock source:
 - Платежи:
 - Доставка:
 - CRM/ERP:

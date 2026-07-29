@@ -64,7 +64,12 @@
 2. Определи from/to versions из update summary, installed manifest, namespaced changelog и migrations.
 3. Прочитай `docs/project-state.md` и определи реальную текущую стадию проекта по evidence, а не только по missing files.
 4. Извлеки из changelog/migrations только новые или существенно изменённые workflow areas диапазона from -> to. Не анализируй повторно всю историю kit без необходимости.
-5. Для responsive-delivery изменений отдельно проверь evidence: `layout-rules.md`, styling foundation, отсутствие viewport-dependent initial render branch, reserved media geometry и fresh-load browser verification. Settled screenshots сами по себе не считаются полным покрытием.
+5. Для Next.js technical architecture и responsive-delivery изменений отдельно проверь evidence:
+   - кто меняет контент после запуска и обоснован ли текущий CMS/no-CMS выбор;
+   - зафиксированы ли framework/runtime versions, hosting shape, sources of truth, data/cache freshness, public endpoints и critical scenarios;
+   - есть ли для магазина commerce operations/payment safety, а для динамического project handoff — application flow evidence;
+   - есть ли `layout-rules.md`, styling foundation, отсутствие viewport-dependent initial render branch, reserved media geometry и fresh-load browser verification.
+   Не добавляй CMS или инфраструктуру автоматически и не откатывай завершённые стадии. Settled screenshots сами по себе не считаются полным responsive покрытием.
 6. Для Creator-Critic Design Loop отдельно проверь:
    - может ли существующий Visual North Star служить positive creator evidence;
    - можно ли считать approved brand/type/color/action/accessibility/product patterns stable vocabulary;
@@ -96,7 +101,7 @@
    - точный prompt;
    - естественная команда пользователя.
    Не запускай ни один offer автоматически.
-12. Для существующего visible UI без first-frame evidence предложи targeted optional refresh: сначала `05/09` для contract при необходимости, затем `06/04` для foundation и `09/05` для fresh-load verification. Не запускай его автоматически и не откатывай project stage.
+12. Если существующему проекту не хватает нового technical architecture artifact, предложи `06/02-technical-architecture` как optional refresh без автоматического изменения кода. Для visible UI без first-frame evidence предложи targeted refresh: сначала `05/09` для contract при необходимости, затем `06/04` для foundation и `09/05` для fresh-load verification. Не запускай автоматически и не откатывай project stage.
 13. Для design workflow предлагай только один уместный optional refresh: новый concept через `05/03`, gpt-taste mode для следующей новой expressive task или calibration слабого marketing chapter. Не предлагай массовый redesign.
 14. Определи `Recommended next prompt after alignment`. Он должен продолжать реальную работу проекта и не подменяться новым optional feature только потому, что kit обновился.
 15. Создай или обнови `docs/prompt-kit-workflow-alignment.md`.

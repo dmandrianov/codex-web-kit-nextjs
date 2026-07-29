@@ -24,6 +24,9 @@
 - Confidence: low
 - Ecommerce flag: no
 - Deployment flag: no
+- CMS status: not checked / not needed / needed / selected / needs decision
+- Technical architecture status: not checked / ready for scaffold / needs decisions
+- Application flow status: not applicable / not checked / ready / needs fixes / blocked
 - Technical SEO status: not checked / pre-deploy ready / production verified / needs fixes
 - Current design pass: none / creator brief ready / rendered / critic reviewed / self-fixed / quality checked
 - Current creator engine: native / gpt-taste / not applicable
@@ -103,6 +106,16 @@
 - [ ] Provisional vocabulary calibration scheduled or completed after 2–3 live marketing blocks
 - [ ] Anti-AI-slop rules checked
 - [ ] Next.js preflight done
+- [ ] Content operations owner identified
+- [ ] CMS status decided from real editing workflow
+- [ ] Technical architecture decided
+- [ ] Framework/runtime versions recorded
+- [ ] Hosting shape selected before scaffold
+- [ ] Sources of truth recorded
+- [ ] Data/render/cache freshness matrix recorded
+- [ ] Locales/markets/currency contract recorded, if applicable
+- [ ] Public endpoint and application-security boundaries recorded
+- [ ] Critical application scenarios and test strategy recorded
 - [ ] Next.js scaffold ready
 - [ ] App Router structure ready
 - [ ] Styling integrated
@@ -146,6 +159,7 @@
 - [ ] Responsive media candidates and reserved geometry verified
 - [ ] Full UI/copy compliance checked when applicable
 - [ ] Quality checks passed
+- [ ] Application flows checked when applicable
 - [ ] Deployment target selected
 - [ ] SSH access configured
 - [ ] Server baseline secured
@@ -179,6 +193,7 @@
 - [ ] Cart spec
 - [ ] Checkout flow spec
 - [ ] Account/orders analytics spec
+- [ ] Commerce operations and payment safety
 - [ ] Ecommerce reviewed
 
 ## Decisions

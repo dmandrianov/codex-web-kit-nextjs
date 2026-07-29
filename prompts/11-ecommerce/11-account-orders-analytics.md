@@ -82,4 +82,4 @@
 
 ## Follow-up
 
-Следующий промпт: `prompts/11-ecommerce/12-ecommerce-review.md`.
+Следующий промпт: `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md`.

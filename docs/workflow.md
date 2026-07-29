@@ -47,6 +47,7 @@ Updater сверяет встроенный numeric repository ID и personal ow
 - найденные материалы;
 - транскрипты видео и аудио;
 - извлеченные факты, гипотезы и вопросы;
+- будущий workflow изменения контента: owner + Codex/ИИ без CMS по умолчанию или editorial team с последующим CMS decision;
 - итерационный анализ конкурентов;
 - финальный `project-brief.md`.
 
@@ -174,11 +175,12 @@ Updater сверяет встроенный numeric repository ID и personal ow
 
 ## 6. Настройка Next.js
 
-Цель: безопасно подготовить технический фундамент Next.js: проверить текущую папку, создать или адаптировать scaffold, настроить App Router, подключить дизайн-систему, зафиксировать tooling и получить verdict `Next ready`.
+Цель: безопасно подготовить технический фундамент Next.js: проверить текущую папку, до scaffold решить CMS need, версии, hosting shape, источники данных, свежесть/кеш, безопасность и критичные сценарии, затем создать или адаптировать scaffold, настроить App Router, подключить дизайн-систему, зафиксировать tooling и получить verdict `Next ready`.
 
 Промпты:
 
 - `prompts/06-nextjs-setup/01-project-preflight.md`
+- `prompts/06-nextjs-setup/02-technical-architecture.md`
 - `prompts/06-nextjs-setup/02-project-scaffold.md`
 - `prompts/06-nextjs-setup/03-app-router-structure.md`
 - `prompts/06-nextjs-setup/04-styling-and-design-system-integration.md`
@@ -188,6 +190,7 @@ Updater сверяет встроенный numeric repository ID и personal ow
 Результат:
 
 - `docs/nextjs/preflight.md`;
+- `docs/nextjs/technical-architecture.md`;
 - `docs/nextjs/scaffold.md`;
 - `docs/nextjs/app-router-structure.md`;
 - `docs/nextjs/styling-integration.md`;
@@ -199,6 +202,8 @@ Updater сверяет встроенный numeric repository ID и personal ow
 - безопасно сохранённые `AGENTS.md`, `prompts/`, `docs/` и пользовательские материалы;
 - styling foundation на основе дизайн-системы, включая shared stage/container primitives, server-first structure и CSS-first responsive delivery без post-mount canvas correction;
 - понятные команды запуска и проверки.
+- CMS не добавлена без реального редакционного workflow; для owner + Codex/ИИ по умолчанию используется repository-owned content.
+- версии, hosting shape, sources of truth, data/cache matrix и public endpoint boundaries приняты до кода.
 
 ## 7. Планирование страницы
 
@@ -282,6 +287,7 @@ Fast lane является дефолтом для простых и средн�
 - `prompts/09-quality/04-technical-checks.md`
 - `prompts/09-quality/05-browser-runtime-verification.md`
 - `prompts/09-quality/06-quality-summary.md`
+- `prompts/09-quality/07-application-flow-check.md` — отдельный page/project gate перед handoff/deploy для форм, CMS, auth, commerce и интеграций.
 
 Результат:
 
@@ -295,6 +301,7 @@ Fast lane является дефолтом для простых и средн�
 - technical checks;
 - browser runtime verification с early/settled frame, hydration и responsive media evidence;
 - quality summary с verdict `Quality passed` или `needs fixes`;
+- `docs/quality/application-flow-check.md` с evidence полных пользовательских и операционных сценариев по применимости;
 - исправления в рамках текущего блока или узкого scope;
 - подтвержденные проверки.
 
@@ -335,6 +342,7 @@ Fast lane является дефолтом для простых и средн�
 - `prompts/11-ecommerce/09-cart-spec.md`
 - `prompts/11-ecommerce/10-checkout-flow-spec.md`
 - `prompts/11-ecommerce/11-account-orders-analytics.md`
+- `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md`
 - `prompts/11-ecommerce/12-ecommerce-review.md`
 
 Результат:
@@ -350,7 +358,9 @@ Fast lane является дефолтом для простых и средн�
 - `docs/ecommerce/cart-spec.md`;
 - `docs/ecommerce/checkout-flow.md`;
 - `docs/ecommerce/account-orders-analytics.md`;
+- `docs/ecommerce/commerce-operations-and-payment-safety.md`;
 - `docs/ecommerce/ecommerce-review.md`;
+- verified sources of truth, server-side order recalculation, signed webhook, idempotency, recovery/reconciliation и sandbox test matrix;
 - verdict `Ecommerce ready for page planning` или список fixes;
 - конкретная первая e-commerce страница, которую нужно вернуть в `07-page-planning`.
 

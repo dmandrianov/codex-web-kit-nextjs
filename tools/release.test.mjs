@@ -52,11 +52,11 @@ function fixturePayload(options = {}) {
       name: "Web Kit",
       repositoryId: repository.id,
       repositoryFullName: repository.fullName,
-      transport: "private-github-organization-gh",
+      transport: options.transport ?? "github-release-gh",
       channel: "stable",
     },
     compatibility: {
-      compatibleFrom: "1.0.0",
+      compatibleFrom: options.compatibleFrom ?? "0.4.22",
       breaking: false,
       requiresExplicitConfirmation: false,
       minimumUpdaterSchemaVersion: 1,
@@ -289,6 +289,18 @@ test("release source rejects a modified or incomplete MIT license", async () => 
     await assert.rejects(() => verifySource(root), /LICENSE must match the canonical MIT text/);
   } finally {
     await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("release source reserves the legacy transport for the 0.9.0 bridge", async () => {
+  const current = await createSourceFixture({ version: "0.10.0", transport: "private-github-organization-gh" });
+  const bridge = await createSourceFixture({ version: "0.9.0", transport: "private-github-organization-gh" });
+  try {
+    await assert.rejects(() => verifySource(current), /allowed only for the 0\.9\.0 bridge release/);
+    await assert.doesNotReject(() => verifySource(bridge));
+  } finally {
+    await rm(current, { recursive: true, force: true });
+    await rm(bridge, { recursive: true, force: true });
   }
 });
 
@@ -736,6 +748,98 @@ test("shipped prompts preserve the Sol-friendly creator-critic contract", async 
     const content = promptTexts.get(relative);
     assert.ok((content.match(/\S+/g) ?? []).length <= 1300, `${relative} regressed into an oversized creator prompt`);
     assert.ok(!content.includes("## UI quality check"), `${relative} restored the full UI matrix before render`);
+  }
+});
+
+test("shipped prompts preserve the Next.js technical architecture gates", async () => {
+  const sourceRoot = path.resolve(toolsDirectory, "..");
+  const read = (relative) => readFile(path.join(sourceRoot, ...relative.split("/")), "utf8");
+
+  const [
+    agents,
+    router,
+    baseline,
+    intake,
+    briefTemplate,
+    architecture,
+    scaffold,
+    appRouter,
+    tooling,
+    nextReady,
+    applicationFlow,
+    commerceSafety,
+    ecommerceReview,
+    runtime,
+    integrity,
+    payloadText,
+  ] = await Promise.all([
+    read("AGENTS.md"),
+    read("prompts/ROUTER.md"),
+    read("prompts/_knowledge/nextjs-technical-baseline.md"),
+    read("prompts/00-intake-brief/04-run-project-interview.md"),
+    read("prompts/_templates/brief-template.md"),
+    read("prompts/06-nextjs-setup/02-technical-architecture.md"),
+    read("prompts/06-nextjs-setup/02-project-scaffold.md"),
+    read("prompts/06-nextjs-setup/03-app-router-structure.md"),
+    read("prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md"),
+    read("prompts/06-nextjs-setup/06-next-ready-review.md"),
+    read("prompts/09-quality/07-application-flow-check.md"),
+    read("prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md"),
+    read("prompts/11-ecommerce/12-ecommerce-review.md"),
+    read("prompts/12-deployment/04-runtime-and-hosting-strategy.md"),
+    read("prompts/_maintenance/02-check-kit-integrity.md"),
+    read("release/payload.json"),
+  ]);
+  const payload = JSON.parse(payloadText);
+
+  for (const content of [agents, router, intake, briefTemplate, architecture]) {
+    assert.ok(content.includes("Codex/ИИ"), "AI-assisted owner workflow is missing");
+    assert.ok(/CMS/i.test(content), "CMS workflow-first decision is missing");
+  }
+  assert.ok(architecture.includes("CMS status: not needed"));
+  assert.ok(architecture.includes("редакторы"));
+  assert.ok(architecture.includes("data/rendering/cache matrix"));
+  assert.ok(architecture.includes("ready for scaffold"));
+
+  for (const marker of ["Next.js 16", "20.9+", "cacheComponents", "proxy.ts", "next lint", "Data Access Layer", "Route Handler", "idempotency", "Self-hosting", "Internationalization"]) {
+    assert.ok(baseline.includes(marker), `Next.js baseline is missing: ${marker}`);
+  }
+  for (const content of [scaffold, tooling, nextReady]) assert.ok(content.includes("technical-architecture.md"));
+  for (const marker of ["server-only", "сериализуем", "Route Handler", "authorization", "adapter"]) {
+    assert.ok(appRouter.toLowerCase().includes(marker.toLowerCase()), `App Router architecture is missing: ${marker}`);
+  }
+
+  for (const marker of ["duplicate", "CMS", "auth", "commerce", "production-like"]) {
+    assert.ok(applicationFlow.toLowerCase().includes(marker.toLowerCase()), `Application flow gate is missing: ${marker}`);
+  }
+  for (const marker of ["server-side", "raw body", "signature", "idempotency", "out-of-order", "reconciliation", "sandbox"]) {
+    assert.ok(commerceSafety.toLowerCase().includes(marker.toLowerCase()), `Commerce safety gate is missing: ${marker}`);
+  }
+  assert.ok(ecommerceReview.includes("commerce-operations-and-payment-safety.md"));
+  assert.ok(ecommerceReview.includes("signed webhook"));
+  for (const marker of ["NEXT_SERVER_ACTIONS_ENCRYPTION_KEY", "deploymentId", "shared cache", "streaming", "migrations"]) {
+    assert.ok(runtime.includes(marker), `Deployment topology gate is missing: ${marker}`);
+  }
+
+  const requiredPromptFiles = [
+    "prompts/_knowledge/nextjs-technical-baseline.md",
+    "prompts/06-nextjs-setup/02-technical-architecture.md",
+    "prompts/09-quality/07-application-flow-check.md",
+    "prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md",
+    "prompts/11-ecommerce/12-ecommerce-review.md",
+  ];
+  for (const relative of requiredPromptFiles) assert.ok(payload.promptFiles.includes(relative), `payload is missing ${relative}`);
+
+  const preflightIndex = payload.promptFiles.indexOf("prompts/06-nextjs-setup/01-project-preflight.md");
+  const architectureIndex = payload.promptFiles.indexOf("prompts/06-nextjs-setup/02-technical-architecture.md");
+  const scaffoldIndex = payload.promptFiles.indexOf("prompts/06-nextjs-setup/02-project-scaffold.md");
+  assert.ok(preflightIndex < architectureIndex && architectureIndex < scaffoldIndex, "technical architecture must route between preflight and scaffold");
+
+  for (const marker of ["Next.js technical architecture coverage", "CMS workflow-first decision", "Ecommerce operations/payment safety", "Automated regression coverage"]) {
+    assert.ok(integrity.includes(marker), `integrity prompt is missing: ${marker}`);
+  }
+  for (const pathMarker of requiredPromptFiles.slice(1)) {
+    assert.ok(router.includes(pathMarker) || integrity.includes(pathMarker), `routing/integrity coverage is missing ${pathMarker}`);
   }
 });
 

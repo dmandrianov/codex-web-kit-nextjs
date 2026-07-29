@@ -18,6 +18,7 @@
 - Lockfile и package manager.
 - `tsconfig.json`, `next.config.*`, ESLint config, formatting config, Tailwind config, если есть.
 - `docs/nextjs/scaffold.md`.
+- `docs/nextjs/technical-architecture.md`.
 - `docs/nextjs/styling-integration.md`.
 - Требования к деплою и CI, если известны.
 - `docs/project-state.md`.
@@ -33,15 +34,16 @@
 
 ## Процесс
 
-1. Проверь package manager, scripts и версии зависимостей.
-2. Убедись, что есть или понятны команды `dev`, `build`, `lint`, typecheck.
+1. Проверь package manager, scripts и точные версии Next.js, React, Node.js и TypeScript против technical architecture.
+2. Убедись, что есть или понятны команды `dev`, `build`, прямой ESLint/Biome `lint`, typecheck. Для Next.js 16 не используй удалённый `next lint` и не считай `next build` заменой lint.
 3. Настрой минимальный TypeScript/lint workflow, если он отсутствует.
 4. Проверь path aliases и module resolution.
 5. Зафиксируй formatting policy: есть ли Prettier/Biome или пока не нужен.
-6. Определи, нужны ли дополнительные зависимости сейчас. Для каждой зависимости укажи причину, альтернативы и риск.
-7. Запусти доступные проверки или опиши блокеры.
-8. Создай или обнови `docs/nextjs/tooling.md`.
-9. Обнови `docs/project-state.md`: отметь `Tooling configured` и укажи следующий промпт.
+6. Определи минимальную test strategy из technical architecture: не ставь test stack без сценария, но зафиксируй E2E для async Server Components и критичных flows, если они есть.
+7. Определи, нужны ли дополнительные зависимости сейчас. Для каждой зависимости укажи причину, альтернативы и риск.
+8. Запусти доступные проверки или опиши блокеры.
+9. Создай или обнови `docs/nextjs/tooling.md`.
+10. Обнови `docs/project-state.md`: отметь `Tooling configured` и укажи следующий промпт.
 
 ## Output
 
@@ -60,6 +62,13 @@
 ## TypeScript
 
 ## Lint
+
+## Framework/runtime compatibility
+
+## Test strategy
+
+| Risk/scenario | Test level | Tool/command | Status |
+| --- | --- | --- | --- |
 
 ## Formatting
 
@@ -84,6 +93,8 @@
 
 - Scripts понятны и зафиксированы.
 - TypeScript/lint/build workflow есть или блокеры явно описаны.
+- Версии и команды соответствуют выбранной major-версии Next.js.
+- Критичные app-wide scenarios имеют план проверки; простому сайту не добавлен лишний test stack.
 - Новые зависимости обоснованы.
 - Команды проверки записаны в документацию.
 - `docs/project-state.md` обновлен.

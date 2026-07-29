@@ -573,6 +573,9 @@ export async function verifySource(root = process.cwd(), options = {}) {
   const configSource = await inspectSourceFile(sourceRoot, "release/payload.json", { maxBytes: 512 * 1024 });
   const config = validateConfig(JSON.parse(configSource.text));
   const metadata = await readSourceMetadata(sourceRoot);
+  if (metadata.version.version !== "0.9.0" && config.kit.transport === TRANSITION_TRANSPORT) {
+    throw new Error("The legacy private-github-organization-gh transport is allowed only for the 0.9.0 bridge release");
+  }
   if (options.tag && options.tag !== `v${metadata.version.version}`) throw new Error(`Tag ${options.tag} does not match v${metadata.version.version}`);
   if (options.publish && !options.tag) throw new Error("--publish requires --tag vX.Y.Z");
   if (options.publish) requirePublishRepositoryIdentity(config);

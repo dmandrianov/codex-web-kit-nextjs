@@ -28,17 +28,20 @@
 - Не добавляй поля, которые никто не будет использовать.
 - Не смешивай product attributes, filter attributes и marketing badges без объяснения.
 - Не выбирай CMS/PIM без отдельного решения.
+- Используй CMS decision из project brief или `docs/nextjs/technical-architecture.md`, если он уже создан: если владелец меняет сайт через Codex/ИИ и редакционная команда не нужна, не добавляй CMS только ради каталога.
+- Не смешивай editorial product copy с operational price/stock/order data, если у них разные владельцы и требования к свежести.
 
 ## Процесс
 
 1. Определи типы товаров: physical, digital, service, configurable, bundle, subscription.
 2. Определи сущности: product, variant/SKU, category, collection, media, price, stock, review, badge.
-3. Опиши обязательные и optional поля.
-4. Отдельно выдели attributes для фильтров, сравнения и PDP.
-5. Опиши состояния: in stock, low stock, out of stock, sale, new, preorder, unavailable variant.
-6. Зафиксируй data risks и open questions.
-7. Создай или обнови `docs/ecommerce/product-data-model.md`.
-8. Обнови `docs/project-state.md`: отметь `Product data model` и укажи следующий промпт.
+3. Для content, catalog identity, price, stock и variants зафиксируй отдельный authoritative source и владельца.
+4. Опиши обязательные и optional поля.
+5. Отдельно выдели attributes для фильтров, сравнения и PDP.
+6. Опиши состояния: in stock, low stock, out of stock, sale, new, preorder, unavailable variant.
+7. Зафиксируй data risks и open questions.
+8. Создай или обнови `docs/ecommerce/product-data-model.md`.
+9. Обнови `docs/project-state.md`: отметь `Product data model` и укажи следующий промпт.
 
 ## Output
 
@@ -53,6 +56,11 @@
 
 | Entity | Purpose | Required fields | Optional fields | Source | Notes |
 | --- | --- | --- | --- | --- | --- |
+
+## Sources of truth
+
+| Data class | Authoritative source | Owner | Freshness | Notes |
+| --- | --- | --- | --- | --- |
 
 ## Product fields
 
@@ -82,6 +90,7 @@
 ## Done when
 
 - Product/SKU/variant модель понятна.
+- Content, catalog identity, price и stock не смешаны без явного owner/source decision.
 - Атрибуты для PDP, фильтров и сравнения разделены.
 - Неизвестные данные отмечены, а не выдуманы.
 - `docs/project-state.md` обновлен.

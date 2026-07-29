@@ -5,13 +5,13 @@
     "name": "Web Kit",
     "repositoryId": 1302994489,
     "repositoryFullName": "dmandrianov/codex-web-kit-nextjs",
-    "transport": "private-github-organization-gh",
+    "transport": "github-release-gh",
     "channel": "stable"
   },
   "compatibility": {
     "compatibleFrom": "0.4.22",
     "breaking": false,
-    "requiresExplicitConfirmation": true,
+    "requiresExplicitConfirmation": false,
     "minimumUpdaterSchemaVersion": 1
   },
   "publication": {
@@ -121,6 +121,7 @@
     "prompts/05-design-system/12-design-system-review.md",
     "prompts/05-design-system/_design-style-library.md",
     "prompts/06-nextjs-setup/01-project-preflight.md",
+    "prompts/06-nextjs-setup/02-technical-architecture.md",
     "prompts/06-nextjs-setup/02-project-scaffold.md",
     "prompts/06-nextjs-setup/03-app-router-structure.md",
     "prompts/06-nextjs-setup/04-styling-and-design-system-integration.md",
@@ -150,6 +151,7 @@
     "prompts/09-quality/04-technical-checks.md",
     "prompts/09-quality/05-browser-runtime-verification.md",
     "prompts/09-quality/06-quality-summary.md",
+    "prompts/09-quality/07-application-flow-check.md",
     "prompts/10-handoff/01-handoff-scope.md",
     "prompts/10-handoff/02-final-review.md",
     "prompts/10-handoff/03-change-summary.md",
@@ -165,6 +167,7 @@
     "prompts/11-ecommerce/09-cart-spec.md",
     "prompts/11-ecommerce/10-checkout-flow-spec.md",
     "prompts/11-ecommerce/11-account-orders-analytics.md",
+    "prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md",
     "prompts/11-ecommerce/12-ecommerce-review.md",
     "prompts/12-deployment/01-deployment-brief.md",
     "prompts/12-deployment/02-server-access-and-ssh.md",
@@ -193,6 +196,7 @@
     "prompts/_guidelines/seo-content-writer-integration.md",
     "prompts/_knowledge/codex-user-response-quality.md",
     "prompts/_knowledge/contemporary-visual-direction.md",
+    "prompts/_knowledge/nextjs-technical-baseline.md",
     "prompts/_knowledge/site-copy-quality.md",
     "prompts/_knowledge/technical-seo-baseline.md",
     "prompts/_knowledge/ui-design-quality.md",

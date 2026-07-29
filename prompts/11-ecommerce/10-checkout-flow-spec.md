@@ -17,6 +17,7 @@
 - `docs/ecommerce/cart-spec.md`.
 - `docs/ecommerce/commercial-rules.md`.
 - `docs/ecommerce/product-data-model.md`.
+- `docs/nextjs/technical-architecture.md`.
 - Payment/delivery integration constraints.
 - `docs/design-system/accessibility.md`.
 - `prompts/_knowledge/ui-design-quality.md`.
@@ -32,6 +33,7 @@
 - Не проектируй все checkout blocks как одну реализационную задачу.
 - Не утверждай checkout UI без UI quality notes для forms, step hierarchy, progress, review, errors, payment failure, success and mobile behavior.
 - Не утверждай checkout copy, field labels, validation errors, recovery messages, consent/legal prompts, success copy or CTA без Site copy notes.
+- Не считай success page или redirect подтверждением оплаты; это UX state ожидания/подтверждения, а authoritative payment result определяется в technical commerce safety.
 
 ## Процесс
 
@@ -39,7 +41,7 @@
 2. Опиши steps: cart handoff, customer, delivery, payment, review, success.
 3. Опиши fields, validation, errors и recovery.
 4. Опиши guest/registered user behavior.
-5. Опиши edge cases: stock, price, promo, payment failure, delivery unavailable.
+5. Опиши edge cases: stock, price, promo, duplicate submit, pending/async payment, payment failure, delivery unavailable и потерю связи после перехода к провайдеру.
 6. Опиши legal/consent elements.
 7. Добавь UI quality notes по `prompts/_knowledge/ui-design-quality.md`.
 8. Добавь Site copy notes по `prompts/_knowledge/site-copy-quality.md`.
@@ -69,6 +71,7 @@
 
 - Checkout можно реализовывать по шагам.
 - Все критичные ошибки описаны.
+- Success/pending/failure UI не подменяет server-side payment truth.
 - Есть guest scenario.
 - Юридические элементы не забыты.
 - UI quality notes и Site copy notes зафиксированы для checkout forms, labels, errors, recovery, consent and success states.

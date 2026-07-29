@@ -17,6 +17,8 @@
 - `docs/deployment/deploy-runbook.md`.
 - `docs/deployment/process-and-proxy.md`.
 - `docs/deployment/post-deploy-checks.md`.
+- `docs/nextjs/technical-architecture.md`.
+- `docs/quality/application-flow-check.md`, если применимо.
 - `docs/seo/production-seo-verification.md` со статусом `verified` или `verified with user actions`.
 - Hosting/server details.
 - Database/CMS/storage details, если есть.
@@ -34,13 +36,15 @@
 
 ## Процесс
 
-1. Определи, что нужно мониторить: uptime, errors, logs, disk, SSL expiry.
-2. Определи backup scope: app files, env, database, uploads, CMS.
-3. Опиши rollback strategy.
-4. Проверь или настрой минимальные logs/access commands.
-5. Зафиксируй owner and frequency.
-6. Создай или обнови `docs/deployment/monitoring-backup-rollback.md`.
-7. Обнови `docs/project-state.md`: отметь `Rollback plan documented`.
+1. Определи, что нужно мониторить: uptime/health, runtime errors, structured logs, Web Vitals важных routes, integration/webhook failures, disk и SSL expiry.
+2. Свяжи logs/errors с deploy version или `deploymentId`, не записывая secrets и лишние персональные данные.
+3. Для CMS, forms, auth и commerce определи отдельные failure signals и owner реакции.
+4. Определи backup scope: app files, env reference, database, uploads, CMS export и stateful queues/storage.
+5. Опиши rollback strategy, совместимость database migrations и способ проверить восстановление.
+6. Проверь или настрой минимальные logs/access commands и alerts по подтверждённому бюджету.
+7. Зафиксируй owner, threshold и frequency.
+8. Создай или обнови `docs/deployment/monitoring-backup-rollback.md`.
+9. Обнови `docs/project-state.md`: отметь `Rollback plan documented`.
 
 ## Output
 
@@ -51,11 +55,18 @@
 
 ## Monitoring
 
+| Signal | Why | Threshold | Owner | Response |
+| --- | --- | --- | --- | --- |
+
 ## Logs
+
+## Integrations and webhooks
 
 ## Backup
 
 ## Rollback
+
+## Restore verification and migrations
 
 ## Owners
 
@@ -74,8 +85,9 @@
 ## Done when
 
 - Monitoring baseline определён.
+- Runtime, Web Vitals и критичные integration/webhook failures имеют применимые signals.
 - Backup scope зафиксирован.
-- Rollback plan есть или limitation явно описан.
+- Rollback plan, migration compatibility и restore verification есть или limitation явно описан.
 - Credentials не раскрыты.
 - `docs/project-state.md` обновлён.
 

@@ -1,6 +1,6 @@
 ﻿# AGENTS.md
 
-<!-- PROMPT_KIT:BEGIN managed version=0.9.0 -->
+<!-- PROMPT_KIT:BEGIN managed version=0.10.0 -->
 
 ## Назначение
 
@@ -58,10 +58,10 @@
 - `strategy-ready` - цели, аудитория и оффер уточнены.
 - `ia-ready` - sitemap, карта секций и контентные пробелы понятны.
 - `design-ready` - visual concept утверждён или явно пропущен, design direction, Visual North Star, iconography, токены, Desktop Canvas Contract, First-render Responsive Delivery Contract, page composition/rhythm, UI-компоненты и accessibility правила зафиксированы.
-- `next-ready` - Next.js проект создан и базово настроен.
+- `next-ready` - техническая архитектура принята, Next.js проект создан и базово настроен.
 - `page-planning` - идёт спецификация страницы и нарезка на блоки.
 - `block-build` - реализуется ровно один блок или один узкий UI-проход.
-- `quality` - идут визуальные, технические и браузерные проверки.
+- `quality` - идут block-level визуальные/технические проверки или применимый app-wide flow check.
 - `technical-seo` - сайт проходит базовую technical SEO readiness перед deploy или live verification после deploy.
 - `deployment` - настраивается сервер, SSH, env, домен, SSL, production deploy и post-deploy verification.
 - `handoff` - собирается финальная ревизия и summary.
@@ -98,8 +98,11 @@
 - Не переноси полный `$seo-content-writer` автоматически на hero, CTA, карточки, формы и обычный block content preview, даже если upstream description упоминает landing pages и product descriptions. Обычный page copy получает только лёгкий нативный слой его полезных принципов через `site-copy-quality.md`, без чтения skill/references, checksum preflight, research workflow или дополнительного approval; явная просьба пользователя применить полный skill к странице допустима.
 - `docs/design-system/layout-rules.md` фиксирует Desktop Canvas Contract и First-render Responsive Delivery Contract: reference viewport, canvas roles/caps, stable invariants, allowed expansion zones, CSS-first initial geometry, hydration invariant, reserved media geometry, responsive asset sizing, height behavior и matrix. Creator получает только применимую часть. Concept sanity и fast pass задают viewport до fresh reload и смотрят first/settled state на mobile + `1440` + wide `>=2560 CSS px`; полная design-system/quality/handoff проверка смотрит `1440 / 1920 / 2560 CSS px`, а `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с reasoned skip. Viewport — это CSS pixels (`window.innerWidth`), не физическое разрешение монитора.
 - Перед утверждением публичного текста делай pain-first human check: фраза должна звучать как ответ на реальную ситуацию/вопрос человека, а не как внутренняя терминология проекта, красивая метафора или сухой список возможностей.
+- На intake зафиксируй, кто будет менять сайт после запуска. Если владелец продолжает сам работать с сайтом через Codex/ИИ и обычный deploy приемлем, CMS по умолчанию не нужна: не перегружай проект платформой «на будущее». Если контент ведут редакторы, контент-менеджеры, маркетологи или другие сотрудники без работы с кодом, сначала обсуди роли, preview/approval/publish, locales, redirects, media, webhook/revalidation, export/backup и downtime behavior; только затем выбирай CMS.
 - Если пользователь прислал скриншот похожего блока после готовой дизайн-системы, сначала адаптируй смысл и UX-паттерн в page spec или block spec, а не копируй визуал 1:1.
 - Если дизайн-система готова, но Next.js фундамент ещё не проверен, начинай с `prompts/06-nextjs-setup/01-project-preflight.md`, а не со scaffold.
+- После preflight и до scaffold обязательно используй `prompts/06-nextjs-setup/02-technical-architecture.md` вместе с `prompts/_knowledge/nextjs-technical-baseline.md`: зафиксируй CMS status, точные framework/runtime versions, hosting shape, sources of truth, data/render/cache freshness matrix, public endpoint/security boundaries, critical scenarios и observability. Deployment позже подтверждает ранний hosting shape, а не впервые выбирает его.
+- Для Next.js major-version rules не полагайся на память: проверяй документацию установленной версии. Для Next.js 16 учитывай Node.js `20.9+`, async request APIs, `proxy` вместо устаревшего `middleware`, direct ESLint/Biome вместо удалённого `next lint` и явный `cacheComponents`/`use cache` contract.
 - Если пользователь просит сверстать страницу без page scope/page spec/block specs, сначала используй `prompts/07-page-planning/`.
 - Если пользователь просит сверстать смысловой блок и есть block spec, но нет утверждённого `docs/pages/[page]/blocks/[block]-content-preview.md`, сначала используй `prompts/07-page-planning/07-block-content-preview.md`: покажи смысл, факты, claims, voice, CTA intent, рабочий текст и короткий visual intent. Формула нужна только как diagnostic fallback, а альтернативы — только при реальном смысловом выборе. Approval не замораживает line breaks, точную геометрию или ещё не собранную композицию.
 - Не требуй отдельный live HTML-preview каждого блока до кода. После утверждения общего visual direction Codex свободен выбрать composition во время build, если пользователь явно не попросил предварительный макет.
@@ -111,7 +114,8 @@
 - Deep mode для блока используй только если блок сложный/критичный или fast smoke выявил риск: `prompts/08-block-build/01-block-build-preflight.md`.
 - Если блок реализован и нужен короткий quality pass, начинай с `prompts/09-quality/00-block-smoke-check.md`. Полный quality flow с `prompts/09-quality/01-quality-preflight.md` используй только для сложных, критичных или проблемных блоков.
 - Если пользователь просит сверстать страницу целиком, по умолчанию не делай это одним заходом: объясни, что реализация идёт поблочно, выбери первый block spec и начни с него. Исключение возможно только если пользователь явно подтвердил, что нужен единый проход по всей странице и принял риск снижения качества.
-- Если проект является интернет-магазином, пройди `prompts/11-ecommerce/` и получи `docs/ecommerce/ecommerce-review.md` до page planning и реализации каталога, PLP, PDP, корзины и checkout.
+- Если проект является интернет-магазином, пройди `prompts/11-ecommerce/`, включая `12-commerce-operations-and-payment-safety.md`, и получи `docs/ecommerce/ecommerce-review.md` до page planning и реализации каталога, PLP, PDP, корзины и checkout. Не ставь `Ecommerce ready`, пока не определены authoritative systems, server-side price/stock/total recheck, order states, signed webhook, idempotency, duplicate/concurrent/out-of-order handling и recovery/reconciliation.
+- Перед page/project handoff или production deploy сайта с формами, CMS, auth, commerce или интеграциями выполни `prompts/09-quality/07-application-flow-check.md`. Готовность отдельных блоков, lint/build и открытие главной страницы не заменяют проверку полного пользовательского сценария.
 - Technical SEO trigger rule: если задача касается metadata, H1-H6, canonical, robots/noindex, `robots.txt`, `sitemap.xml`, JSON-LD, crawlable links, status codes, redirects, Search Console или Яндекс Вебмастера, применяй `prompts/_knowledge/technical-seo-baseline.md`.
 - После `Quality passed` и готового `docs/deployment/domain-dns-ssl.md`, но до production deploy, используй `prompts/13-technical-seo/01-pre-deploy-technical-seo.md`. Не объявляй сайт ready for production deploy без `docs/seo/pre-deploy-technical-seo.md` со статусом `ready for deploy`, кроме явного user-approved skip.
 - После общего post-deploy smoke, но до monitoring и deployment handoff, используй `prompts/13-technical-seo/02-production-seo-verification.md`. Search Console/Yandex external setup выполняй только после подтверждения пользователя; отсутствие доступа фиксируй как user action, а не как фиктивно выполненную проверку.

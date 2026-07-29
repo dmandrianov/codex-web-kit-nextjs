@@ -16,6 +16,8 @@
 
 - `docs/project-state.md`.
 - `docs/nextjs/next-ready-review.md`.
+- `docs/nextjs/technical-architecture.md`.
+- `docs/quality/application-flow-check.md`, если scope содержит формы, CMS, auth, commerce или project-level handoff.
 - `docs/pages/` и quality summary, если сайт уже готов.
 - Hosting target: VPS/server, Vercel, Netlify, Docker, shared hosting или другое.
 - IP сервера, домен, DNS provider, если есть.
@@ -34,7 +36,7 @@
 ## Процесс
 
 1. Определи deployment target и текущую готовность сайта.
-2. Проверь, есть ли quality summary и успешный build.
+2. Проверь, есть ли quality summary, применимый application flow check и успешный build.
 3. Зафиксируй доступы, которые нужны, без хранения секретов.
 4. Выбери предварительную deployment strategy.
 5. Перечисли env/secrets, domain/DNS/SSL, runtime и monitoring needs.
@@ -59,6 +61,7 @@
 ## Readiness
 
 - Quality passed:
+- Application flows checked:
 - Build passed:
 - Known blockers:
 
@@ -92,6 +95,7 @@
 - Deployment target понятен или open questions явно зафиксированы.
 - Секреты не сохранены в документации.
 - Понятно, можно ли переходить к SSH/server access.
+- Для динамических/интеграционных проектов application-wide scenarios проверены или записаны как blocker.
 - `docs/project-state.md` обновлён.
 
 ## Follow-up

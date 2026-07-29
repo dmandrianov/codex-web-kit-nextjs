@@ -18,6 +18,8 @@
 - Relevant specs: block/page/project docs.
 - Build review.
 - Quality summary.
+- `docs/quality/application-flow-check.md`, если scope page/project содержит формы, CMS, auth, commerce или интеграции.
+- `docs/nextjs/technical-architecture.md`, для project scope.
 - Changed files.
 - `docs/project-state.md`.
 - Open questions and follow-ups.
@@ -29,17 +31,20 @@
 - Не исправляй проблемы в этом промпте, кроме мелких документационных уточнений.
 - Не скрывай незавершённые вопросы.
 - Не расширяй review за пределы handoff scope.
+- Не ставь project/page scope `ready for summary`, если применимый application flow check отсутствует или имеет `needs fixes`.
 
 ## Процесс
 
 1. Перечитай handoff scope.
 2. Сверь результат с relevant spec: block spec, page spec или project docs.
-3. Проверь quality evidence и результаты проверок.
-4. Проверь, не сломаны ли boundaries: соседние блоки, scope, follow-ups.
-5. Раздели риски на `P0`, `P1`, `P2`, `follow-up`.
-6. Сформулируй verdict: `ready for summary` или `needs fixes`.
-7. Создай или обнови `docs/handoff/[scope]-final-review.md`.
-8. Обнови `docs/project-state.md`: отметь `Handoff final review done` и укажи следующий промпт.
+3. Проверь block-level quality evidence и результаты проверок.
+4. Для page/project scope проверь application-wide journeys, data/cache behavior, forms/CMS/auth/commerce и production-like runtime по применимости.
+5. Для project scope сверь результат с technical architecture и незакрытыми owner prompts.
+6. Проверь, не сломаны ли boundaries: соседние блоки, scope, follow-ups.
+7. Раздели риски на `P0`, `P1`, `P2`, `follow-up`.
+8. Сформулируй verdict: `ready for summary` или `needs fixes`.
+9. Создай или обнови `docs/handoff/[scope]-final-review.md`.
+10. Обнови `docs/project-state.md`: отметь `Handoff final review done` и укажи следующий промпт.
 
 ## Output
 
@@ -81,6 +86,7 @@
 - Review соответствует выбранному scope.
 - Есть verdict.
 - Риски названы по приоритетам.
+- Применимые полные пользовательские сценарии проверены, а не выведены из готовности отдельных блоков.
 - Для каждого blocker есть owner prompt.
 - `docs/project-state.md` обновлен.
 

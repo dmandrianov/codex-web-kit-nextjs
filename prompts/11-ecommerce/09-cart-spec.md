@@ -18,6 +18,7 @@
 - `docs/ecommerce/product-card-spec.md`.
 - `docs/ecommerce/pdp-spec.md`.
 - `docs/ecommerce/commercial-rules.md`.
+- `docs/nextjs/technical-architecture.md`.
 - `docs/design-system/component-inventory.md`.
 - `prompts/_knowledge/ui-design-quality.md`.
 - `prompts/_knowledge/site-copy-quality.md`.
@@ -28,6 +29,7 @@
 - Не проектируй весь checkout flow.
 - Не подключай платежи.
 - Не выдумывай цены, скидки, доставку или промокоды.
+- Не считай browser/local state источником истины для price, discount, stock или cart ownership.
 - Не делай cart и checkout одним block spec.
 - Не реализуй код.
 - Не утверждай cart UI без UI quality notes для item rows, quantity controls, price summary, promo, empty cart, stock/price changes and mobile behavior.
@@ -38,7 +40,7 @@
 1. Опиши назначение cart.
 2. Опиши cart item data и actions.
 3. Опиши price summary, promo code, delivery estimate.
-4. Опиши states: empty, loading, item unavailable, price changed, quantity limit, promo invalid.
+4. Опиши server revalidation points и states: empty, loading, item unavailable, price changed, quantity limit, promo invalid, duplicate/retry.
 5. Опиши mobile cart behavior.
 6. Добавь UI quality notes по `prompts/_knowledge/ui-design-quality.md`.
 7. Добавь Site copy notes по `prompts/_knowledge/site-copy-quality.md`.
@@ -67,6 +69,8 @@
 
 ## States and errors
 
+## Server revalidation and ownership
+
 ## Mobile behavior
 
 ## UI quality notes
@@ -90,6 +94,7 @@
 - Cart можно вернуть в `07-page-planning`.
 - Cart и checkout не смешаны.
 - Ошибки и edge cases описаны.
+- Источник истины корзины и точки серверной перепроверки зафиксированы на уровне UX/data contract.
 - UI quality notes и Site copy notes зафиксированы для cart actions, states, errors and CTAs.
 - `docs/project-state.md` обновлен.
 

@@ -17,8 +17,12 @@
 - есть ли `docs/design-system/iconography.md`;
 - есть ли в `docs/design-system/layout-rules.md` Desktop Canvas Contract и First-render Responsive Delivery Contract: reference CSS viewport, canvas roles/caps, stable invariants, expansion zones, CSS-first initial geometry, hydration invariant и wide-screen matrix;
 - есть ли `package.json`, `next.config.*`, `src/app`;
+- зафиксировано ли, кто меняет сайт после запуска: владелец через Codex/ИИ или редакционная команда;
+- есть ли `docs/nextjs/technical-architecture.md` с CMS status, версиями, hosting shape, sources of truth, data/cache matrix и public endpoint boundaries;
 - просит ли пользователь новую SEO-статью, пост в блог, guide, comparison, listicle, review, pillar article или FAQ-материал под поисковый запрос;
 - есть ли признаки интернет-магазина: товары, каталог, корзина, checkout, оплата, доставка;
+- есть ли `docs/ecommerce/commerce-operations-and-payment-safety.md`, если проект магазин;
+- есть ли `docs/quality/application-flow-check.md`, если готовится page/project handoff или deploy динамического сайта;
 - есть ли deployment intent: сервер, VPS, SSH, IP, root-доступ, домен, DNS, SSL, production deploy.
 - есть ли `docs/seo/pre-deploy-technical-seo.md` и `docs/seo/production-seo-verification.md`, если сайт готовится к production или уже задеплоен.
 
@@ -56,13 +60,14 @@
 11. Для локальной UI-правки без новой композиции выбери релевантные разделы `prompts/_knowledge/ui-design-quality.md`, сохрани существующий visual direction и проверь затронутый render.
 12. Для visible UI извлеки из `layout-rules.md` применимые части Desktop Canvas Contract и First-render Responsive Delivery Contract. Concept и fast build делают sanity pass на mobile + `1440` + wide guard `>=2560 CSS px`; viewport задаётся до navigation/reload, а первый кадр сравнивается с settled state. Полная design-system/quality/handoff проверка использует `1440 / 1920 / 2560 CSS px`, а `3840 CSS px` — для true-4K/full-bleed/ultrawide target или с reasoned skip. `window.innerWidth` разрешён как QA evidence, но не как источник initial layout.
 13. Technical SEO trigger не меняется: для metadata, heading hierarchy, canonical, index/noindex, `robots.txt`, `sitemap.xml`, structured data, crawlability, status codes, redirects и webmaster verification прочитай `prompts/_knowledge/technical-seo-baseline.md` полностью.
-14. Соблюдай scope, permissions, truth, safety и accessibility; визуальные предпочтения из knowledge bases трактуй как критерии, а не абсолютные запреты.
-15. Выполни только текущий prompt-step и создай output в указанном формате.
-16. Помни: раздел `Output` задаёт содержание артефакта, но не отменяет понятный формат сообщения пользователю. Технические поля из артефакта сначала объясни человеческим языком.
-17. Проверь `Done when`.
-18. Обнови `docs/project-state.md`.
-19. Назови следующий prompt из `Follow-up`.
-20. Заверши ответ понятным блоком `Следующий шаг`, где действие названо обычными словами, а путь к prompt вынесен в служебную строку.
+14. Перед scaffold и архитектурными изменениями прочитай `prompts/_knowledge/nextjs-technical-baseline.md` и используй `prompts/06-nextjs-setup/02-technical-architecture.md`. Сначала реши, кто меняет контент; не выбирай CMS до этого.
+15. Соблюдай scope, permissions, truth, safety и accessibility; визуальные предпочтения из knowledge bases трактуй как критерии, а не абсолютные запреты.
+16. Выполни только текущий prompt-step и создай output в указанном формате.
+17. Помни: раздел `Output` задаёт содержание артефакта, но не отменяет понятный формат сообщения пользователю. Технические поля из артефакта сначала объясни человеческим языком.
+18. Проверь `Done when`.
+19. Обнови `docs/project-state.md`.
+20. Назови следующий prompt из `Follow-up`.
+21. Заверши ответ понятным блоком `Следующий шаг`, где действие названо обычными словами, а путь к prompt вынесен в служебную строку.
 
 Если задача требует нескольких промптов, составь короткий маршрут, но не выполняй несколько крупных шагов за один заход. Максимум: 1 основной промпт и 1 вспомогательный, если без него нельзя корректно завершить текущий шаг.
 
@@ -130,6 +135,18 @@ Deep mode включай только если:
 Для простой менюшки, hero, текстового блока, карточек, статичной секции, CTA или FAQ не запускай deep mode без причины.
 
 Fast включает creator → render → critic. Для visible marketing block открой live UI, задай mobile/reference-desktop/wide viewport до fresh reload, сравни первый и settled кадр с Visual North Star, обоими canvas/delivery contracts и approved concept, назови максимум три главных findings, сделай один связный self-fix и повторно посмотри render. Отдельный pre-build live preview блока не нужен, если пользователь не запросил его явно.
+
+## Техническая архитектура и CMS
+
+До scaffold используй `prompts/06-nextjs-setup/02-technical-architecture.md`.
+
+Первый вопрос про CMS всегда операционный: кто будет менять сайт после запуска.
+
+- Если владелец продолжает сам работать с сайтом через Codex/ИИ и готов публиковать обычные изменения проекта, CMS по умолчанию не нужна. Используй repository-owned content/typed files/MDX и зафиксируй triggers пересмотра.
+- Если контент меняют редакторы, контент-менеджеры, маркетологи или другие сотрудники без работы с кодом, CMS нужна как отдельное решение. Сначала опиши роли, preview/approval/publish, locales, redirects, media, webhook/revalidation, export/backup и downtime behavior; только затем сравнивай платформы.
+- Не добавляй CMS, auth, database, server runtime, custom commerce backend или тестовый стек «на будущее».
+
+Technical architecture также фиксирует major-version contract, hosting shape, sources of truth, data/render/cache freshness matrix, public endpoints, security boundaries, critical scenarios и observability. Deployment позже подтверждает этот выбор на реальной инфраструктуре, а не впервые принимает его.
 
 ## Формат завершения шага
 
@@ -243,7 +260,8 @@ Source release flow выполняется отдельно через `prompts/
 | Есть `docs/design-system/component-inventory.md`, но нет `docs/design-system/accessibility.md` | `ia-ready` | `prompts/05-design-system/11-accessibility-rules.md` |
 | Есть design-system docs, но нет `docs/design-system/design-system-review.md` | `ia-ready` | `prompts/05-design-system/12-design-system-review.md` |
 | `docs/design-system/design-system-review.md` готов и Design ready, но нет `docs/nextjs/preflight.md` | `design-ready` | `prompts/06-nextjs-setup/01-project-preflight.md` |
-| Есть `docs/nextjs/preflight.md`, но нет `docs/nextjs/scaffold.md` | `design-ready` | `prompts/06-nextjs-setup/02-project-scaffold.md` |
+| Есть `docs/nextjs/preflight.md`, но нет `docs/nextjs/technical-architecture.md` | `design-ready` | `prompts/06-nextjs-setup/02-technical-architecture.md` |
+| Есть `docs/nextjs/technical-architecture.md` со status `ready for scaffold`, но нет `docs/nextjs/scaffold.md` | `design-ready` | `prompts/06-nextjs-setup/02-project-scaffold.md` |
 | Есть `docs/nextjs/scaffold.md`, но нет `docs/nextjs/app-router-structure.md` | `design-ready` | `prompts/06-nextjs-setup/03-app-router-structure.md` |
 | Есть `docs/nextjs/app-router-structure.md`, но нет `docs/nextjs/styling-integration.md` | `design-ready` | `prompts/06-nextjs-setup/04-styling-and-design-system-integration.md` |
 | Есть `docs/nextjs/styling-integration.md`, но нет `docs/nextjs/tooling.md` | `design-ready` | `prompts/06-nextjs-setup/05-tooling-and-quality-scripts.md` |
@@ -279,6 +297,7 @@ Source release flow выполняется отдельно через `prompts/
 | Есть accessibility/usability check, но нет technical checks | `quality` | `prompts/09-quality/04-technical-checks.md` |
 | Есть technical checks, но нет browser runtime verification | `quality` | `prompts/09-quality/05-browser-runtime-verification.md` |
 | Есть browser runtime verification, но нет quality summary | `quality` | `prompts/09-quality/06-quality-summary.md` |
+| Page/project scope готовится к handoff/deploy, содержит формы, CMS, auth, commerce или интеграции, но нет application flow check | `quality` | `prompts/09-quality/07-application-flow-check.md` |
 | Пользователь просит настроить сервер/SSH/VPS, но нет deployment brief | `deployment` | `prompts/12-deployment/01-deployment-brief.md` |
 | Пользователь дал IP/root-доступ и просит настроить SSH | `deployment` | `prompts/12-deployment/02-server-access-and-ssh.md` |
 | Есть `docs/deployment/deployment-brief.md`, но нет `docs/deployment/server-access.md` для VPS/server deploy | `deployment` | `prompts/12-deployment/02-server-access-and-ssh.md` |
@@ -293,7 +312,7 @@ Source release flow выполняется отдельно через `prompts/
 | Post-deploy checks passed, но нет `docs/seo/production-seo-verification.md` с technical verdict `verified` / `verified with user actions` | `technical-seo` | `prompts/13-technical-seo/02-production-seo-verification.md` |
 | Production SEO technically verified или verified with user actions, но нет `docs/deployment/monitoring-backup-rollback.md` | `deployment` | `prompts/12-deployment/10-monitoring-backup-rollback.md` |
 | Deployment docs готовы, но нет `docs/deployment/deployment-handoff.md` | `deployment` | `prompts/12-deployment/11-deployment-handoff.md` |
-| Quality summary готов и Quality passed, но нет handoff scope | `handoff` | `prompts/10-handoff/01-handoff-scope.md` |
+| Quality summary готов и Quality passed, application flow check пройден или неприменим, но нет handoff scope | `handoff` | `prompts/10-handoff/01-handoff-scope.md` |
 | Работа завершена, нужен итог, но нет handoff scope | `handoff` | `prompts/10-handoff/01-handoff-scope.md` |
 | Есть handoff scope, но нет final review | `handoff` | `prompts/10-handoff/02-final-review.md` |
 | Есть final review, но нет change summary | `handoff` | `prompts/10-handoff/03-change-summary.md` |
@@ -318,6 +337,9 @@ Source release flow выполняется отдельно через `prompts/
 | Нет `docs/ecommerce/cart-spec.md` | `prompts/11-ecommerce/09-cart-spec.md` |
 | Нет `docs/ecommerce/checkout-flow.md` | `prompts/11-ecommerce/10-checkout-flow-spec.md` |
 | Нет `docs/ecommerce/account-orders-analytics.md` | `prompts/11-ecommerce/11-account-orders-analytics.md` |
+| Перед commerce safety нет `docs/nextjs/preflight.md` | `prompts/06-nextjs-setup/01-project-preflight.md` |
+| Перед commerce safety нет `docs/nextjs/technical-architecture.md` или status `needs decisions` | `prompts/06-nextjs-setup/02-technical-architecture.md` |
+| Нет `docs/ecommerce/commerce-operations-and-payment-safety.md` | `prompts/11-ecommerce/12-commerce-operations-and-payment-safety.md` |
 | Нет `docs/ecommerce/ecommerce-review.md` | `prompts/11-ecommerce/12-ecommerce-review.md` |
 | `docs/ecommerce/ecommerce-review.md` готов и verdict `Ecommerce ready for page planning` | `prompts/07-page-planning/01-select-page-and-scope.md` |
 

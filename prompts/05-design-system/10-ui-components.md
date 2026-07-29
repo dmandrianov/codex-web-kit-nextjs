@@ -24,6 +24,8 @@
 - Не строй большой UI kit заранее.
 - Не создавай component без реального use case.
 - Не превращай whole-section composition или decorative wrapper в reusable component после одного появления.
+- Не проектируй props вокруг DTO конкретной CMS, commerce provider или внешнего API: будущий adapter должен переводить их в внутренний view model.
+- Визуальное сходство двух блоков само по себе не доказывает общий component.
 - Functional semantics, states и accessibility не бывают provisional.
 - Не копируй reference component 1:1.
 
@@ -36,7 +38,7 @@
 
 1. Найди только элементы, связанные с реальными IA sections и повторяющимися пользовательскими действиями.
 2. Для stable core опиши purpose, minimal props, variants, applicable states, icon role и accessibility.
-3. Для page/domain components добавь только реальные e-commerce/dashboard/form scenarios.
+3. Для page/domain components добавь только реальные e-commerce/dashboard/form scenarios и пометь предполагаемое ownership: route-local, shared UI или feature/domain.
 4. Отдельно перечисли provisional marketing patterns. Не заставляй их принимать универсальные props и одинаковую форму заранее.
 5. Зафиксируй implementation order: сначала semantic core и critical journey, затем page-specific, затем только доказавшие повторяемость marketing patterns.
 6. Назначь calibration после 2–3 live blocks: promote to component / keep local / merge / remove.
@@ -52,6 +54,9 @@
 | --- | --- | --- | --- | --- | --- | --- |
 
 ## Page and domain components
+| Component | Real scenario | Ownership: route-local/shared/feature | View model | States | Notes |
+| --- | --- | --- | --- | --- | --- |
+
 ## Provisional marketing patterns
 ## Deferred
 ## Implementation order
@@ -62,6 +67,7 @@
 
 - Inventory небольшой и связан с реальными сценариями.
 - Stable components имеют нужные states и accessibility.
+- Route-local, shared UI и feature/domain ownership не смешаны; provider DTO не стал публичным UI contract.
 - One-off marketing composition не заморожена как система слишком рано.
 - Есть calibration checkpoint.
 - `docs/project-state.md` обновлён.

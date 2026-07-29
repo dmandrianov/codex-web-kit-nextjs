@@ -53,6 +53,8 @@
 - После render critic сначала смотрит screenshots, затем использует полные релевантные базы, называет максимум три главных visual findings и делает один связный self-fix. Полные `UI quality check` и `Site copy check` относятся к quality stage.
 - Для чистой copy-задачи без UI render сразу используй короткий обязательный контракт и `Site copy fast pass` из `prompts/_knowledge/site-copy-quality.md`; полный чек оставляй длинному, критичному или рискованному тексту. `landing-copy-formulas.md` подключай как diagnostic fallback, если прямой fact-backed hero/CTA не работает.
 - Для базового technical SEO применяй `prompts/_knowledge/technical-seo-baseline.md`: до deploy пройди `13-technical-seo/01`, после общего production smoke — `13-technical-seo/02`. Это отдельный gate для metadata, heading hierarchy, canonical, robots/noindex, sitemap, JSON-LD, crawlability, status codes и redirects без keyword research.
+- На intake выясни, кто будет менять сайт после запуска. Владелец, продолжающий работу через Codex/ИИ, по умолчанию получает repository-owned content без CMS; редакционная команда сначала описывает роли и publish workflow, а затем выбирает CMS.
+- После Next.js preflight и до scaffold используй `06-nextjs-setup/02-technical-architecture.md` и `prompts/_knowledge/nextjs-technical-baseline.md`: версия, hosting shape, источники истины, свежесть/кеш, public endpoints, безопасность и critical scenarios фиксируются до кода.
 - Native design concept prototypes храни в `design-lab/design-concepts/`, gpt-taste page concepts — в `design-lab/gpt-taste/page/`, не в production `src/`.
 - Design concept prototypes открывай как live HTML/CSS preview в браузере. Скриншоты можно использовать как QA evidence, но не как основной формат согласования.
 - Если пользователь отверг concept целиком, пробуй следующую hypothesis, а не косметическую iteration того же направления.
@@ -61,9 +63,9 @@
 - Перед approval публичного текста делай pain-first human check: фраза должна отвечать на реальную ситуацию пользователя и звучать в правильном голосе проекта.
 - Реализацию начинай после approved preview или явного пропуска: native — `08-block-build/00-build-block-fast-lane.md`, gpt-taste block/component — `08-block-build/00-gpt-taste-creative-build.md`.
 - Deep mode `08-block-build/01...06` используй только для сложных, критичных или проблемных блоков.
-- Quality pass по умолчанию делай через `09-quality/00-block-smoke-check.md`; полный QA `09-quality/01...06` запускай только по риску.
+- Quality pass по умолчанию делай через `09-quality/00-block-smoke-check.md`; полный block QA `09-quality/01...06` запускай только по риску. Перед page/project handoff или deploy динамического сайта отдельно проверь полные сценарии через `09-quality/07-application-flow-check.md`.
 - Не копируй скриншоты, Behance или чужие сайты 1:1: используй их как reference input и адаптируй под дизайн-систему проекта.
-- Для интернет-магазинов проходи e-commerce слой до `docs/ecommerce/ecommerce-review.md`, а затем возвращай конкретную страницу в `07-page-planning`.
+- Для интернет-магазинов проходи e-commerce слой, включая `11-ecommerce/12-commerce-operations-and-payment-safety.md`, до `docs/ecommerce/ecommerce-review.md`, а затем возвращай конкретную страницу в `07-page-planning`.
 - Для сервера, SSH, домена, SSL и production deploy используй `12-deployment`; не смешивай деплой с версткой и quality fixes.
 - Production deploy не объявляй ready без pre-deploy technical SEO check, а deployment handoff — без production SEO verification, кроме явного user-approved skip.
 - Если пользователь дал root-пароль, не сохраняй его в docs и напомни: `Обязательно смените root-пароль после этих действий`.

@@ -2,7 +2,7 @@
 
 ## Когда использовать
 
-После e-commerce brief, product data model, catalog architecture, PLP, product card, PDP, filters, commercial rules, cart, checkout и account/analytics specs.
+После e-commerce brief, product data model, catalog architecture, PLP, product card, PDP, filters, commercial rules, cart, checkout, account/analytics и commerce operations/payment safety.
 
 ## Роль Codex
 
@@ -15,6 +15,8 @@
 ## Контекст, который нужно дать
 
 - Все `docs/ecommerce/*.md`.
+- `docs/ecommerce/commerce-operations-and-payment-safety.md`.
+- `docs/nextjs/technical-architecture.md`.
 - `docs/ia/ia-review.md`.
 - `docs/design-system/design-system-review.md`.
 - `docs/nextjs/next-ready-review.md`, если есть.
@@ -26,6 +28,7 @@
 - Не реализуй страницы или блоки.
 - Не переписывай все e-commerce docs без необходимости.
 - Не ставь `Ecommerce ready`, если checkout, commercial rules или product data строятся на догадках.
+- Не ставь `Ecommerce ready`, если commerce/payment source of truth, server-side order recalculation, signed webhook, idempotency, order transitions или reconciliation отсутствуют либо имеют status `needs decisions`.
 - Не отправляй в реализацию весь магазин: только конкретную страницу/блок через общий pipeline.
 - Не скрывай legal/payment/delivery risks.
 
@@ -34,11 +37,12 @@
 1. Проверь наличие всех e-commerce artifacts.
 2. Сверь product data model с catalog, PLP, product card, PDP, cart и checkout.
 3. Проверь commercial rules до checkout.
-4. Проверь critical states: stock, price changed, promo invalid, payment failed, delivery unavailable, out of stock.
-5. Проверь analytics/privacy/consent.
-6. Раздели issues на `must fix before page planning`, `can fix during page planning`, `watch later`.
-7. Создай или обнови `docs/ecommerce/ecommerce-review.md`.
-8. Если готово, обнови `docs/project-state.md`: отметь `Ecommerce reviewed`, следующий промпт `prompts/07-page-planning/01-select-page-and-scope.md`.
+4. Проверь technical commerce safety: authoritative systems, cart/session ownership, server-side total/stock recheck, order state machine, webhook signature, idempotency, concurrent/out-of-order delivery, recovery/reconciliation и sandbox test matrix.
+5. Проверь critical states: stock, price changed, promo invalid, duplicate submit/event, pending/failed payment, delivery unavailable, out of stock.
+6. Проверь analytics/privacy/consent и отсутствие запрещённых payment/secrets data в logs.
+7. Раздели issues на `must fix before page planning`, `can fix during page planning`, `watch later`.
+8. Создай или обнови `docs/ecommerce/ecommerce-review.md`.
+9. Если готово, обнови `docs/project-state.md`: отметь `Ecommerce reviewed`, следующий промпт `prompts/07-page-planning/01-select-page-and-scope.md`.
 
 ## Output
 
@@ -80,6 +84,8 @@
 
 - Есть явный verdict.
 - Критичные e-commerce риски не скрыты.
+- Commerce operations и payment safety имеют status `ready for ecommerce review`.
+- Источники истины, server-side recalculation, webhook/idempotency и recovery подтверждены документами, а не подразумеваются.
 - Понятно, какую конкретную страницу планировать первой.
 - Проект возвращается в общий pipeline, а не в реализацию всего магазина.
 - `docs/project-state.md` обновлен.
