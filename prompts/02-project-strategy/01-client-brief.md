@@ -37,7 +37,7 @@
 4. Проверь стратегические зоны: цель сайта, аудитории, оффер, доверие, CTA, ограничения, контент, конкуренты, e-commerce флаг.
 5. Если данных достаточно, подготовь краткий strategic audit и рекомендуй следующий промпт.
 6. Создай или обнови `docs/strategic-audit.md`.
-7. Если данных достаточно, отметь в `docs/project-state.md` чекбокс `Strategic brief audited` и укажи следующий промпт `prompts/02-project-strategy/02-goals-audience-offer.md`.
+7. Если данных достаточно, зафиксируй `Strategic brief audited` как последний подтверждённый результат в `docs/project-state.md` и укажи следующий промпт `prompts/02-project-strategy/02-goals-audience-offer.md`.
 8. Если данных мало, задай только 3-5 критичных вопросов, объясни зачем они нужны, обнови `docs/open-questions.md` и оставь stage `rules-ready`.
 
 ## Output

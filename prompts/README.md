@@ -101,8 +101,10 @@ Rename/transfer того же repository поддерживается через
 - `OWNERSHIP.md` - правила, какие файлы принадлежат kit, проекту или hybrid-слою.
 - `_guidelines/creator-critic-design-workflow.md` - компактный Sol-friendly workflow, Design context diet и граница между creator, critic и full quality.
 - `_knowledge/codex-user-response-quality.md` - стандарт понятных сообщений Codex пользователю; не смешивать с текстом сайта.
-- `_knowledge/ui-design-quality.md` - стандарт визуального качества UI и страниц для design system, page planning, block build, visual review, quality и before/after калибровки.
-- `_knowledge/site-copy-quality.md` - стандарт качества пользовательского текста с быстрым обязательным проходом для content planning, block content preview, rewrite, microcopy, CTA, form states, product/e-commerce copy и SEO snippets.
+- `_knowledge/ui-design-quality.md` - компактный диспетчер визуального качества; выбирает не более двух нужных модулей до первого render.
+- `_knowledge/ui-quality/` - профильные UI-модули для foundation/hierarchy, layout/spacing, visual language, controls/forms/data, marketing/commerce, responsive/media, critic/quality и examples.
+- `_knowledge/site-copy-quality.md` - короткий обязательный truth-контракт и `Site copy fast pass` для обычного текста страницы.
+- `_knowledge/site-copy-quality-full.md` - полный редакторский reference для длинного, критичного, рискованного текста и quality stage.
 - `_knowledge/contemporary-visual-direction.md` - стандарт современного visual direction: до render выбирается primary expressive lever, optional secondary lever и честный asset scope; фактические media/icon/motion решения фиксируются после render.
 - `_knowledge/technical-seo-baseline.md` - стандарт базового technical SEO для pre-deploy implementation и live production verification.
 - `_templates/visual-north-star-template.md` - короткий общий visual course для будущих блоков без запретительного overfitting.

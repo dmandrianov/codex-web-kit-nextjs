@@ -21,7 +21,7 @@
 - Browser runtime verification.
 - Block build review.
 - Block spec.
-- `prompts/_knowledge/site-copy-quality.md`, если блок содержит user-facing copy.
+- `prompts/_knowledge/site-copy-quality.md` и `prompts/_knowledge/site-copy-quality-full.md`, если блок содержит user-facing copy.
 - `prompts/_knowledge/ui-design-quality.md`.
 - `docs/project-state.md`, если есть.
 

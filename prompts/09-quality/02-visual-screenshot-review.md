@@ -23,7 +23,8 @@
 - live URL и актуальные screenshots;
 - 2–4 соседних blocks для marketing chapter;
 - `prompts/_knowledge/ui-design-quality.md`;
-- `prompts/_knowledge/site-copy-quality.md`, если есть public copy;
+- `prompts/_knowledge/ui-quality/critic-quality.md` и только применимый профильный UI-модуль;
+- `prompts/_knowledge/site-copy-quality.md` и `prompts/_knowledge/site-copy-quality-full.md`, если есть public copy;
 - `prompts/_knowledge/contemporary-visual-direction.md`, если есть media/icon/motion/currentness;
 - anti-slop и page rhythm guidelines.
 

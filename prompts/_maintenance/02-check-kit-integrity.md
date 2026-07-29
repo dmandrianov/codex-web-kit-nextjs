@@ -60,7 +60,9 @@
    - `prompts/OWNERSHIP.md`;
    - `prompts/_knowledge/codex-user-response-quality.md`;
    - `prompts/_knowledge/site-copy-quality.md`;
+   - `prompts/_knowledge/site-copy-quality-full.md`;
    - `prompts/_knowledge/ui-design-quality.md`;
+   - все перечисленные диспетчером файлы в `prompts/_knowledge/ui-quality/`;
    - `prompts/_knowledge/contemporary-visual-direction.md`;
    - `prompts/_knowledge/nextjs-technical-baseline.md`;
    - `prompts/_knowledge/technical-seo-baseline.md`;
@@ -128,7 +130,7 @@
     - `prompts/_templates/prompt-template.md` и `docs/prompt-anatomy.md` используют человеческий формат следующего шага;
     - maintenance prompts также требуют `prompts/_knowledge/codex-user-response-quality.md`.
 12. Проверь First-render Responsive Delivery coverage:
-    - canonical rule в `prompts/_knowledge/ui-design-quality.md` требует CSS-first initial geometry и запрещает post-mount canvas correction;
+    - dispatcher `prompts/_knowledge/ui-design-quality.md` направляет responsive-задачи в `prompts/_knowledge/ui-quality/responsive-media.md`, где canonical rule требует CSS-first initial geometry и запрещает post-mount canvas correction;
     - `05-design-system/09` создаёт project-level First-render Responsive Delivery Contract;
     - `06-nextjs-setup/03`, `04` и `06` сохраняют server-first structure, CSS-first geometry, reserved media/measured geometry и font/loading stability;
     - page/block templates переносят initial layout source, viewport dependency и media delivery;

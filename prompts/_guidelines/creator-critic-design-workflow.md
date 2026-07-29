@@ -59,16 +59,16 @@ Creator получает только контекст, который помо�
 6. Нужные части design system и Desktop Canvas Contract, а не все проектные документы.
 7. От четырёх до шести релевантных правил качества для этой задачи.
 
-Не передавай creator целиком:
+Сначала открой компактный `ui-design-quality.md` как диспетчер, выбери не более двух профильных UI-модулей и извлеки из них 4–6 правил. Не передавай creator целиком:
 
-- `ui-design-quality.md`;
-- `site-copy-quality.md`;
+- все профильные UI-модули;
+- `site-copy-quality-full.md`;
 - `anti-ai-slop-design-and-copy.md`;
 - полный каталог before/after examples;
 - повторённые таблицы `pass / fix`;
 - длинный список визуальных запретов.
 
-Чтобы выбрать 4–6 правил, сначала просмотри заголовки базы, затем открой только нужные разделы. Например, hero обычно требует hierarchy, focal point, media treatment, copy/CTA relation и responsive hierarchy; форма — grouping, labels, errors, submit area, states и mobile behavior.
+Чтобы выбрать 4–6 правил, используй routing table диспетчера, затем открой только нужные модули. Например, hero обычно требует hierarchy, focal point, media treatment, copy/CTA relation и responsive hierarchy; форма — grouping, labels, errors, submit area, states и mobile behavior.
 
 ## 3. Короткий creator brief
 

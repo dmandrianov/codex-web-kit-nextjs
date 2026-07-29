@@ -119,7 +119,7 @@ AI-slop — не gradient, card, glow, illustration или decoration сами �
 
 Не замораживай до build точные переносы, финальную длину строки и расположение текста. Content approval утверждает meaning, facts, claims, voice и action. Creator может аккуратно редактировать длину и line breaks под композицию, не меняя смысл и обещания.
 
-Полную проверку copy делай по `prompts/_knowledge/site-copy-quality.md`. Формулы из `prompts/_guidelines/landing-copy-formulas.md` — диагностический инструмент, когда подача не работает, а не обязательная форма для каждого блока.
+Обычную copy-проверку делай по `prompts/_knowledge/site-copy-quality.md`, а полный quality pass — по `prompts/_knowledge/site-copy-quality-full.md`. Формулы из `prompts/_guidelines/landing-copy-formulas.md` — диагностический инструмент, когда подача не работает, а не обязательная форма для каждого блока.
 
 ## Text density defaults
 
@@ -162,5 +162,6 @@ AI-slop — не gradient, card, glow, illustration или decoration сами �
 - Creator/critic workflow: `prompts/_guidelines/creator-critic-design-workflow.md`
 - Page rhythm: `prompts/_guidelines/page-composition-rhythm.md`
 - Site copy quality: `prompts/_knowledge/site-copy-quality.md`
+- Full site copy quality: `prompts/_knowledge/site-copy-quality-full.md`
 - UI design quality: `prompts/_knowledge/ui-design-quality.md`
 - Contemporary visual direction: `prompts/_knowledge/contemporary-visual-direction.md`

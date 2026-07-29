@@ -23,7 +23,8 @@
 - Список изменённых файлов.
 - URL локального сервера или инструкции запуска.
 - `prompts/_knowledge/ui-design-quality.md`.
-- `prompts/_knowledge/site-copy-quality.md`, если quality scope содержит user-facing copy.
+- `prompts/_knowledge/ui-quality/critic-quality.md` и только применимые профильные UI-модули, выбранные диспетчером.
+- `prompts/_knowledge/site-copy-quality.md` и `prompts/_knowledge/site-copy-quality-full.md`, если quality scope содержит user-facing copy.
 - `prompts/_guidelines/creator-critic-design-workflow.md`.
 - Обязательные viewport и сценарии.
 
@@ -103,7 +104,7 @@
 ## Site copy criteria
 
 - User-facing copy present:
-- `prompts/_knowledge/site-copy-quality.md` required:
+- `prompts/_knowledge/site-copy-quality-full.md` required:
 - Checks to include:
 
 ## Runtime URL

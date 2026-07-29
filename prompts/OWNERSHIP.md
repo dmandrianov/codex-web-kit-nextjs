@@ -63,6 +63,7 @@ Updater никогда не перезаписывает и не удаляет:
 - `README.md`, `CHANGELOG.md`, `MIGRATIONS.md` рабочего сайта;
 - `project-brief.md`;
 - `docs/project-state.md`;
+- `docs/project-history.md`;
 - `docs/project-rules.md`;
 - `docs/strategy.md`;
 - `docs/messaging.md`;

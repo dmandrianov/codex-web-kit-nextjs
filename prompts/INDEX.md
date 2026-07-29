@@ -11,8 +11,10 @@
 - `prompts/_guidelines/anti-ai-slop-design-and-copy.md` - reference для critic и quality; до первого render creator выбирает из него только применимые критерии, а не читает весь avoid-list.
 - `prompts/_guidelines/landing-copy-formulas.md` - diagnostic fallback для заголовков, CTA и секций, когда прямой fact-backed текст не складывается.
 - `prompts/_guidelines/page-composition-rhythm.md` - reference для page rhythm и соседних блоков; creator активирует только критерии, нужные текущему visual chapter.
-- `prompts/_knowledge/site-copy-quality.md` - редакторский стандарт с коротким обязательным контрактом и `Site copy fast pass` для обычных текстов страниц; полный чек остаётся длинному, критичному или рискованному copy.
-- `prompts/_knowledge/ui-design-quality.md` - большая visual reference base, включая Unified Design Canvas и Native Responsive First Paint. До render это меню для выбора 4–6 правил; после render — reference critic; полная таблица `UI quality check` относится к quality stage.
+- `prompts/_knowledge/site-copy-quality.md` - компактный редакторский диспетчер с обязательным truth-контрактом и `Site copy fast pass` для обычных текстов страниц.
+- `prompts/_knowledge/site-copy-quality-full.md` - полный редакторский reference для длинного, критичного или рискованного текста и полного copy quality pass.
+- `prompts/_knowledge/ui-design-quality.md` - компактный UI-диспетчер: до render выбирает не более двух модулей из `prompts/_knowledge/ui-quality/`, после render подключает профильный critic/reference.
+- `prompts/_knowledge/ui-quality/` - модули foundation/hierarchy, layout/spacing, visual language, controls/forms/data, marketing/commerce, responsive/media, critic/quality и examples; полный `UI quality check` находится в critic-модуле.
 - `prompts/_knowledge/contemporary-visual-direction.md` - reference для concept critic: first-viewport visual event, media/icon/motion treatment, currentness и anti-2020 smell check; creator заранее получает только выбранные критерии и реальные assets.
 - `prompts/_knowledge/technical-seo-baseline.md` - базовый technical SEO standard: route indexability, metadata, heading hierarchy, canonical, robots/noindex, sitemap, JSON-LD, crawlability, status codes, redirects и production verification без keyword strategy.
 - `prompts/_templates/visual-north-star-template.md` - компактный перенос approved visual direction в page planning, block build и screenshot eyes-check: positive continuity anchors, creative freedom, approved evidence и только настоящие hard boundaries.

@@ -4,7 +4,7 @@
 
 - Target version: `0.10.0`
 - Initiative: context diet without quality loss
-- Current phase: compact bootstrap and Router implemented; compact state/reference split pending
+- Current phase: compact bootstrap, Router, state and reference split implemented; deterministic gates pending
 - Public runtime/API impact: none
 - Distribution: source-repository documentation only; this file is not part of the copied Prompt Kit payload
 
@@ -133,17 +133,18 @@ Routing reads the current snapshot first. History is read only to recover an old
 
 ## UI and copy reference contract
 
-The existing `ui-design-quality.md` path remains as a compact dispatcher. Its current rules move exactly once into:
+The existing `ui-design-quality.md` path remains as a compact dispatcher. Its current rules move exactly once into these conceptual groups:
 
 1. foundation and hierarchy;
-2. visual language;
-3. controls, forms and data;
-4. marketing and commerce;
-5. responsive and media;
-6. critic and quality;
-7. examples.
+2. layout and spacing;
+3. visual language;
+4. controls, forms and data;
+5. marketing and commerce;
+6. responsive and media;
+7. critic and quality;
+8. examples.
 
-Each module has a `40960`-byte hard budget. The dispatcher names the minimum modules for creator, critic, local-fix and quality work.
+The original foundation category is split into two physical modules, `foundation-hierarchy.md` and `layout-spacing.md`, because their combined source exceeds the per-file budget. Each module has a `40960`-byte hard budget. The dispatcher names the minimum modules for creator, critic, local-fix and quality work.
 
 The existing `site-copy-quality.md` path keeps the truth contract and fast pass. Long-form and full quality checks move to a separate reference loaded only for long, critical, risky or explicit quality work.
 
