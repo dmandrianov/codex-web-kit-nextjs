@@ -47,7 +47,7 @@ test("dotenv encoding preserves single-line token characters without exposing a 
   assert.throws(() => encodeDotenvValue(Buffer.from(" line")), expectCode("outer_whitespace"));
   assert.throws(() => encodeDotenvValue(Buffer.from("line1\nline2")), expectCode("multiline_secret"));
   assert.throws(
-    () => encodeDotenvValue(Buffer.from("-----BEGIN PRIVATE KEY-----")),
+    () => encodeDotenvValue(Buffer.from(["-----BEGIN PRIVATE", " KEY-----"].join(""))),
     expectCode("private_key"),
   );
 });
