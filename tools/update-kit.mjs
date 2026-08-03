@@ -43,6 +43,7 @@ const METADATA_TARGETS = new Set([
   ".prompt-kit/TERMS.md",
   ".prompt-kit/VERSION.md",
   ".prompt-kit/manifest.schema.json",
+  ".prompt-kit/secret-input.mjs",
   ".prompt-kit/update.mjs",
 ]);
 

@@ -52,6 +52,7 @@
    - `.prompt-kit/.gitignore`;
    - `.prompt-kit/manifest.schema.json`;
    - `.prompt-kit/update.mjs`;
+   - `.prompt-kit/secret-input.mjs`;
    - `AGENTS.md`;
    - `prompts/README.md`;
    - `prompts/INDEX.md`;
@@ -188,7 +189,13 @@
    - target, backup, manifest и rollback paths не могут выйти из реального project root через symlinked parent;
    - local `--archive` mode не требует и не вызывает `gh`;
    - `.prompt-kit/TERMS.md` содержит MIT License без закрытых подписочных ограничений; legacy filename сохранён только потому, что updater `0.8.x` требует этот target до установки bridge release.
-18. Сформируй counts, issues, warnings и однозначный verdict.
+18. Проверь secret handoff contract:
+   - application secret не принимается через chat, command argument, patch или видимый stdin;
+   - `.prompt-kit/secret-input.mjs` требует interactive TTY, проверяет untracked/ignored target до ввода, запрещает public-prefixed variables, private keys, symlink и ambiguous duplicate assignment;
+   - helper не выводит значение, пишет через ignored temporary file, оставляет target с закрытыми правами и не создаёт backup секрета;
+   - response standard не ограничивается `system restriction`, не отправляет пользователя сразу редактировать `.env` вручную и объясняет stale-task/new-task boundary после изменения `AGENTS.md`;
+   - permission deny не обходится.
+19. Сформируй counts, issues, warnings и однозначный verdict.
 
 ## Output
 

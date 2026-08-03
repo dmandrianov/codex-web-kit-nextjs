@@ -79,6 +79,13 @@
       "required": true
     },
     {
+      "source": "tools/secret-input.mjs",
+      "target": ".prompt-kit/secret-input.mjs",
+      "ownership": "kit",
+      "policy": "replace-if-unmodified",
+      "required": true
+    },
+    {
       "source": "LICENSE",
       "target": ".prompt-kit/TERMS.md",
       "ownership": "kit",

@@ -2,6 +2,36 @@
 
 This file describes changes that may require special handling when updating Prompt Kit inside an existing project.
 
+## 0.10.2
+
+Compatibility: non-breaking from `0.4.22+` and direct from `0.10.1`.
+
+### Required
+
+- Update only the managed block in `AGENTS.md` to version `0.10.2`; preserve everything outside it.
+- Install the required `.prompt-kit/secret-input.mjs` helper from the release payload.
+- Route a later explicit local application-secret setup through the masked helper or an authorized secret store. Do not request the value in chat, place it in a command argument/patch or ask the user to edit an env file manually as the default workflow.
+- Keep the existing restriction on root passwords, SSH/private keys, certificates, passphrases, public/client-prefixed variables and multiline secret material.
+- If the active Codex task started before the kit update, open a new task before evaluating the new managed rules. Codex constructs the `AGENTS.md` instruction chain at the start of a task and does not retroactively replace it inside that task.
+
+### Existing projects
+
+- Do not ask the user to resupply an existing secret during the kit update.
+- Do not read, print, copy, back up or rewrite existing env values only to align the project with this release.
+- Existing `.env`, `.env.local`, hosting variables and secret stores remain project-owned and unchanged.
+- On a later explicit setup request, Codex chooses the exact server-side variable and root env target, verifies that the target is untracked and ignored, and launches:
+
+  ```bash
+  node .prompt-kit/secret-input.mjs set --name <ENV_NAME> --file .env.local --project <root>
+  ```
+
+  The user pastes the value into the hidden prompt once; Codex completes the file update and reports only the variable name and target.
+- If the destination is blocked by a technical permission profile, do not bypass it. Explain the concrete cause and offer the masked helper in an authorized local terminal or the configured secret store.
+
+### Breaking changes
+
+- None. The helper is additive and does not modify application runtime behavior or existing secret storage by itself.
+
 ## 0.10.1
 
 Compatibility: non-breaking from `0.4.22+` and direct from `0.10.0`.

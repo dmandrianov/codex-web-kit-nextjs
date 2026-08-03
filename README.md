@@ -7,7 +7,7 @@
 <p align="center">
   <img alt="Создано для Codex" src="https://img.shields.io/badge/для-Codex-111827?style=flat-square&logo=openai&logoColor=white">
   <img alt="Next.js App Router" src="https://img.shields.io/badge/Next.js-App_Router-000000?style=flat-square&logo=nextdotjs&logoColor=white">
-  <img alt="Версия 0.10.1" src="https://img.shields.io/badge/версия-0.10.1-7C6CF2?style=flat-square">
+  <img alt="Версия 0.10.2" src="https://img.shields.io/badge/версия-0.10.2-7C6CF2?style=flat-square">
   <img alt="Лицензия MIT" src="https://img.shields.io/badge/лицензия-MIT-2EA44F?style=flat-square">
 </p>
 
@@ -171,7 +171,9 @@ gh auth login --hostname github.com --web
 <details>
 <summary><strong>Можно передать Codex API-ключ для настройки проекта?</strong></summary>
 
-Да, если вы явно просите установить application API key или token для конкретного проекта. Codex может записать переданное значение только в проверенный локальный файл, который Git игнорирует, например `.env.local`, или в выбранное secret-хранилище. Значение не должно повторяться в ответе, команде, diff, документации, Git, логах, скриншотах, отчётах или резервных копиях.
+Да, но основной безопасный путь не требует отправлять ключ в чат или самостоятельно редактировать `.env`. Codex проверяет `.env.local`, открывает скрытый ввод в терминале и после одной вставки сам сохраняет значение. Символы не отображаются, а ключ не попадает в аргументы команды, ответы, diff, документацию, Git, логи, отчёты или резервные копии.
+
+Если старая задача была открыта до обновления Web Kit, начните новую задачу в том же проекте: `AGENTS.md` загружается при старте задачи. Если профиль разрешений закрывает `.env`, Codex объяснит это и предложит разрешённый secret store или masked helper в локальном терминале, а не будет обходить ограничение.
 
 Root-пароли, SSH private keys и passphrase через чат не передаются. Для них используются отдельные механизмы входа, ключи и credential store.
 

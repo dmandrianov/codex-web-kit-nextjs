@@ -162,7 +162,7 @@
 - `prompts/12-deployment/02-server-access-and-ssh.md` - настроить SSH-доступ и не сохранять секреты.
 - `prompts/12-deployment/03-server-baseline-security.md` - выполнить базовую безопасную настройку сервера.
 - `prompts/12-deployment/04-runtime-and-hosting-strategy.md` - выбрать production runtime strategy.
-- `prompts/12-deployment/05-env-and-secrets.md` - подготовить env/secrets; по явной просьбе безопасно записать переданное значение только в ignored local env или secret store.
+- `prompts/12-deployment/05-env-and-secrets.md` - настроить env/secrets через masked terminal helper или secret store без передачи значения модели и ручного редактирования файла.
 - `prompts/12-deployment/06-domain-dns-ssl.md` - настроить домен, DNS и SSL.
 - `prompts/12-deployment/07-deploy-nextjs-app.md` - задеплоить Next.js приложение.
 - `prompts/12-deployment/08-process-manager-and-reverse-proxy.md` - настроить process manager и reverse proxy.

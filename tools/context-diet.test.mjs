@@ -423,17 +423,35 @@ test("project-local conflict evidence is visible after the managed block and kee
 });
 
 test("user-provided application secrets may be configured locally without entering public or tracked surfaces", async () => {
-  const [agents, state, deployment] = await Promise.all([
+  const [agents, state, deployment, response, helper, integrity, payloadText] = await Promise.all([
     read(paths.agents),
     read(paths.state),
     read("prompts/12-deployment/05-env-and-secrets.md"),
+    read("prompts/_knowledge/codex-user-response-quality.md"),
+    read("tools/secret-input.mjs"),
+    read("prompts/_maintenance/02-check-kit-integrity.md"),
+    read("release/payload.json"),
   ]);
+  const payload = JSON.parse(payloadText);
   assert.ok(agents.includes("по явной просьбе"));
-  assert.ok(agents.includes("git-ignored `.env`/`.env.local`"));
-  assert.ok(agents.includes("не повторяй значение"));
+  assert.ok(agents.includes("`.prompt-kit/secret-input.mjs`"));
+  assert.ok(agents.includes("скрытый terminal input"));
   assert.ok(!agents.includes("не печатай и не сохраняй passwords, tokens"));
-  assert.ok(state.includes("Это не запрещает явную настройку"));
-  assert.ok(deployment.includes("target не tracked и действительно ignored"));
-  assert.ok(deployment.includes("неэхирующий stdin/secret-aware input"));
+  assert.ok(state.includes("`.prompt-kit/secret-input.mjs`"));
+  assert.ok(deployment.toLowerCase().includes("не проси вставлять application secret в чат"));
+  assert.ok(deployment.includes("скрытый ввод"));
+  assert.ok(deployment.includes("permission profile"));
   assert.ok(deployment.includes("не попали в docs, Git, logs, reports или backups"));
+  assert.ok(response.includes("Не отвечай одной фразой `это системное ограничение`"));
+  assert.ok(response.includes("новой задаче того же проекта"));
+  assert.ok(helper.includes("interactive_tty_required"));
+  assert.ok(helper.includes("tracked_target"));
+  assert.ok(helper.includes("target_not_ignored"));
+  assert.ok(!helper.includes("--value <"));
+  assert.ok(integrity.includes("secret handoff contract"));
+  assert.ok(
+    payload.mappedFiles.some(
+      (entry) => entry.source === "tools/secret-input.mjs" && entry.target === ".prompt-kit/secret-input.mjs" && entry.required,
+    ),
+  );
 });

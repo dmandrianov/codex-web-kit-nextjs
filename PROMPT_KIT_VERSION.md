@@ -1,8 +1,8 @@
 # Prompt Kit Version
 
-- Version: 0.10.1
+- Version: 0.10.2
 - Released: 2026-08-03
-- Managed block: `PROMPT_KIT:BEGIN managed version=0.10.1`
+- Managed block: `PROMPT_KIT:BEGIN managed version=0.10.2`
 - Update model: immutable attested GitHub Release + manifest-based safe merge
 
 ## Compatibility
@@ -10,6 +10,7 @@
 - Requires root `AGENTS.md`.
 - Requires `prompts/README.md`, `prompts/ROUTER.md`, `prompts/INDEX.md`, `prompts/STATE.md`.
 - Requires `prompts/_knowledge/codex-user-response-quality.md` for all user-visible Codex messages.
+- Requires `.prompt-kit/secret-input.mjs` for masked local application-secret handoff without placing the value in chat, command arguments or documentation.
 - Requires `prompts/_guidelines/creator-critic-design-workflow.md` for visual concepts, new composition and meaningful redesign work.
 - Supports optional external `gpt-taste` creator engine through `prompts/_guidelines/gpt-taste-integration.md`; the original skill stays outside the payload and must match its pinned source/checksum when selected.
 - Supports optional external `seo-content-writer` for new SEO articles through `prompts/_guidelines/seo-content-writer-integration.md`; ordinary page copy uses the native lightweight contract without loading the full article workflow.

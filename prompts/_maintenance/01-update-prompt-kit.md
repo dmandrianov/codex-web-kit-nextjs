@@ -144,6 +144,7 @@
 18. После passed полного integrity проверь, что installed `.prompt-kit/manifest.json` совпадает с verified incoming manifest и является последним managed payload write этой транзакции. Не переписывай его повторно без причины.
 19. Создай или обнови `docs/prompt-kit-update-summary.md`, затем без дополнительного запроса запусти `prompts/_maintenance/04-align-project-after-kit-update.md`. Это одна maintenance-транзакция, а не несколько крупных website stages.
 20. Очисти staging/downloads. Backup не удаляй. Покажи read-only Git diff/status, если проект использует Git, но ничего не коммить и не меняй его настройки.
+21. Если release меняет `AGENTS.md`, явно предупреди: уже открытая задача сохраняет прежнюю instruction chain; новая версия managed-правил действует в новой задаче того же проекта. Не называй это ошибкой cache и не проси перезапускать весь компьютер.
 
 ## Output
 

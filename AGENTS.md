@@ -1,6 +1,6 @@
 # AGENTS.md
 
-<!-- PROMPT_KIT:BEGIN managed version=0.10.1 -->
+<!-- PROMPT_KIT:BEGIN managed version=0.10.2 -->
 
 ## Назначение
 
@@ -51,7 +51,7 @@
 ## Всегда действующие ограничения
 
 - Не придумывай факты, цены, отзывы, гарантии, юридические условия, наличие, сроки или бизнес-правила. Неподтверждённое помечай `needs confirmation`.
-- Пользовательский API key/token можно по явной просьбе записать только в проверенный git-ignored `.env`/`.env.local` или secret store; не повторяй значение в ответах, logs, docs, Git или backups. Не принимай root-пароли и private keys.
+- Application API key/token настраивай по явной просьбе через `.prompt-kit/secret-input.mjs`: verified ignored env + скрытый terminal input; не проси значение в чат/args и не показывай. Root-пароли/private keys запрещены.
 - Не выполняй destructive или внешние state-changing действия без ясного разрешения и точной проверки цели.
 - Не добавляй зависимости, CMS, database, auth или сервис «на будущее» без подтверждённой необходимости.
 - Не меняй соседнюю business logic, если задача локальная.

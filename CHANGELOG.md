@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.10.2 - 2026-08-03
+
+Added:
+
+- A bundled `.prompt-kit/secret-input.mjs` helper that accepts an application API key or token through a masked interactive terminal prompt and writes it without sending the value through Codex chat, command arguments, patches or tool output.
+- Regression coverage for ignored/untracked env targets, symlink and public-variable rejection, duplicate entries, non-interactive input, file permissions, packaged helper delivery and value-free output.
+
+Changed:
+
+- The env workflow now gives a non-technical user one clear action: paste the value into a hidden prompt and press Enter; Codex selects and updates the verified file itself.
+- Secret setup errors name the concrete cause and a safe next action instead of ending with a vague “system restriction” or a bare instruction to edit `.env` manually.
+- Prompt Kit updates now explain that a task opened before the update keeps its original `AGENTS.md` instruction chain; the new rule applies in a newly opened task.
+
+Guardrails:
+
+- The helper accepts only server-side application token/key variables and root `.env*` destinations that are untracked and Git-ignored; it rejects public prefixes, private-key/password material, multiline values, symlinks, duplicate assignments and visible non-TTY input.
+- Temporary writes stay inside ignored `.prompt-kit/`, use restrictive permissions and are removed after an atomic replacement. The secret value is never returned by the helper.
+- A technical permission-profile denial is not bypassed. Codex must explain it and offer the same helper in an authorized terminal or the selected secret store.
+
+Migration:
+
+- Follow the `0.10.2` section in `MIGRATIONS.md`. Existing env files and values remain untouched during the kit update. Open a new Codex task before testing the new workflow in a project that was already open during the update.
+
 ## 0.10.1 - 2026-08-03
 
 Fixed:

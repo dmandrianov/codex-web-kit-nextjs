@@ -30,6 +30,7 @@ const execFileAsync = promisify(execFile);
 const toolsDirectory = path.dirname(fileURLToPath(import.meta.url));
 const updaterSource = path.join(toolsDirectory, "update-kit.mjs");
 const releaseSource = path.join(toolsDirectory, "release.mjs");
+const secretInputSource = path.join(toolsDirectory, "secret-input.mjs");
 const productionRepository = {
   id: OFFICIAL_REPOSITORY_ID,
   fullName: OFFICIAL_REPOSITORY_FULL_NAME,
@@ -82,6 +83,7 @@ function fixturePayload(options = {}) {
       { source: "MIGRATIONS.md", target: ".prompt-kit/MIGRATIONS.md", ownership: "kit", policy: "replace-if-unmodified", required: true },
       { source: "release/manifest.schema.json", target: ".prompt-kit/manifest.schema.json", ownership: "kit", policy: "replace-if-unmodified", required: true },
       { source: "release/prompt-kit.gitignore", target: ".prompt-kit/.gitignore", ownership: "kit", policy: "replace-if-unmodified", required: true },
+      { source: "tools/secret-input.mjs", target: ".prompt-kit/secret-input.mjs", ownership: "kit", policy: "replace-if-unmodified", required: true },
       { source: "tools/update-kit.mjs", target: ".prompt-kit/update.mjs", ownership: "kit", policy: "replace-if-unmodified", required: true },
       { source: "LICENSE", target: ".prompt-kit/TERMS.md", ownership: "kit", policy: "replace-if-unmodified", required: true },
     ],
@@ -137,8 +139,10 @@ async function createSourceFixture(options = {}) {
   await writeText(root, `release/notes/v${version}.md`, `# Web Kit v${version}\n\nSafe release fixture.\n`);
   await writeText(root, "release/payload.json", `${JSON.stringify(fixturePayload(options), null, 2)}\n`);
   await mkdir(path.join(root, "tools"), { recursive: true });
+  await copyFile(secretInputSource, path.join(root, "tools", "secret-input.mjs"));
   await copyFile(updaterSource, path.join(root, "tools", "update-kit.mjs"));
   await copyFile(releaseSource, path.join(root, "tools", "release.mjs"));
+  await chmod(path.join(root, "tools", "secret-input.mjs"), 0o644);
   await chmod(path.join(root, "tools", "update-kit.mjs"), 0o644);
   await chmod(path.join(root, "tools", "release.mjs"), 0o644);
   const updaterPath = path.join(root, "tools", "update-kit.mjs");
