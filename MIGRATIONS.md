@@ -2,6 +2,32 @@
 
 This file describes changes that may require special handling when updating Prompt Kit inside an existing project.
 
+## 0.10.1
+
+Compatibility: non-breaking from `0.4.22+` and direct from `0.10.0`.
+
+### Required
+
+- Update only the managed block in `AGENTS.md` to version `0.10.1`; preserve everything outside it.
+- Replace the blanket prohibition on storing application API keys/tokens with the scoped rule:
+  - the user must explicitly request the configuration;
+  - the target must be a verified untracked and Git-ignored `.env`/`.env.local` file or an authorized secret store;
+  - the value must not be repeated in responses, command arguments, patches, diffs, docs, Git, logs, screenshots, state, reports or backups.
+- Keep root passwords, SSH/private keys and passphrases outside this workflow.
+- Keep project state and deployment documentation value-free: record only variable names, required status and safe storage location.
+
+### Existing projects
+
+- Do not ask the user to resupply an existing secret during the kit update.
+- Do not read, print, copy, back up or rewrite existing env values only to align the project with this release.
+- Existing `.env`, `.env.local`, hosting variables and secret stores remain project-owned and unchanged.
+- On a later explicit configuration request, verify the destination with Git before writing and preserve unrelated entries without exposing them.
+- Existing website stage, code, dependencies, integrations and deployment status remain valid.
+
+### Breaking changes
+
+- None. This is a Prompt Kit policy correction and does not modify application runtime behavior by itself.
+
 ## 0.10.0
 
 Compatibility: non-breaking from `0.4.22+`.

@@ -7,7 +7,7 @@
 <p align="center">
   <img alt="Создано для Codex" src="https://img.shields.io/badge/для-Codex-111827?style=flat-square&logo=openai&logoColor=white">
   <img alt="Next.js App Router" src="https://img.shields.io/badge/Next.js-App_Router-000000?style=flat-square&logo=nextdotjs&logoColor=white">
-  <img alt="Версия 0.10.0" src="https://img.shields.io/badge/версия-0.10.0-7C6CF2?style=flat-square">
+  <img alt="Версия 0.10.1" src="https://img.shields.io/badge/версия-0.10.1-7C6CF2?style=flat-square">
   <img alt="Лицензия MIT" src="https://img.shields.io/badge/лицензия-MIT-2EA44F?style=flat-square">
 </p>
 
@@ -165,6 +165,15 @@ gh auth login --hostname github.com --web
 Если вы продолжите сами менять сайт с помощью Codex или другого ИИ и готовы публиковать обычные изменения проекта, CMS чаще всего не нужна. Она добавит лишнюю платформу, настройки и ещё один способ менять тот же контент.
 
 Если тексты, статьи, товары или страницы должны вести редакторы, контент-менеджеры или другие сотрудники без работы с кодом, Web Kit сначала уточнит их роли и процесс публикации, а затем поможет выбрать CMS. Решение принимается не «на будущее», а по реальному способу работы команды.
+
+</details>
+
+<details>
+<summary><strong>Можно передать Codex API-ключ для настройки проекта?</strong></summary>
+
+Да, если вы явно просите установить application API key или token для конкретного проекта. Codex может записать переданное значение только в проверенный локальный файл, который Git игнорирует, например `.env.local`, или в выбранное secret-хранилище. Значение не должно повторяться в ответе, команде, diff, документации, Git, логах, скриншотах, отчётах или резервных копиях.
+
+Root-пароли, SSH private keys и passphrase через чат не передаются. Для них используются отдельные механизмы входа, ключи и credential store.
 
 </details>
 

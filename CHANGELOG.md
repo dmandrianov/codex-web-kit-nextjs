@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.10.1 - 2026-08-03
+
+Fixed:
+
+- The always-loaded secret rule no longer blocks an explicitly requested local application API-key setup.
+- The deployment env workflow no longer treats every safe local secret write as a policy violation.
+
+Changed:
+
+- A user-provided application API key or token may be written, on explicit request, only to a verified Git-ignored `.env`/`.env.local` file or an authorized secret store.
+- Project state and maintenance reports record only environment-variable names and storage locations, never secret values.
+- The env workflow verifies that a local target is untracked and ignored before writing, preserves unrelated existing values and prefers non-echoing or secret-aware input.
+
+Guardrails:
+
+- Secret values must not appear in responses, command arguments, patches, diffs, documentation, Git, logs, screenshots, project state, maintenance reports or backups.
+- `.env.example` contains names and safe placeholders only.
+- Root passwords, SSH/private keys and passphrases remain outside the application-secret workflow.
+- Existing local env files and secret stores are not read, copied or rewritten merely because the kit was updated.
+
+Migration:
+
+- Follow the `0.10.1` section in `MIGRATIONS.md`. The update changes Prompt Kit rules only; it does not require resupplying secrets or changing website code, stage, environment files or deployment configuration.
+
 ## 0.10.0 - 2026-07-29
 
 Added:

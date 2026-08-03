@@ -1,6 +1,6 @@
 # AGENTS.md
 
-<!-- PROMPT_KIT:BEGIN managed version=0.10.0 -->
+<!-- PROMPT_KIT:BEGIN managed version=0.10.1 -->
 
 ## Назначение
 

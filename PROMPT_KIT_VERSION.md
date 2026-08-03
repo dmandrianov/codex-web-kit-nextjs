@@ -1,8 +1,8 @@
 # Prompt Kit Version
 
-- Version: 0.10.0
-- Released: 2026-07-29
-- Managed block: `PROMPT_KIT:BEGIN managed version=0.10.0`
+- Version: 0.10.1
+- Released: 2026-08-03
+- Managed block: `PROMPT_KIT:BEGIN managed version=0.10.1`
 - Update model: immutable attested GitHub Release + manifest-based safe merge
 
 ## Compatibility
