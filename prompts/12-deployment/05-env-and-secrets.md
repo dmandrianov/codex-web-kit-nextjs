@@ -26,6 +26,9 @@
 - Не записывай реальные secret values в docs, git, chat summary или examples.
 - Не коммить `.env.production` с секретами.
 - Не выдумывай tokens/API keys.
+- Если пользователь сам передал application secret и явно попросил настроить среду, разрешено записать его в проверенный git-ignored `.env`/`.env.local` или в выбранный secret store.
+- До локальной записи проверь, что target не tracked и действительно ignored. Не помещай значение в shell command, patch/diff, logs, screenshots, reports или backup; используй неэхирующий stdin/secret-aware input, если он доступен.
+- Root-пароли, private keys и passphrases не принимай и не сохраняй в проекте; для них используй отдельный credential/key workflow.
 - Не запускай deploy, пока required env не подтверждены или явно помечены blocker.
 - Не смешивай env setup с DNS/SSL.
 
@@ -33,12 +36,13 @@
 
 1. Найди required env vars по коду, docs и `.env.example`.
 2. Раздели public env и secret env.
-3. Определи, где они задаются: server file, systemd env, platform dashboard, Docker secrets, CI.
-4. Зафиксируй missing values как open questions/blockers.
-5. Проверь production URLs/callbacks.
-6. Создай или обнови safe `.env.example`, если это уместно и без секретов.
-7. Создай или обнови `docs/deployment/env.md`.
-8. Обнови `docs/project-state.md`: отметь `Env/secrets configured` только если blockers закрыты.
+3. Определи, где они задаются: local ignored env file, server file, systemd env, platform dashboard, Docker secrets или CI.
+4. Если пользователь явно просит записать переданное значение, сначала проверь target через Git и сохрани его без повторного вывода; существующие чужие значения не раскрывай и не перезаписывай.
+5. Зафиксируй missing values как open questions/blockers.
+6. Проверь production URLs/callbacks.
+7. Создай или обнови safe `.env.example`, если это уместно и только с именами/placeholder values.
+8. Создай или обнови `docs/deployment/env.md` без secret values.
+9. Обнови `docs/project-state.md`: отметь `Env/secrets configured` только если blockers закрыты.
 
 ## Output
 
@@ -67,13 +71,14 @@
 
 - какие env required;
 - какие blockers остались;
-- что нельзя сохранять;
+- куда сохранены переданные значения, не показывая сами значения;
 - следующий prompt.
 
 ## Done when
 
 - Required env vars перечислены.
-- Секреты не раскрыты и не сохранены.
+- Секреты не раскрыты и не попали в docs, Git, logs, reports или backups.
+- Явно переданные значения, если пользователь поручил настройку, находятся только в проверенном локальном ignored target или secret store.
 - Missing values явно отмечены.
 - Production env готов или blocker честно указан.
 - `docs/project-state.md` обновлён.

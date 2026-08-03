@@ -421,3 +421,19 @@ test("project-local conflict evidence is visible after the managed block and kee
   assert.ok(agents.includes("Более узкое локальное правило имеет приоритет"));
   assert.ok(agents.includes("truth, permissions, safety, secrets или accessibility"));
 });
+
+test("user-provided application secrets may be configured locally without entering public or tracked surfaces", async () => {
+  const [agents, state, deployment] = await Promise.all([
+    read(paths.agents),
+    read(paths.state),
+    read("prompts/12-deployment/05-env-and-secrets.md"),
+  ]);
+  assert.ok(agents.includes("по явной просьбе"));
+  assert.ok(agents.includes("git-ignored `.env`/`.env.local`"));
+  assert.ok(agents.includes("не повторяй значение"));
+  assert.ok(!agents.includes("не печатай и не сохраняй passwords, tokens"));
+  assert.ok(state.includes("Это не запрещает явную настройку"));
+  assert.ok(deployment.includes("target не tracked и действительно ignored"));
+  assert.ok(deployment.includes("неэхирующий stdin/secret-aware input"));
+  assert.ok(deployment.includes("не попали в docs, Git, logs, reports или backups"));
+});

@@ -93,7 +93,7 @@
 - После обновления Prompt Kit обновляй kit version и alignment, но не откатывай готовые стадии сайта автоматически.
 - Версию определяй по `.prompt-kit/manifest.json`; legacy fallback используй только при контролируемой миграции.
 - Не записывай Git remote, branch или commit пользовательского сайта: updater ими не управляет.
-- Не записывай токены, пароли, ключи, credential paths, персональные данные доступа или вывод секретов.
+- Не записывай значения секретов, credential paths или персональные данные доступа в state, history, reports и backups; указывай только имена env и место хранения. Это не запрещает явную настройку проверенного git-ignored `.env`/`.env.local` или secret store.
 - Update source считается verified только после всех trust/integrity проверок maintenance-маршрута.
 - Следующий prompt должен быть один. Добавь естественную короткую команду пользователя, а технический путь оставь служебной деталью.
 - В ответе человеку переводи state обычным языком по `prompts/_knowledge/codex-user-response-quality.md`.
